@@ -1,0 +1,7 @@
+{
+	"editor.tokenColorCustomizations": {
+		"comments": "#00b894",
+		"textMateRules": []
+	},
+	"cSpell.words": ["WAMP"]
+}
