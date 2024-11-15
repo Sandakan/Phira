@@ -39,13 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($row) {
             $hashed_password = $row["password"];
 
-            if (!$password== $hashed_password) {
+            if (!password_verify($password,$hashed_password)) {
                 $password_error = "Invalid email or password";
             } else {
-                $_SESSION["user_id"] = $row["id"];
+                $_SESSION["user_id"] = $row["user_id"];
                 $_SESSION["first_name"] = $row["first_name"];
                 $_SESSION["last_name"] = $row["last_name"];
-                $_SESSION["role"] = $row["user_role"];
+                $_SESSION["role"] = $row["role"];
 
 
                 if (isset($_GET['redirect'])) {

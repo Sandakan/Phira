@@ -5,11 +5,10 @@ require '../../utils/database.php';
 $conn = initialize_database();
 session_start();
 
-if (!isset($_SESSION["user_id"])) {
-    header("Location: " . BASE_URL . "/index.php");
-}
+
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,9 +29,13 @@ if (!isset($_SESSION["user_id"])) {
         <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
             <div class="input-container">
-                <label for="birth_day">Your b-day</label>
-                <input type="date" name="birth_day" id="birth_day" placeholder="2005-01-01" required />
-                <span class="error-message"><?php echo $birth_day_error; ?></span>
+                <label for="preference">Show off the latest you! </label>
+                <p> Add your recent photos </p>
+
+            </div>
+
+            <div class="add-photos">
+                
             </div>
 
             <div class="register-form-actions-container">
@@ -41,7 +44,6 @@ if (!isset($_SESSION["user_id"])) {
         </form>
 
     </div>
-
 </body>
 
 </html>

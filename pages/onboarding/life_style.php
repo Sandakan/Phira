@@ -11,6 +11,7 @@ if (!isset($_SESSION["user_id"])) {
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,9 +31,11 @@ if (!isset($_SESSION["user_id"])) {
         <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
             <div class="input-container">
-                <label for="birth_day">Your b-day</label>
-                <input type="date" name="birth_day" id="birth_day" placeholder="2005-01-01" required />
-                <span class="error-message"><?php echo $birth_day_error; ?></span>
+                <label for="life-style">Let’s dive into lifestyle choices, YourName. </label>
+                <p> Do their habits align with yours?</p>
+
+        
+
             </div>
 
             <div class="register-form-actions-container">
@@ -41,7 +44,6 @@ if (!isset($_SESSION["user_id"])) {
         </form>
 
     </div>
-
 </body>
 
 </html>
