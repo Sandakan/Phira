@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 </head>
 
 <body>
+	Welcome!
 </body>
 
 </html>
