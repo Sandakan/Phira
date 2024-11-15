@@ -4,6 +4,6 @@ $BASE_URL = BASE_URL;
 
 // Database credentials
 define('DATABASE_HOST_NAME', 'localhost');
-define('DATABASE_USERNAME', 'thegallerycafe_user');
-define('DATABASE_PASSWORD', '12345678');
-define('DATABASE_NAME', 'thegallerycafe');
+define('DATABASE_USERNAME', 'root');
+define('DATABASE_PASSWORD', '');
+define('DATABASE_NAME', 'PhiraDB');
