@@ -26,6 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
+	<link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
+	<link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
+	<link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 	<title>Phira</title>
 </head>
 

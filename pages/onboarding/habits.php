@@ -33,9 +33,6 @@ if (!isset($_SESSION["user_id"])) {
             <div class="input-container">
                 <label for="life-style">Let’s dive into lifestyle choices, YourName. </label>
                 <p> Do their habits align with yours?</p>
-
-
-
             </div>
 
             <div class="register-form-actions-container">
