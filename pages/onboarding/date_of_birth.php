@@ -5,9 +5,11 @@ require '../../utils/database.php';
 $conn = initialize_database();
 session_start();
 
-if (isset($_SESSION["user_id"])) {
+if (!isset($_SESSION["user_id"])) {
     header("Location: " . BASE_URL . "/index.php");
 }
+
+$birth_day_error = "";
 
 ?>
 
