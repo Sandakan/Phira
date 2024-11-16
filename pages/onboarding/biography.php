@@ -5,7 +5,9 @@ require '../../utils/database.php';
 $conn = initialize_database();
 session_start();
 
-
+if (!isset($_SESSION["user_id"])) {
+    header("Location: " . BASE_URL . "/index.php");
+}
 
 ?>
 
@@ -16,7 +18,7 @@ session_start();
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gallery - Phira</title>
+    <title>Biography - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
@@ -25,20 +27,18 @@ session_start();
 
 <body>
 
-    <div class="model-container register-model-container">
-        <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <div class="model-container biography-model-container">
+        <form class="biography-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
             <div class="input-container">
-                <label for="preference">Show off the latest you! </label>
-                <p> Add your recent photos </p>
+                <label for="biography">About Me</label>
+                <p>Share a little about yourself! 📝 Highlight your passions, interests, and what makes you unique. Let others get to know the real you—be creative, be genuine, be you!</p>
+
+                <textarea name="biography" id="biography"></textarea>
 
             </div>
 
-            <div class="add-photos">
-                
-            </div>
-
-            <div class="register-form-actions-container">
+            <div class="biography-form-actions-container">
                 <button class="btn-primary form-submit-btn" type="submit">Next</button>
             </div>
         </form>
