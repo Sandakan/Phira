@@ -24,17 +24,79 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Phira Dating App</title>
 	<link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
 	<link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
 	<link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
 	<link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
-	<title>Phira</title>
+	<link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-	Welcome to Phira!
+	<header>
+		<div class="logo">
+			<img src="./public/images/logo-white" alt="logo">
+		</div>
+
+		<ul class="nav-bar">
+			<li><a href="">Help</a></li>
+			<li><a href="">About</a></li>
+			<li><a href="">Contact</a></li>
+			<li><a href="">Privacy Policy</a></li>
+		</ul>
+		<a href="" id="get">Get started</a>
+	</header>
+
+	<section class="title">
+		<h1>Spark some magic!</h1>
+	</section>
+
+	<section class="feedbacks">
+		<div id="feedback">
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<div id="user">
+				<img src="./public/images/FeedbackUser" alt="">
+				<p id="userName">Aurara</p>
+			</div>
+		</div>
+		<div id="feedback">
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<div id="user">
+				<img src="./public/images/FeedbackUser" alt="">
+				<p id="userName">Aurara</p>
+			</div>
+		</div>
+		<div id="feedback">
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<div id="user">
+				<img src="./public/images/FeedbackUser" alt="">
+				<p id="userName">Aurara</p>
+			</div>
+		</div>
+		<div id="feedback">
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<div id="user">
+				<img src="./public/images/FeedbackUser" alt="">
+				<p id="userName">Aurara</p>
+			</div>
+		</div>
+		<div id="feedback">
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<div id="user">
+				<img src="./public/images/FeedbackUser" alt="">
+				<p id="userName">Aurara</p>
+			</div>
+		</div>
+		<div id="feedback">
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<div id="user">
+				<img src="./public/images/FeedbackUser" alt="">
+				<p id="userName">Aurara</p>
+			</div>
+		</div>
+	</section>
 </body>
 
 </html>
