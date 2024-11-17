@@ -122,3 +122,27 @@ section.title {
     font-weight: 400;
     line-height: 1.8125rem;
 }
+#bottom-bar{
+    display: flex;
+    list-style: none;
+    gap: 1.25rem;
+    position: absolute;
+    margin: .9375rem 65.75rem 1.5625rem 5.375rem;
+    padding-bottom: 1.5625rem;
+}
+#bottom-bar li a{
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+#bottom-bar li {
+    /* font-size: 1.5rem; */
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+#hr{
+    width: 100%;
+    size: 3;
+    color: var(--primary-font-color);
+    margin: 1.5625rem 3.125rem;
+}
