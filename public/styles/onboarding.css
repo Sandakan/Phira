@@ -1,0 +1,96 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    background-color: var(--primary-background-color);
+}
+
+/* Left Panel */
+.left-panel {
+    margin: 200px 0 150px 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+
+h1 {
+    font-size: 36px;
+    margin: 20px 0;
+}
+
+p {
+    font-size: 16px;
+    color: var(--primary-font-color-varient);
+    margin-bottom: 40px;
+}
+.gender-form{
+    padding: 0;
+}
+
+.gender-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.radio-option input {
+    display: none;
+}
+
+.radio-option span {
+    border: 2px solid var(--primary-highlight-color);
+    border-radius: 30px;
+    padding: 10px 20px;
+    text-align: center;
+    color: var(--primary-font-color);
+    cursor: pointer;
+    width: 200px;
+    text-align: center;
+}
+
+.radio-option input:checked + span {
+    background-color: var(--primary-highlight-color);
+    color: var(--secondary-font-color);
+}
+
+#next-button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    width: 100px;
+    background-color: var(--primary-highlight-color);
+    border: none;
+    color: var(--secondary-font-color);
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Right Panel */
+.right-panel {
+    position: relative;
+    overflow: hidden;
+    padding: 0 70px;
+}
+
+.photo-reel {
+    display: flex;
+    gap: 40px;
+    transition: transform 0.5s ease;
+}
+
+
