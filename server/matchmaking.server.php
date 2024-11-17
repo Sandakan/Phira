@@ -90,7 +90,7 @@ function findMatches($user_id, $conn)
             $matches[] = [
                 'match_user_id' => $match['match_user_id'],
                 'biography' => $match['biography'],
-                'location' => $match['location'],
+                'distance_km' => $match['distance_km'],
                 'common_preferences' => $commonPreferences,
             ];
         }
@@ -99,5 +99,5 @@ function findMatches($user_id, $conn)
     return $matches;
 }
 
-$matches = findMatches(1, $conn);
+$matches = findMatches(11, $conn);
 print($matches);
