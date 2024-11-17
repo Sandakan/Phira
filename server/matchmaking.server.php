@@ -99,5 +99,5 @@ function findMatches($user_id, $conn)
     return $matches;
 }
 
-$matches = findMatches(11, $conn);
+$matches = findMatches(70, $conn);
 print($matches);
