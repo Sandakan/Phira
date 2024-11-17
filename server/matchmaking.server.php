@@ -26,42 +26,48 @@ function findMatches($user_id, $conn)
         return []; // User profile not found
     }
 
-    $userGender = $currentUser['user_gender'];
-    $preferredAgeMin = $currentUser['preferred_age_min'];
-    $preferredAgeMax = $currentUser['preferred_age_max'];
+    $user_gender = $currentUser['user_gender'];
+    // $preferred_age_min = $currentUser['preferred_age_min'];
+    // $preferred_age_max = $currentUser['preferred_age_max'];
     $userPreferences = explode(',', $currentUser['user_preferences']);
 
-    // Calculate the age of the current user
-    $currentDate = new DateTime();
-    $birthDate = new DateTime($currentUser['date_of_birth']);
-    $userAge = $currentDate->diff($birthDate)->y;
+    // // Calculate the age of the current user
+    // $currentDate = new DateTime();
+    // $birthDate = new DateTime($currentUser['date_of_birth']);
+    // $user_age = $currentDate->diff($birthDate)->y;
 
     // Find potential matches
-    $query = "SELECT 
+    $query = <<< SQL
+            SELECT 
                 p.user_id AS match_user_id,
                 p.gender AS match_gender,
                 p.date_of_birth,
                 p.biography,
                 p.location,
                 GROUP_CONCAT(up.preference_option_id) AS match_preferences
-              FROM profiles p
-              LEFT JOIN user_preferences up ON p.user_id = up.user_id
-              WHERE p.user_id != :user_id
-                AND p.gender != :user_gender
-                AND :user_age BETWEEN p.preferred_age_min AND p.preferred_age_max
-                AND YEAR(CURDATE()) - YEAR(p.date_of_birth) BETWEEN :preferred_age_min AND :preferred_age_max
-              GROUP BY p.user_id";
+            FROM profiles p
+            INNER JOIN user_preferences up ON p.user_id = up.user_id
+            WHERE 
+                p.user_id != 1
+                AND p.gender != '$user_gender'
+                AND 29 BETWEEN p.preferred_age_min AND p.preferred_age_max
+                AND YEAR(CURDATE()) - YEAR(p.date_of_birth) BETWEEN 25 AND 35
+                AND NOT EXISTS (
+                        SELECT 1
+                        FROM interactions i
+                        WHERE i.user_id = $user_id
+                            AND i.interacted_user_id = p.user_id
+                )
+            GROUP BY p.user_id;
+            SQL;
 
-    $stmt = $conn->prepare($query);
-    $stmt->execute([
-        'user_id' => $user_id,
-        'user_gender' => $userGender,
-        'user_age' => $userAge,
-        'preferred_age_min' => $preferredAgeMin,
-        'preferred_age_max' => $preferredAgeMax,
-    ]);
+    $potentialMatches = [];
+    $result = mysqli_query($conn, $query);
 
-    $potentialMatches = $stmt->fetchAll($conn::FETCH_ASSOC);
+    while ($row = $result->fetch_assoc()) {
+        $potentialMatches[] = $row;
+    }
+
 
     // Filter matches based on preference overlap
     $matches = [];
