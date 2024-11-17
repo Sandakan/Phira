@@ -1,0 +1,36 @@
+.material-symbols-rounded{
+ font-size: 3.125rem;
+ display: flex;
+ align-items: flex-start;
+ border-radius: 62.5rem;
+ padding: .9375rem 2.8438rem .9375rem 2.8438rem;
+}
+#main-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 10.6875rem;
+    height: 67.5rem;
+    border-right: solid 0.2rem var(--secondary-background-color);
+}
+#logo{
+    width: 3rem;
+}
+.logo-container{
+    margin: 3.125rem 3.8363rem 0rem 3.8363rem;
+}
+.main-buttons{
+    margin: 16.25rem .9375rem 15.25rem .9375rem;
+}
+.main-buttons span{
+    background-color: var(--primary-button-background-color);
+    margin-bottom: 1.5rem;
+}
+.secondary-buttons{
+    margin: 0rem .9375rem 3.125rem .9375rem;
+}
+.secondary-buttons span{
+    background-color: var(--primary-button-background-color);
+    margin-bottom: 1.5rem;
+}

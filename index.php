@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			<li><a href="">Contact</a></li>
 			<li><a href="">Privacy Policy</a></li>
 		</ul>
-		<a href="" id="get">Get started</a>
+		<a href="pages/components/SideBar.php" id="get">Get started</a>
 	</header>
 
 	<section class="title">

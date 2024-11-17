@@ -6,10 +6,10 @@
 	--secondary-background-color: hsla(0, 0%, 80%, 0.75);
 	--primary-highlight-color: hsl(0, 100%, 66%);
 	--secondary-highlight-color: var(--primary-font-color, #000);
-
+	--primary-button-selected-background-color: #FFE1DC;
 	/* BUTTONS */
 	--primary-button-font-color: var(--secondary-font-color);
-	--primary-button-background-color: var(--primary-font-color);
+	--primary-button-background-color: var(--secondary-background-color);
 	--primary-button-hover-background-color: hsl(0, 0%, 0%);
 
 	/* LINKS */
