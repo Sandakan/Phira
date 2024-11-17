@@ -12,7 +12,7 @@ $conn = initialize_database();
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Terms of Service - The Gallery Cafe</title>
+    <title>Terms of Service - Phira</title>
     <link rel="stylesheet" href="../public/styles/styles.css">
     <link rel="stylesheet" href="../public/styles/fonts.css">
     <link rel="stylesheet" href="../public/styles/legal.css">
@@ -20,7 +20,6 @@ $conn = initialize_database();
 </head>
 
 <body>
-    <?php include('../components/header_navigation_bar.php'); ?>
 
     <main class="">
         <section class="terms-of-service">
@@ -66,13 +65,12 @@ $conn = initialize_database();
 
                 <div class="term">
                     <h3>Contact Us</h3>
-                    <p>If you have any questions about these terms of service, please contact us at <a href="mailto:info@thegallerycafe.com">info@thegallerycafe.com</a>.</p>
+                    <p>If you have any questions about these terms of service, please contact us at <a href="mailto:info@phira.com">info@phira.com</a>.</p>
                 </div>
             </div>
         </section>
 
     </main>
-    <?php include('../components/footer.php'); ?>
 </body>
 
 </html>
