@@ -5,9 +5,9 @@ require '../../utils/database.php';
 $conn = initialize_database();
 session_start();
 
-if (!isset($_SESSION["user_id"])) {
-    header("Location: " . BASE_URL . "/index.php");
-}
+// if (!isset($_SESSION["user_id"])) {
+//     header("Location: " . BASE_URL . "/index.php");
+// }
 
 ?>
 
@@ -18,7 +18,7 @@ if (!isset($_SESSION["user_id"])) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gender - Phira</title>
+    <title>Select Your Gender - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">

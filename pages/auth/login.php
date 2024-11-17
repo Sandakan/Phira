@@ -185,39 +185,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
     <title>Login - Phira</title>
 </head>
 
 <body>
-    <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>">
-        <header>
-            <h1>Welcome back...</h1>
-            <p>Log in to your account </p>
-        </header>
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <h1>Let’s Start.</h1>
+            <p>Login to your account to find connections, start chatting, and make meaningful connections.</p>
+            <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>">
 
-        <div class="input-container">
-            <label for="email">Email *</label>
-            <input type="email" name="email" id="email" placeholder="johndoe@example.com" required />
-            <span class="error-message"><?php echo $email_error ?></span>
+                <input type="email" name="email" id="email" placeholder="Email" required>
+                <span class="error-message"><?php echo $email_error ?></span>
+
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <span class="error-message"><?php echo $password_error ?></span>
+
+                <a href="#" class="forgot-password">I forgot my password</a>
+                
+                <button type="submit">Next</button>
+                <a href="<?php echo BASE_URL; ?>/pages/auth/register.php" class="signup-link">I Don’t have an account</a>
+            </form>
         </div>
 
-        <div class="input-container">
-            <label for="password">Password *</label>
-            <input type="password" name="password" id="password" placeholder="EnterSecretPassword" required />
-            <span class="error-message"><?php echo $password_error ?></span>
-            <div class="forget-password-link-container"><a href="./forgot-password.php">Did you forget your
-                    password?</a></div>
-        </div>
-
-        <div class="login-form-actions-container">
-            <button class="btn-primary" type="submit">Log In</button>
-            <p class="accept-terms-text">By continuing, you agree to our <a href="../terms_of_service.php">Terms of
-                    Service</a> and <a href="../privacy-policy.php">Privacy Policy</a>.</p>
-            <div class="create-account-link-container"><a href="./register.php">Not a member? Then, join with us.</a>
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="photo-reel">
+                <div class="profile-card">Nila, 22</div>
+                <div class="profile-card">Aurora, 20</div>
             </div>
         </div>
-    </form>
+    </div>
 </body>
 
 </html>

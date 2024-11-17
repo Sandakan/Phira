@@ -6,6 +6,7 @@
 	--primary-background-color: hsl(0, 0%, 100%);
 	--secondary-background-color: hsla(0, 0%, 80%, 0.75);
 	--primary-highlight-color: hsl(0, 100%, 66%);
+	--primary-highlight-color-varient:#e04141;
 	--secondary-highlight-color: var(--primary-font-color, #000);
 
 	/* BUTTONS */
