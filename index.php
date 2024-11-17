@@ -97,15 +97,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			</div>
 		</div>
 	</section>
-	<hr width="100%" size="3" noshade>
+
 	<section class="info">
 		<p id="info-title">Looking for Love? Let’s Make it Happen!</p>
 		<p id="info-description">Single and ready to mingle? Whether you’re looking for a meaningful relationship, a fun date, or just exploring what’s out there, Phira is here for you! We’ve helped countless singles find their match, and now it’s your turn.<br><br>
 
-The dating scene has evolved, with more people meeting online than ever before. With Phira, you’ll have access to thousands of singles ready to connect. Swipe, chat, and discover your perfect match—all in one place.<br><br>
- 
-Ready to find your someone special? Let’s get started!</p>
+			The dating scene has evolved, with more people meeting online than ever before. With Phira, you’ll have access to thousands of singles ready to connect. Swipe, chat, and discover your perfect match—all in one place.<br><br>
+
+			Ready to find your someone special? Let’s get started!</p>
 	</section>
+
+	<footer>
+		<ul id="bottom-bar">
+			<li><a href="">Help</a></li>
+			<li>/</li>
+			<li><a href="">About</a></li>
+			<li>/</li>
+			<li><a href="">Contact</a></li>
+			<li>/</li>
+			<li><a href="">Privacy Policy</a></li>
+		</ul>
+	</footer>
 </body>
 
 </html>

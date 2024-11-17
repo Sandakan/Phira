@@ -1,14 +1,9 @@
 :root {
 	--primary-font-color: hsl(0, 0%, 12%);
 	--secondary-font-color: hsl(0, 0%, 100%);
-	--primary-font-color: hsl(0, 0%, 12%);
-	--secondary-font-color: hsl(0, 0%, 100%);
 
 	--primary-background-color: hsl(0, 0%, 100%);
-	--secondary-background-color: hsl(233, 31%, 95%);
-	--primary-highlight-color: hsl(0, 100%, 66%);
-	--primary-background-color: hsl(0, 0%, 100%);
-	--secondary-background-color: hsl(233, 31%, 95%);
+	--secondary-background-color: hsla(0, 0%, 80%, 0.75);
 	--primary-highlight-color: hsl(0, 100%, 66%);
 	--secondary-highlight-color: var(--primary-font-color, #000);
 
@@ -16,9 +11,7 @@
 	--primary-button-font-color: var(--secondary-font-color);
 	--primary-button-background-color: var(--primary-font-color);
 	--primary-button-hover-background-color: hsl(0, 0%, 0%);
-	--primary-button-hover-background-color: hsl(0, 0%, 0%);
 
-	/* LINKS */
 	/* LINKS */
 	--primary-link-font-color: var(--primary-font-color);
 	--primary-link-hover-font-color: hsl(0, 0%, 0%);
