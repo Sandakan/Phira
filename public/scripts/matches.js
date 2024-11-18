@@ -53,10 +53,12 @@ function getMatches(BASE_URL, user_id, latitude, longitude) {
 function generateMatchElement(user, BASE_URL) {
 	const { user_id, first_name, last_name, gender, age, distance_km, preferences, biography } = user;
 
-	const profile_picture_url = user.profile_picture_url || `${BASE_URL}/private/media/user_photos/3.jpg`;
+	const profile_picture_url = user.profile_picture_url
+		? `${BASE_URL}/private/media/user_photos/${user.profile_picture_url}`
+		: `${BASE_URL}/private/media/user_photos/3.jpg`;
 	const all_photos =
 		Array.isArray(user.all_photos) && user.all_photos.length > 0
-			? user.all_photos
+			? user.all_photos.map((photo) => `${BASE_URL}/private/media/user_photos/${photo}`)
 			: [
 					`${BASE_URL}/private/media/user_photos/1.jpg`,
 					`${BASE_URL}/private/media/user_photos/2.jpg`,
