@@ -5,11 +5,6 @@ session_start();
 
 $conn = initialize_database();
 
-// // remove this before production
-// if (!isset($_SESSION["user_id"])) {
-// 	header("Location: " . BASE_URL . "/pages/auth/login.php");
-// }
-
 // handle GET request to logout
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	if (isset($_GET['logged_out']) && $_GET['logged_out'] == 'true') {
@@ -46,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			<li><a href="">Contact</a></li>
 			<li><a href="">Privacy Policy</a></li>
 		</ul>
-		<a href="" id="get">Get started</a>
+		<a href="<?php echo BASE_URL; ?>/pages/auth/login.php" id="get">Get started</a>
 	</header>
 
 	<section class="title">

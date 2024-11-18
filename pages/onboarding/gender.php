@@ -1,14 +1,17 @@
 <?php
 require '../../config.php';
 require '../../utils/database.php';
+require '../../utils/authenticate.php';
 
 $conn = initialize_database();
 session_start();
 
-// if (!isset($_SESSION["user_id"])) {
-//     header("Location: " . BASE_URL . "/index.php");
-// }
+authenticate(array("USER"));
 
+
+if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
+    header("Location: " . BASE_URL . "/pages/app/matches.php");
+}
 ?>
 
 
@@ -28,27 +31,19 @@ session_start();
 
 <body>
 
+    <div class="model-container register-model-container">
+        <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
-    <form class="gender-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <div class="container">
-            <div class="left-panel">
-                <h1>What’s your gender?</h1>
-                <p>How do you roll?</p>
-                <div class="gender-options">
-                    <label class="radio-option">
-                        <input type="radio" name="gender" value="woman">
-                        <span>Woman</span>
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="gender" value="man">
-                        <span>Man</span>
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="gender" value="other">
-                        <span>Other</span>
-                    </label>
-                </div>
-                <button id="next-button">Next</button>
+            <div class="input-container">
+                <label for="gender">What's your gender?</label>
+
+                <input type="radio" id="gender" name="gender" value="Man">
+                <label for="html">Man</label><br>
+                <input type="radio" id="gender" name="gender" value="Woman">
+                <label for="html">Woman</label><br>
+                <input type="radio" id="gender" name="gender" value="Other">
+                <label for="html">Other</label><br>
+
             </div>
             <div class="right-panel">
                 <div class="photo-reel">

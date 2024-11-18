@@ -12,6 +12,7 @@
 	box-sizing: border-box;
 	font-family: 'Poppins', 'Inter', sans-serif;
 	font-weight: 400;
+	transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
 }
 
 html {
@@ -26,13 +27,13 @@ body {
 	/* overflow-x: hidden; */
 }
 
-main {
+/* main {
 	max-width: 100rem;
 	height: fit-content;
 	min-height: 60vh;
 	margin: 0 auto;
 	padding: 2rem;
-}
+} */
 
 a {
 	color: var(--primary-font-color);
@@ -254,4 +255,34 @@ hr {
 
 .alert.alert-info {
 	background-color: #74b9ff;
+}
+
+*.hidden {
+	display: none !important;
+}
+
+main > .loader {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+main > .loader > .loader-circle {
+	width: 2.5rem;
+	height: 2.5rem;
+	border: 2px solid var(--secondary-background-color);
+	border-top: 2px solid var(--primary-font-color);
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }

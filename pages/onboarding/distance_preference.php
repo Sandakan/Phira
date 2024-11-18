@@ -1,14 +1,17 @@
 <?php
 require '../../config.php';
 require '../../utils/database.php';
+require '../../utils/authenticate.php';
 
 $conn = initialize_database();
 session_start();
 
-if (!isset($_SESSION["user_id"])) {
-    header("Location: " . BASE_URL . "/index.php");
-}
+authenticate(array("USER"));
 
+
+if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
+    header("Location: " . BASE_URL . "/pages/app/matches.php");
+}
 ?>
 
 
@@ -35,7 +38,7 @@ if (!isset($_SESSION["user_id"])) {
                 <p> How far is too far?</p>
 
                 <label for="file">Distance preference</label>
-                <progress id="distance"  max="100"> </progress>
+                <progress id="distance" max="100"> </progress>
 
             </div>
 
