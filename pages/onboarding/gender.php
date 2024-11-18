@@ -18,15 +18,19 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gender - Phira</title>
+    <title>Select Your Gender - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
+
 
 <body>
 
@@ -44,13 +48,32 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
                 <label for="html">Other</label><br>
 
             </div>
+            <div class="right-panel">
+                <div class="photo-reel">
+                    <div class="profile-card">Tiana, 34</div>
+                    <div class="profile-card">Kathy, 22</div>
 
-            <div class="register-form-actions-container">
-                <button class="btn-primary form-submit-btn" type="submit">Next</button>
+                </div>
             </div>
-        </form>
-
     </div>
+
+    </form>
+
+    <script>
+        const nextButton = document.getElementById('next-button');
+        const photoReel = document.querySelector('.photo-reel');
+
+        let currentSlide = 0;
+
+        nextButton.addEventListener('click', () => {
+            currentSlide++;
+            if (currentSlide > 3) currentSlide = 0; // Reset to first slide if end reached
+
+            photoReel.style.transform = `translateX(-${currentSlide * 240}px)`; // Adjust based on card width + gap
+        });
+    </script>
+
 </body>
+
 
 </html>
