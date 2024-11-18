@@ -1,5 +1,4 @@
 <?php
-
 require '../config.php';
 require '../utils/database.php';
 
@@ -99,5 +98,69 @@ function findMatches($user_id, $conn)
     return $matches;
 }
 
-$matches = findMatches(70, $conn);
-print($matches);
+function getMatchUserDetails($matches, $conn)
+{
+    if (empty($matches)) {
+        return []; // No matches to fetch information for
+    }
+
+    // Extract the match_user_ids from the $matches array
+    $matchUserIds = array_column($matches, 'match_user_id');
+    $placeholders = implode(',', array_fill(0, count($matchUserIds), '?'));
+
+    // Prepare the SQL query to fetch details
+    $sql = <<<SQL
+        SELECT 
+            p.user_id,
+            p.gender,
+            p.date_of_birth,
+            p.biography,
+            ST_X(p.location) AS latitude,
+            ST_Y(p.location) AS longitude,
+            GROUP_CONCAT(up.preference_option_id) AS preferences
+        FROM profiles p
+        LEFT JOIN user_preferences up ON p.user_id = up.user_id
+        WHERE p.user_id IN ($placeholders)
+        GROUP BY p.user_id;
+    SQL;
+
+    // Prepare the statement
+    $stmt = $conn->prepare($sql);
+
+    // Bind the parameters dynamically
+    $stmt->bind_param(str_repeat('i', count($matchUserIds)), ...$matchUserIds);
+
+    // Execute the query
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Fetch all user details
+    $userDetails = [];
+    while ($row = $result->fetch_assoc()) {
+        $userDetails[] = [
+            'user_id' => $row['user_id'],
+            'gender' => $row['gender'],
+            'date_of_birth' => $row['date_of_birth'],
+            'biography' => $row['biography'],
+            'location' => [
+                'latitude' => $row['latitude'],
+                'longitude' => $row['longitude']
+            ],
+            'preferences' => explode(',', $row['preferences']),
+        ];
+    }
+
+    return $userDetails;
+}
+
+
+// handle post requests
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if ($_GET['reason'] == 'get_matches') {
+        $user_id = $_GET['user_id'];
+
+        $matches = findMatches(intval($user_id), $conn);
+        $user_details = getMatchUserDetails($matches, $conn);
+        echo json_encode($user_details);
+    } else echo json_encode(array("error" => "Invalid request"));
+}

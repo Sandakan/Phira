@@ -8,8 +8,8 @@ require '../../utils/database.php';
 $conn = initialize_database();
 session_start();
 
-if (isset($_SESSION["user_id"])) {
-    header("Location: " . BASE_URL . "/index.php");
+if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
+    header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
 
 $email = $password = "";
@@ -69,6 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["first_name"] = $row["first_name"];
             $_SESSION["last_name"] = $row["last_name"];
             $_SESSION["role"] = $row["role"];
+            $_SESSION["onboarding_completed"] = isset($row["onboarding_completed_at"]);
+
             $gender = $row["gender"];
             $distance_range = $row["distance_range"];
             $biography = $row["biography"];
@@ -78,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $redirectUrl = urldecode($_GET['redirect']);
                     header("Location: " . $redirectUrl);
                 } else
-                    header("Location: " . BASE_URL . "/index.php");
+                    header("Location: " . BASE_URL . "/pages/app/matches.php");
             } else {
 
                 if (!isset($row["date_of_birth"])) {
@@ -154,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         $result = mysqli_query($conn, $query);
                         if (mysqli_num_rows($result) > 0) {
-                            header("Location: " . BASE_URL . "/index.php");
+                            header("Location: " . BASE_URL . "/pages/app/matches.php");
                             exit();
                         } else {
                             header("Location: " . BASE_URL . "/pages/onboarding/show_off.php");

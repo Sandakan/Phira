@@ -5,8 +5,8 @@ require '../../utils/database.php';
 $conn = initialize_database();
 session_start();
 
-if (isset($_SESSION["user_id"])) {
-    header("Location: " . BASE_URL . "/index.php");
+if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
+    header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
 
 $first_name = $last_name = $email = $contact_number = $confirm_password = $password = "";
