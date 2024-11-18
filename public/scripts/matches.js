@@ -45,20 +45,20 @@ function getMatches(BASE_URL, user_id, latitude, longitude) {
 			loader?.classList.add('hidden');
 			console.log(res);
 
-			matches = res.map((user) => generateMatchElement(user, BASE_URL));
+			matches = res.map((user) => generateMatchElement(user_id, user, BASE_URL));
 			showNextAvailableMatch();
 		});
 }
 
-function generateMatchElement(user, BASE_URL) {
-	const { user_id, first_name, last_name, gender, age, distance_km, preferences, biography } = user;
+function generateMatchElement(user_id, match, BASE_URL) {
+	const { user_id: match_user_id, first_name, last_name, gender, age, distance_km, preferences, biography } = match;
 
-	const profile_picture_url = user.profile_picture_url
-		? `${BASE_URL}/private/media/user_photos/${user.profile_picture_url}`
+	const profile_picture_url = match.profile_picture_url
+		? `${BASE_URL}/private/media/user_photos/${match.profile_picture_url}`
 		: `${BASE_URL}/private/media/user_photos/3.jpg`;
 	const all_photos =
-		Array.isArray(user.all_photos) && user.all_photos.length > 0
-			? user.all_photos.map((photo) => `${BASE_URL}/private/media/user_photos/${photo}`)
+		Array.isArray(match.all_photos) && match.all_photos.length > 0
+			? match.all_photos.map((photo) => `${BASE_URL}/private/media/user_photos/${photo}`)
 			: [
 					`${BASE_URL}/private/media/user_photos/1.jpg`,
 					`${BASE_URL}/private/media/user_photos/2.jpg`,
@@ -120,15 +120,15 @@ function generateMatchElement(user, BASE_URL) {
                         </div>
                     </div>
                     <div class="match-actions-container">
-                        <button class="btn btn-primary dislike-btn" onclick="dislikeMatch(${user_id})">
+                        <button class="btn btn-primary dislike-btn" onclick="dislikeMatch(${user_id},${match_user_id}, '${BASE_URL}')">
                             <span class="btn-icon material-symbols-rounded-filled">heart_broken</span> Dislike</button>
-                        <button class="btn btn-primary like-btn" onclick="likeMatch(${user_id})"><span class="btn-icon material-symbols-rounded-filled">favorite</span> Like</button>
+                        <button class="btn btn-primary like-btn" onclick="likeMatch(${user_id},${match_user_id}, '${BASE_URL}')"><span class="btn-icon material-symbols-rounded-filled">favorite</span> Like</button>
                     </div>
                 </div>
             </div>
 	`;
 
-	return { match_id: user_id, element: matchElement };
+	return { match_id: match_user_id, element: matchElement };
 }
 
 function reload() {
@@ -150,12 +150,31 @@ function showNextAvailableMatch() {
 	} else matchesContainer.innerHTML = '';
 }
 
-function likeMatch(match_id) {
-	matches = matches.filter((match) => match.user_id !== match_id);
-	showNextAvailableMatch();
+async function setMatchInteractionStatus(user_id, match_user_id, status, BASE_URL) {
+	const res = await fetch(`${BASE_URL}/server/matchmaking.server.php`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		body: `reason=add_match_interaction_status&user_id=${user_id}&match_user_id=${match_user_id}&status=${status}`,
+	});
+	return await res.json();
 }
 
-function dislikeMatch(match_id) {
-	matches = matches.filter((match) => match.user_id !== match_id);
-	showNextAvailableMatch();
+function likeMatch(user_id, match_id, BASE_URL) {
+	setMatchInteractionStatus(user_id, match_id, 'LIKED', BASE_URL)
+		.then(() => {
+			matches = matches.filter((match) => match.user_id !== match_id);
+			showNextAvailableMatch();
+		})
+		.catch(() => alert('Failed to like match.'));
+}
+
+function dislikeMatch(user_id, match_id, BASE_URL) {
+	setMatchInteractionStatus(user_id, match_id, 'REJECTED', BASE_URL)
+		.then(() => {
+			matches = matches.filter((match) => match.user_id !== match_id);
+			showNextAvailableMatch();
+		})
+		.catch(() => alert('Failed to dislike match.'));
 }

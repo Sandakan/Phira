@@ -3,7 +3,7 @@ require '../config.php';
 require '../utils/database.php';
 
 $conn = initialize_database();
-function findMatches($user_id, $latitude = null, $longitude = null, $conn)
+function findMatches($user_id,  $conn, $latitude = null, $longitude = null)
 {
     // Fetch the current user's profile details
     $query = <<<SQL
@@ -205,6 +205,14 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
     return array_values($userDetails); // Reset array keys
 }
 
+function addMatchInteractionStatus($user_id, $interacted_user_id, $status, $conn)
+{
+    $sql = "INSERT INTO interactions (user_id, interacted_user_id, status) VALUES ($user_id, $interacted_user_id, '$status')";
+    $result = mysqli_query($conn, $sql);
+
+    return !$result;
+}
+
 
 // handle post requests
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -213,9 +221,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $latitude = $_GET['latitude'];
         $longitude = $_GET['longitude'];
 
-        $matches = findMatches($user_id, $latitude, $longitude, $conn);
+        $matches = findMatches($user_id, $conn, $latitude, $longitude);
         $user_details = getMatchUserDetails($matches, $latitude, $longitude, $conn);
         // echo json_encode($matches);
         echo json_encode($user_details);
+    } else echo json_encode(array("error" => "Invalid request"));
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_POST['reason'] == 'add_match_interaction_status') {
+        $user_id = $_POST['user_id'];
+        $match_user_id = $_POST['match_user_id'];
+        $status = $_POST['status'];
+
+        echo json_encode(addMatchInteractionStatus(intval($user_id), intval($match_user_id), $status, $conn));
     } else echo json_encode(array("error" => "Invalid request"));
 }

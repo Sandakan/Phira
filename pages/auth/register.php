@@ -1,6 +1,46 @@
 <?php
 require '../../config.php';
 require '../../utils/database.php';
+require '../../utils/generate_random_string.php';
+
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../../packages/PHPMailer/src/Exception.php';
+require '../../packages/PHPMailer/src/PHPMailer.php';
+require '../../packages/PHPMailer/src/SMTP.php';
+
+
+function sendEmail($sendEmail, $first_name, $subject, $message)
+{
+    try {
+        $mail = new PHPMailer(true);
+
+        $mail->isSMTP(); // using SMTP protocol                                     
+        $mail->Host = MAIL_HOST; // SMTP host as gmail 
+        $mail->SMTPAuth = true;  // enable smtp authentication                             
+        $mail->Username = MAIL_USERNAME;  // sender gmail host              
+        $mail->Password = MAIL_PASSWORD; // sender gmail host password                          
+        $mail->SMTPSecure = MAIL_ENCRYPTION;  // for encrypted connection                           
+        $mail->Port = intval(MAIL_PORT);   // port for SMTP     
+
+        $mail->isHTML(true);
+        $mail->setFrom("info@phira.com", "Phira"); // sender's email and name
+        $mail->addAddress($sendEmail, $first_name);  // receiver's email and name
+
+        $mail->Subject = $subject;
+        $mail->Body    = $message;
+
+        $mail->send();
+
+
+        echo 'Message has been sent';
+    } catch (Exception $e) { // handle error.
+        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+    }
+}
+
 
 $conn = initialize_database();
 session_start();
@@ -55,24 +95,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if (!$is_error) {
-        // mail(
-        //     'info@phira.com',
-        //     'New User Registration',
-        //     "New user registered with the following details:\n\nFirst Name: $first_name\nLast Name: $last_name\nEmail: $email\nContact Number: $contact_number\nPassword: $password",
-        //     'From: <webmaster@example.com>' . "\r\n" . 'Content-Type: text/plain; charset=UTF-8'
-        // );
+        $random = generateRandomString(25);
+
+        $message = <<< EOT
+            <html>
+                <body>
+                    <p>Welcome to Phira</p>
+
+                    <h3>Hi, $first_name</h3>
+                    <p>Click the link below to verify your account.</p>
+                    <a href="$BASE_URL/pages/auth/email_verification.php?token=$random">Verify your account</a>
+                </body>
+            </html>
+        EOT;
 
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $query = "INSERT INTO users(first_name, last_name, email, password) VALUES ('$first_name', '$last_name', '$email', '$hashed_password')";
+        $query = <<< SQL
+            INSERT 
+                INTO users (
+                    first_name,
+                    last_name, 
+                    email, 
+                    password, 
+                    verification_token, 
+                    token_expiry
+                    )
+                VALUES (
+                    '$first_name', 
+                    '$last_name', 
+                    '$email', 
+                    '$hashed_password', 
+                    '$random', 
+                    NOW() + INTERVAL 1 DAY);
+            SQL;
+
+        sendEmail($email, $first_name, "Welcome to Phira - Verify your account", $message);
 
         if (mysqli_query($conn, $query)) {
             $new_user_id = mysqli_insert_id($conn);
             $_SESSION["user_id"] = $new_user_id;
             $_SESSION["user_first_name"] = $first_name;
             $_SESSION["user_last_name"] = $last_name;
-            $_SESSION["role"] = $row["user_role"];
+            $_SESSION["role"] = "USER";
 
-            header("Location: " . BASE_URL . "/index.php");
+            header("Location: " . BASE_URL . "/pages/auth/email_verification.php");
             exit();
         } else {
             echo "Error: " . $query . "<br>" . mysqli_error($conn);

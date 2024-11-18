@@ -5,7 +5,31 @@ require '../../utils/database.php';
 $conn = initialize_database();
 session_start();
 
+$title = "Account Verification";
+$description = "We've sent a verification link to your email 📧. Please check your inbox and click the link to activate your account. Didn’t receive it? Check your spam folder or resend the email.";
 
+if (isset($_GET['token'])) {
+    $token = $_GET['token'];
+
+    $query = "SELECT * FROM users WHERE verification_token = '$token' AND token_expiry > NOW()";
+    $result = mysqli_query($conn, $query);
+
+    if ($result->num_rows > 0) {
+        $query = "UPDATE users SET verified_at = NOW(), token_expiry = NOW() WHERE verification_token = '$token'";
+        $result = mysqli_query($conn, $query);
+
+        if ($result) {
+            $title = "Account Verified Successfully";
+            $description = "Your account has been verified. You can now log in to your account.";
+        } else {
+            $title = "Account Verification Failed";
+            $description = "The verification link is invalid or has expired. Please request a new verification link.";
+        }
+    } else {
+        $title = "Account Verification Failed";
+        $description = "The verification link is invalid, expired or the account is already verified. Please request a new verification link if there is an error.";
+    }
+}
 ?>
 
 
@@ -25,17 +49,17 @@ session_start();
 <body>
 
     <div class="model-container verification-model-container">
-        
 
-            <div class="input-container">
-                <label for="verification">Account Verification </label>
-                <p> We've sent a verification link to your email 📧. Please check your inbox and click the link to activate your account. Didn’t receive it? Check your spam folder or resend the email.</p>
 
-            </div>
+        <div class="input-container">
+            <label for="verification"><?php echo $title; ?></label>
+            <p> <?php echo $description; ?></p>
 
-            <div class="verification-form-actions-container">
-                <button class="btn-primary form-submit-btn" type="submit">Back to login</button>
-            </div>
+        </div>
+
+        <div class="verification-form-actions-container">
+            <a href="<?php echo BASE_URL; ?>/pages/auth/login.php" class="btn btn-primary form-submit-btn">Back to login</a>
+        </div>
 
     </div>
 </body>
