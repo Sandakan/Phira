@@ -200,16 +200,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>Login to your account to find connections, start chatting, and make meaningful connections.</p>
             <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>">
 
-                <input type="email" name="email" id="email" placeholder="Email" required>
+                <input type="email" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>" required>
                 <span class="error-message"><?php echo $email_error ?></span>
 
-                <input type="password" name="password" id="password" placeholder="Password" required>
+                <input type="password" name="password" id="password" placeholder="Password"
+                    value="<?php echo $password; ?>" required>
                 <span class="error-message"><?php echo $password_error ?></span>
 
                 <a href="#" class="forgot-password">I forgot my password</a>
-                
+
                 <button type="submit">Next</button>
-                <a href="<?php echo BASE_URL; ?>/pages/auth/register.php" class="signup-link">I Don’t have an account</a>
+                <a href="<?php echo BASE_URL; ?>/pages/auth/register.php" class="signup-link">I Don’t have an
+                    account</a>
             </form>
         </div>
 

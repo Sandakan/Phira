@@ -183,14 +183,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="input-container">
                         <label for="first_name">First Name *</label>
                         <input type="text" name="first_name" id="first_name" placeholder="John"
-                            value="<?php echo $first_name ?>" required />
+                            value="<?php echo $first_name; ?>" required />
                         <span class="error-message"><?php echo $first_name_error; ?></span>
                     </div>
 
                     <div class="input-container">
                         <label for="last_name">Last Name *</label>
                         <input type="text" name="last_name" id="last_name" placeholder="Doe"
-                            value="<?php echo $last_name ?>" required />
+                            value="<?php echo $last_name; ?>" required />
                         <span class="error-message"><?php echo $last_name_error; ?></span>
                     </div>
                 </div>
@@ -198,21 +198,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="input-container">
                     <label for="email">Email *</label>
                     <input type="email" name="email" id="email" placeholder="johndoe@example.com"
-                        value="<?php echo $email ?>" required />
+                        value="<?php echo $email; ?>" required />
                     <span class="error-message"><?php echo $email_error; ?></span>
                 </div>
 
                 <div class="input-container">
                     <label for="password">Password *</label>
                     <input type="password" name="password" id="password" placeholder="MySuperSecretPassword"
-                        value="<?php echo $password ?>" required />
+                        value="<?php echo $password; ?>" required />
                     <span class="error-message"><?php echo $password_error; ?></span>
                 </div>
 
                 <div class="input-container">
                     <label for="confirm_password">Confirm Password *</label>
                     <input type="password" name="confirm_password" id="confirm_password"
-                        placeholder="MySuperSecretPassword" value="<?php echo $confirm_password ?>" required />
+                        placeholder="MySuperSecretPassword" value="<?php echo $confirm_password; ?>" required />
                     <span class="error-message"><?php echo $confirm_password_error; ?></span>
                 </div>
 
