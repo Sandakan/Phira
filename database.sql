@@ -20,7 +20,7 @@ CREATE TABLE users (
 );
 CREATE TABLE profiles (
     profile_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
+    user_id INT NOT UNIQUE NULL,
     date_of_birth DATE,
     gender VARCHAR(10),
     biography VARCHAR(500),
