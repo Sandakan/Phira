@@ -187,15 +187,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
     <title>Login - Phira</title>
 </head>
 
 <body>
-    <div class="container">
-        <!-- Left Panel -->
-        <div class="left-panel">
+    <!-- Left Panel -->
+    <div class="left-panel">
             <h1>Let’s Start.</h1>
             <p>Login to your account to find connections, start chatting, and make meaningful connections.</p>
             <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>">
@@ -208,21 +206,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <span class="error-message"><?php echo $password_error ?></span>
 
                 <a href="#" class="forgot-password">I forgot my password</a>
-
+                <div id="form-actions">
                 <button type="submit">Next</button>
                 <a href="<?php echo BASE_URL; ?>/pages/auth/register.php" class="signup-link">I Don’t have an
                     account</a>
+                    </div>
             </form>
         </div>
-
         <!-- Right Panel -->
         <div class="right-panel">
             <div class="photo-reel">
-                <div class="profile-card">Nila, 22</div>
-                <div class="profile-card">Aurora, 20</div>
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPics (Nila).png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Tara).png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Noor).png" alt="1">
+            </div>
+            <div class="photo-reel1">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Aurora).png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Anne).png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (3).png" alt="1">
             </div>
         </div>
-    </div>
 </body>
 
 </html>
