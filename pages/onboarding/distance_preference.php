@@ -12,12 +12,27 @@ authenticate(array("USER"));
 if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
+
+$user_id = $_SESSION["user_id"];
+$distance_range = $_POST["distance_range"];
+
+function is_distance_range_set($conn,$user_id)
+{
+    $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND distance_range IS NOT NULL";
+    $check_result = mysqli_query($conn, $check_query);
+    $check_row = mysqli_fetch_assoc($check_result);
+
+
+    if ($check_row['count'] > 0) {
+        header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
+        exit();
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_SESSION["user_id"];
-    $distance_range = $_POST["distance_range"];
 
     if (!empty($distance_range)) {
-        // Update distance preference in the profiles table
+        // Update distance range in the profiles table
         $query = "UPDATE profiles SET distance_range = '$distance_range' WHERE user_id = '$user_id';";
 
         if (mysqli_query($conn, $query)) {
@@ -30,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $distance_error = "Distance preference cannot be empty.";
     }
 }
+
+is_distance_range_set($conn,$user_id);
 ?>
 
 

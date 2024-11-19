@@ -11,6 +11,40 @@ authenticate(array("USER"));
 if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
+
+$user_id = $_SESSION["user_id"];
+$biography = $_POST["biography"];
+$biography = '';
+
+function is_distance_range_set($conn,$user_id)
+{
+    $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND distance_range IS NOT NULL";
+    $check_result = mysqli_query($conn, $check_query);
+    $check_row = mysqli_fetch_assoc($check_result);
+
+    if ($check_row['count'] > 0) {
+        header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
+        exit();
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+    if (!empty($biography)) {
+        // Update biography in the profiles table
+        $query = "UPDATE profiles SET biography = '$biography' WHERE user_id = '$user_id';";
+
+        if (mysqli_query($conn, $query)) {
+            header("Location: " . BASE_URL . "/pages/onboarding/relationship_type.php");
+            exit();
+        } else {
+            echo "Error: " . $query . "<br>" . mysqli_error($conn);
+        }
+    } else {
+        $biography = "Biography cannot be empty.";
+    }
+}
 ?>
 
 
