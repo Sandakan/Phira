@@ -63,14 +63,14 @@ function test_input($data)
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = test_input($_POST["first_name"]);
-    if (!empty($_POST["first_name"]) && !preg_match("/^[a-zA-Z ]+$/", $first_name)) {
-        $first_name_error = "Only letters and white space allowed";
+    if (!empty($_POST["first_name"]) && !preg_match("/^[a-zA-Z]+$/", $first_name)) {
+        $first_name_error = "Only letters are allowed.";
         $is_error = true;
     }
 
     $last_name = test_input($_POST["last_name"]);
     if (!empty($_POST["last_name"]) && !preg_match("/^[a-zA-Z ]+$/", $last_name)) {
-        $last_name_error = "Only letters and white space allowed";
+        $last_name_error = "Only letters are allowed.";
         $is_error = true;
     }
 
@@ -91,6 +91,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $password_error = "Password must be at least 8 characters";
             $is_error = true;
         }
+    }
+
+    $query = "SELECT COUNT (*) AS count FROM users WHERE email = '$email' ";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_assoc($result);
+    if ($row["count"] > 0) {
+        $email_error = "Email already exists in the system.";
+        $is_error = true;
     }
 
 
@@ -174,39 +182,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="input-group-container">
                     <div class="input-container">
                         <label for="first_name">First Name *</label>
-                        <input type="text" name="first_name" id="first_name" placeholder="John" required />
+                        <input type="text" name="first_name" id="first_name" placeholder="John"
+                            value="<?php echo $first_name ?>" required />
                         <span class="error-message"><?php echo $first_name_error; ?></span>
                     </div>
 
                     <div class="input-container">
                         <label for="last_name">Last Name *</label>
-                        <input type="text" name="last_name" id="last_name" placeholder="Doe" required />
+                        <input type="text" name="last_name" id="last_name" placeholder="Doe"
+                            value="<?php echo $last_name ?>" required />
                         <span class="error-message"><?php echo $last_name_error; ?></span>
                     </div>
                 </div>
 
                 <div class="input-container">
                     <label for="email">Email *</label>
-                    <input type="email" name="email" id="email" placeholder="johndoe@example.com" required />
+                    <input type="email" name="email" id="email" placeholder="johndoe@example.com"
+                        value="<?php echo $email ?>" required />
                     <span class="error-message"><?php echo $email_error; ?></span>
                 </div>
 
                 <div class="input-container">
                     <label for="password">Password *</label>
-                    <input type="password" name="password" id="password" placeholder="MySuperSecretPassword" required />
+                    <input type="password" name="password" id="password" placeholder="MySuperSecretPassword"
+                        value="<?php echo $password ?>" required />
                     <span class="error-message"><?php echo $password_error; ?></span>
                 </div>
 
                 <div class="input-container">
                     <label for="confirm_password">Confirm Password *</label>
-                    <input type="password" name="confirm_password" id="confirm_password" placeholder="MySuperSecretPassword" required />
+                    <input type="password" name="confirm_password" id="confirm_password"
+                        placeholder="MySuperSecretPassword" value="<?php echo $confirm_password ?>" required />
                     <span class="error-message"><?php echo $confirm_password_error; ?></span>
                 </div>
 
                 <div class="register-form-actions-container">
                     <button class="btn-primary form-submit-btn" type="submit">Create Account</button>
-                    <p class="accept-terms-text">By continuing, you agree to our <a href="../terms_of_service.php">Terms of Service</a> and <a href="../privacy-policy.php">Privacy Policy</a>.</p>
-                    <div class="create-account-link-container"><a href="./login.php">Already a member? Then, login to your account.</a></div>
+                    <p class="accept-terms-text">By continuing, you agree to our <a href="../terms_of_service.php">Terms
+                            of Service</a> and <a href="../privacy-policy.php">Privacy Policy</a>.</p>
+                    <div class="create-account-link-container"><a href="./login.php">Already a member? Then, login to
+                            your account.</a></div>
                 </div>
             </form>
         </div>
