@@ -12,6 +12,24 @@ authenticate(array("USER"));
 if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user_id = $_SESSION["user_id"];
+    $distance_range = $_POST["distance_range"];
+
+    if (!empty($distance_range)) {
+        // Update distance preference in the profiles table
+        $query = "UPDATE profiles SET distance_range = '$distance_range' WHERE user_id = '$user_id';";
+
+        if (mysqli_query($conn, $query)) {
+            header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
+            exit();
+        } else {
+            echo "Error: " . $query . "<br>" . mysqli_error($conn);
+        }
+    } else {
+        $distance_error = "Distance preference cannot be empty.";
+    }
+}
 ?>
 
 
@@ -25,29 +43,44 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
 
-    <div class="model-container register-model-container">
-        <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <form method="POST" class="container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <!-- Left Panel -->
+        <div class="left-panel">
 
-            <div class="input-container">
-                <label for="distance">Your distance preference? </label>
-                <p> How far is too far?</p>
+            <h2>Your distance preference?</h2>
+            <p>How far is too far?</p>
+            <button class="next-btn">Next</button>
+        </div>
 
-                <label for="file">Distance preference</label>
-                <progress id="distance" max="100"> </progress>
-
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="circle">
+                <div class="inner-circle"></div>
+            </div>
+            <div class="range-container">
+                <label for="distance-range">distance preference ?</label>
+                <input type="range" name="distance_range" id="distance-range" min="0" max="100" value="50" step="1">
+                <span class="range-value">50 KM</span>
             </div>
 
-            <div class="register-form-actions-container">
-                <button class="btn-primary form-submit-btn" type="submit">Next</button>
-            </div>
-        </form>
+        </div>
+    </form>
 
-    </div>
+    <script>
+
+        const range = document.getElementById("distance-range");
+        const rangeValue = document.querySelector(".range-value");
+
+        range.addEventListener("input", () => {
+            rangeValue.textContent = `${range.value} KM`;
+        });
+    </script>
 </body>
 
 </html>
