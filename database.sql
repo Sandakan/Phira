@@ -70,6 +70,7 @@ CREATE TABLE interactions (
     FOREIGN KEY (interacted_user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     UNIQUE (user_id, interacted_user_id) -- Ensures only one like/reject per pair
 );
+-- Abondoned table
 CREATE TABLE matches (
     match_id INT PRIMARY KEY AUTO_INCREMENT,
     user1_id INT NOT NULL,

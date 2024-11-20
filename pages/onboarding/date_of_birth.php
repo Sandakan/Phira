@@ -13,7 +13,7 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 }
 
 $user_id = $_SESSION["user_id"];
-$date_of_birth = $_POST["birth_day"];
+
 
 function is_birthday_set($conn, $user_id)
 {
@@ -32,7 +32,8 @@ function is_birthday_set($conn, $user_id)
 $birth_day_error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    $date_of_birth = $_POST["birth_day"];
+    
     if (!empty($date_of_birth)) {
 
         // Calculate the age based on the date of birth

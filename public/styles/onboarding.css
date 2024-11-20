@@ -326,7 +326,7 @@ input[type="radio"]:checked + span.danger {
     flex-wrap: wrap;
 }
 
-label {
+.preferences-options label{
     position: relative;
     display: inline-block;
     cursor: pointer;
