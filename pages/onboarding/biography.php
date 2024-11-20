@@ -17,7 +17,7 @@ $biography = '';
 
 function is_biography_set($conn, $user_id)
 {
-    $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND distance_range IS NOT NULL";
+    $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND biography IS NOT NULL";
     $check_result = mysqli_query($conn, $check_query);
     $check_row = mysqli_fetch_assoc($check_result);
 

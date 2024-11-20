@@ -15,17 +15,27 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 $user_id = $_SESSION["user_id"];
 $relationship_type_error = '';
 
-// function is_relationship_type_set($conn,$user_id)
-// {
-//     $check_query = "SELECT COUNT(*) AS count FROM user_preferences WHERE user_id = '$user_id' " ;
-//     $check_result = mysqli_query($conn, $check_query);
-//     $check_row = mysqli_fetch_assoc($check_result);
+function is_relationship_type_set($conn,$user_id)
+{
+    $check_query = <<< SQL
+    SELECT 
+        COUNT(*) AS count 
+    FROM 
+        user_preferences 
+    WHERE 
+        user_id = '$user_id' AND
+        preference_option_id IN (
+            SELECT preference_option_id FROM preference_options WHERE preference_id = 1
+        )
+    SQL;
+    $check_result = mysqli_query($conn, $check_query);
+    $check_row = mysqli_fetch_assoc($check_result);
 
-//     if ($check_row['count'] > 0) {
-//         header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
-//         exit();
-//     }
-// }
+    if ($check_row['count'] > 0) {
+        header("Location: " . BASE_URL . "/pages/onboarding/habits.php");
+        exit();
+    }
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $relationship_type = $_POST["relationship_type"];
@@ -45,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+is_relationship_type_set($conn,$user_id);
 ?>
 
 
