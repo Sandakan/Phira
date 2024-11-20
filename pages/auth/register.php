@@ -164,13 +164,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Join With Us - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
 
-    <div class="model-container register-model-container">
-        <div class="model register-model">
+    <div class="container">
+        <div class="left-panel">
             <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <header id="register-header">
                     <h1>Join with us...</h1>
@@ -192,8 +193,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="input-container">
-                    <input type="email" name="email" id="email" placeholder="Email"
-                        value="<?php echo $email; ?>" required />
+                    <input type="email" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>"
+                        required />
                     <span class="error-message"><?php echo $email_error; ?></span>
                 </div>
 
@@ -204,29 +205,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="input-container">
-                    <input type="password" name="confirm_password" id="confirm_password"
-                        placeholder="Confirm Password" value="<?php echo $confirm_password; ?>" required />
+                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password"
+                        value="<?php echo $confirm_password; ?>" required />
                     <span class="error-message"><?php echo $confirm_password_error; ?></span>
                 </div>
 
                 <div class="register-form-actions-container">
                     <button class="btn-primary form-submit-btn" type="submit">Next</button>
-                    <div class="create-account-link-container"><a href="./login.php">I already have an account.</a></div>
+                    <div class="create-account-link-container"><a href="./login.php">I already have an account.</a>
+                    </div>
                 </div>
             </form>
         </div>
 
-    </div>
-    <div class="right-panel">
-        <div class="photo-reel">
-            <img src="<?php echo BASE_URL; ?>/public/images/register/1.png" alt="1">
-            <img src="<?php echo BASE_URL; ?>/public/images/register/2.png" alt="1">
-            <img src="<?php echo BASE_URL; ?>/public/images/register/3.png" alt="1">
-        </div>
-        <div class="photo-reel1">
-            <img src="<?php echo BASE_URL; ?>/public/images/register/4.png" alt="1">
-            <img src="<?php echo BASE_URL; ?>/public/images/register/5.png" alt="1">
-            <img src="<?php echo BASE_URL; ?>/public/images/register/6.png" alt="1">
+        <div class="right-panel">
+            <img src="<?php echo BASE_URL; ?>/public/images/register/register-reel-1.png" alt="1">
+            <img src="<?php echo BASE_URL; ?>/public/images/register/register-reel-2.png" alt="1">
         </div>
     </div>
 
