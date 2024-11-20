@@ -23,31 +23,104 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Preferences - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
-
-    <div class="model-container register-model-container">
-        <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-
-
-            <div class="preferences">
-                <!-- Enter the preferences -->
-            </div>
-
-            <div class="input-container">
-                <label for="preference">What makes you uniquely you? </label>
-                <p> Be real. The right match will love the real you.</p>
-
-            </div>
-
-            <div class="register-form-actions-container">
-                <button class="btn-primary form-submit-btn" type="submit">Next</button>
-            </div>
-        </form>
-
+<form action="#" method="post">
+<div class="preferences-container">
+    <!-- Left Section -->
+    <div class="preferences-left-section">
+        <h1 class="preferences-title">What makes you uniquely you?</h1>
+        <p class="preferences-description">Be real. The right match will love the real you.</p>
+        <button class="preferences-next-btn">Next</button>
     </div>
+
+    <!-- Right Section -->
+    <div class="preferences-right-section">
+       
+            <!-- Communication Style -->
+            <div class="preferences-question">
+                <p class="preferences-question-title">What's your communication style?</p>
+                <div class="preferences-options">
+                    <input type="radio" id="big-texter" name="communication" />
+                    <label for="big-texter">Big time texter</label>
+
+                    <input type="radio" id="phone-caller" name="communication" />
+                    <label for="phone-caller">Phone caller</label>
+
+                    <input type="radio" id="video-chatter" name="communication" />
+                    <label for="video-chatter">Video chatter</label>
+
+                    <input type="radio" id="bad-texter" name="communication" />
+                    <label for="bad-texter">Bad texter</label>
+
+                    <input type="radio" id="in-person" name="communication" />
+                    <label for="in-person">Better in person</label>
+                </div>
+            </div>
+
+            <!-- Love Language -->
+            <div class="preferences-question">
+                <p class="preferences-question-title">How do you receive love?</p>
+                <div class="preferences-options">
+                    <input type="radio" id="gestures" name="love-language" />
+                    <label for="gestures">Thoughtful gestures</label>
+
+                    <input type="radio" id="presents" name="love-language" />
+                    <label for="presents">Presents</label>
+
+                    <input type="radio" id="touch" name="love-language" />
+                    <label for="touch">Touch</label>
+
+                    <input type="radio" id="compliments" name="love-language" />
+                    <label for="compliments">Compliments</label>
+
+                    <input type="radio" id="time" name="love-language" />
+                    <label for="time">Time together</label>
+                </div>
+            </div>
+
+            <!-- Education Level -->
+            <div class="preferences-question">
+                <p class="preferences-question-title">What is your education level?</p>
+                <div class="preferences-options">
+                    <input type="radio" id="bachelor-degree" name="education" />
+                    <label for="bachelor-degree">Bachelor degree</label>
+
+                    <input type="radio" id="a-levels" name="education" />
+                    <label for="a-levels">A/L</label>
+
+                    <input type="radio" id="high-school" name="education" />
+                    <label for="high-school">High school</label>
+
+                    <input type="radio" id="phd" name="education" />
+                    <label for="phd">PhD</label>
+
+                    <input type="radio" id="graduate-program" name="education" />
+                    <label for="graduate-program">On a graduate programme</label>
+                </div>
+            </div>
+
+            <!-- Sleeping Habits -->
+            <div class="preferences-question">
+                <p class="preferences-question-title">What's your sleeping habits?</p>
+                <div class="preferences-options">
+                    <input type="radio" id="early-bird" name="sleeping" />
+                    <label for="early-bird">Early bird</label>
+
+                    <input type="radio" id="night-owl" name="sleeping" />
+                    <label for="night-owl">Night owl</label>
+
+                    <input type="radio" id="unique" name="sleeping" />
+                    <label for="unique">Unique</label>
+                </div>
+            </div>
+       
+    </div>
+</div>
+</form>
 </body>
 
 </html>
