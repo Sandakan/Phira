@@ -12,23 +12,28 @@ authenticate(array("USER"));
 if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
+$user_id = $_SESSION["user_id"];
+$gender = $_POST["gender"];
+
+function is_gender_set($conn,$user_id)
+{
+
+    // Check if gender record already exists for the logged-in user
+    $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND gender IS NOT NULL";
+    $check_result = mysqli_query($conn, $check_query);
+    $check_row = mysqli_fetch_assoc($check_result);
+
+    // If gender is already set, redirect to the next page (or wherever needed)
+    if ($check_row['count'] > 0) {
+        header("Location: " . BASE_URL . "/pages/onboarding/distance_preference.php");
+        exit();
+    }
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_SESSION["user_id"];
-    $gender = $_POST["gender"];
+
 
     if (!empty($user_id)) {
-
-        // Check if gender record already exists for the logged-in user
-        $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND gender IS NOT NULL";
-        $check_result = mysqli_query($conn, $check_query);
-        $check_row = mysqli_fetch_assoc($check_result);
-
-        // If gender is already set, redirect to the next page (or wherever needed)
-        if ($check_row['count'] > 0) {
-            header("Location: " . BASE_URL . "/pages/onboarding/distance_preference.php");
-            exit();
-        }
 
         if (empty($gender)) {
             $gender_error = "Gender can not be empty";
@@ -47,6 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 }
+
+is_gender_set($conn,$user_id);
 
 ?>
 

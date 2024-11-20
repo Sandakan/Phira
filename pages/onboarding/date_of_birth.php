@@ -12,24 +12,27 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
 
+$user_id = $_SESSION["user_id"];
+$date_of_birth = $_POST["birth_day"];
+
+function is_birthday_set($conn, $user_id){
+      // Check if a record already exists for this user_id in the profiles table
+      $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND date_of_birth IS NOT NULL ";
+      $check_result = mysqli_query($conn, $check_query);
+      $check_row = mysqli_fetch_assoc($check_result);
+
+      // If a record exists, prevent further insertion
+      if ($check_row['count'] > 0) {
+          header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
+          exit();
+      }
+}
+
 $birth_day_error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_SESSION["user_id"];
-    $date_of_birth = $_POST["birth_day"];
 
     if (!empty($date_of_birth)) {
-
-         // Check if a record already exists for this user_id in the profiles table
-         $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND date_of_birth IS NOT NULL ";
-         $check_result = mysqli_query($conn, $check_query);
-         $check_row = mysqli_fetch_assoc($check_result);
- 
-         // If a record exists, prevent further insertion
-         if ($check_row['count'] > 0) {
-             header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
-             exit();
-         }
 
         // Calculate the age based on the date of birth
         $birth_date = new DateTime($date_of_birth);
@@ -63,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 }
 
-
+is_birthday_set($conn, $user_id);
 
 ?>
 
