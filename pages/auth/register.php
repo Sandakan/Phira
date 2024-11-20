@@ -174,59 +174,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="model-container register-model-container">
         <div class="model register-model">
             <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <header>
+                <header id="register-header">
                     <h1>Join with us...</h1>
                     <p>With an account, you can explore exclusive benefits</p>
                 </header>
 
                 <div class="input-group-container">
                     <div class="input-container">
-                        <label for="first_name">First Name *</label>
-                        <input type="text" name="first_name" id="first_name" placeholder="John"
+                        <input type="text" name="first_name" id="first_name" placeholder="First Name"
                             value="<?php echo $first_name; ?>" required />
                         <span class="error-message"><?php echo $first_name_error; ?></span>
                     </div>
 
                     <div class="input-container">
-                        <label for="last_name">Last Name *</label>
-                        <input type="text" name="last_name" id="last_name" placeholder="Doe"
+                        <input type="text" name="last_name" id="last_name" placeholder="Last Name"
                             value="<?php echo $last_name; ?>" required />
                         <span class="error-message"><?php echo $last_name_error; ?></span>
                     </div>
                 </div>
 
                 <div class="input-container">
-                    <label for="email">Email *</label>
-                    <input type="email" name="email" id="email" placeholder="johndoe@example.com"
+                    <input type="email" name="email" id="email" placeholder="Email"
                         value="<?php echo $email; ?>" required />
                     <span class="error-message"><?php echo $email_error; ?></span>
                 </div>
 
                 <div class="input-container">
-                    <label for="password">Password *</label>
-                    <input type="password" name="password" id="password" placeholder="MySuperSecretPassword"
+                    <input type="password" name="password" id="password" placeholder="Password"
                         value="<?php echo $password; ?>" required />
                     <span class="error-message"><?php echo $password_error; ?></span>
                 </div>
 
                 <div class="input-container">
-                    <label for="confirm_password">Confirm Password *</label>
                     <input type="password" name="confirm_password" id="confirm_password"
-                        placeholder="MySuperSecretPassword" value="<?php echo $confirm_password; ?>" required />
+                        placeholder="Confirm Password" value="<?php echo $confirm_password; ?>" required />
                     <span class="error-message"><?php echo $confirm_password_error; ?></span>
                 </div>
 
                 <div class="register-form-actions-container">
-                    <button class="btn-primary form-submit-btn" type="submit">Create Account</button>
-                    <p class="accept-terms-text">By continuing, you agree to our <a href="../terms_of_service.php">Terms
-                            of Service</a> and <a href="../privacy-policy.php">Privacy Policy</a>.</p>
-                    <div class="create-account-link-container"><a href="./login.php">Already a member? Then, login to
-                            your account.</a></div>
+                    <button class="btn-primary form-submit-btn" type="submit">Next</button>
+                    <div class="create-account-link-container"><a href="./login.php">I already have an account.</a></div>
                 </div>
             </form>
         </div>
 
     </div>
+    <div class="right-panel">
+            <div class="photo-reel">
+                <img src="<?php echo BASE_URL; ?>/public/images/register/1.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/register/2.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/register/3.png" alt="1">
+            </div>
+            <div class="photo-reel1">
+                <img src="<?php echo BASE_URL; ?>/public/images/register/4.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/register/5.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/register/6.png" alt="1">
+            </div>
+        </div>
 
 </body>
 
