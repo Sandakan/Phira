@@ -23,27 +23,68 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Habits - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <h1>Phira<span class="logo-accent">©</span></h1>
+            <h2>Let’s dive into lifestyle choices, Vimukthi.</h2>
+            <p>Do their habits align with yours?</p>
+            <button class="next-btn">Next</button>
+        </div>
 
-    <div class="model-container register-model-container">
-        <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-
-            <div class="input-container">
-                <label for="life-style">Let’s dive into lifestyle choices, YourName. </label>
-                <p> Do their habits align with yours?</p>
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="question" data-question="drink">
+                <p>How often do you drink?</p>
+                <div class="options">
+                    <button class="option">Newly teetotal</button>
+                    <button class="option danger">Not for me</button>
+                    <button class="option">On special occasions</button>
+                    <button class="option">At the weekends</button>
+                    <button class="option">Most nights</button>
+                </div>
             </div>
 
-            <div class="register-form-actions-container">
-                <button class="btn-primary form-submit-btn" type="submit">Next</button>
+            <div class="question" data-question="smoke">
+                <p>How often do you smoke?</p>
+                <div class="options">
+                    <button class="option">Newly teetotal</button>
+                    <button class="option danger">Not for me</button>
+                    <button class="option">On special occasions</button>
+                    <button class="option">At the weekends</button>
+                    <button class="option">Most nights</button>
+                </div>
             </div>
-        </form>
 
+            <div class="question" data-question="exercise">
+                <p>Do you exercise?</p>
+                <div class="options">
+                    <button class="option">Every day</button>
+                    <button class="option danger">Often</button>
+                    <button class="option">Sometimes</button>
+                    <button class="option">Never</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="pets">
+                <p>Do you have any pets?</p>
+                <div class="options">
+                    <button class="option">Dog</button>
+                    <button class="option danger">Cat</button>
+                    <button class="option">Fish</button>
+                    <button class="option">Bird</button>
+                    <button class="option">Amphibian</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script src="<?php echo BASE_URL; ?>/public/scripts/habits.js"></script>
 </body>
 
 </html>

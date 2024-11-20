@@ -16,7 +16,7 @@ $user_id = $_SESSION["user_id"];
 $relationship_type = $_POST["relationship_type"];
 $relationship_type_error = '';
 
-function is_relationship_type_set($conn,$user_id)
+function is_relationship_type_set($conn, $user_id)
 {
     // $check_query = "SELECT COUNT(*) AS count FROM user_preferences WHERE user_id = '$user_id' " ;
     // $check_result = mysqli_query($conn, $check_query);
@@ -38,8 +38,6 @@ function is_relationship_type_set($conn,$user_id)
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Relationship type - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 

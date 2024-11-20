@@ -23,10 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Phira Dating App</title>
 	<link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-	<link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
-	<link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
+	<link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/index.css">
 	<link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
-	<link rel="stylesheet" href="index.css">
 </head>
 
 <body>
