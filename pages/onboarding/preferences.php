@@ -6,13 +6,13 @@ require '../../utils/authenticate.php';
 $conn = initialize_database();
 session_start();
 
-authenticate(array("USER"));
+// authenticate(array("USER"));
 
 
-if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
-    header("Location: " . BASE_URL . "/pages/app/matches.php");
-}
-?>
+// if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
+//     header("Location: " . BASE_URL . "/pages/app/matches.php");
+// }
+// ?>
 
 
 <!DOCTYPE html>
@@ -67,7 +67,7 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
                 <div class="preferences-options">
                     <input type="radio" id="gestures" name="love-language" value="29"/>
                     <label for="gestures">Thoughtful gestures</label>
-
+                    
                     <input type="radio" id="presents" name="love-language" value="30"/>
                     <label for="presents">Presents</label>
 

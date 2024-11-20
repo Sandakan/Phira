@@ -6,57 +6,57 @@ require '../../utils/authenticate.php';
 $conn = initialize_database();
 session_start();
 
-authenticate(array("USER"));
+// authenticate(array("USER"));
 
-if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
-    header("Location: " . BASE_URL . "/pages/app/matches.php");
-}
+// if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
+//     header("Location: " . BASE_URL . "/pages/app/matches.php");
+// }
 
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+// // Handle form submission
+// if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $user_id = $_SESSION["user_id"];
-    $preferences = array("drink", "smoke", "exercise", "pets");
-    $errors = [];
+//     $user_id = $_SESSION["user_id"];
+//     $preferences = array("drink", "smoke", "exercise", "pets");
+//     $errors = [];
 
-    $conn->begin_transaction();
+//     $conn->begin_transaction();
 
-    try {
-        foreach ($preferences as $preference) {
-            if (isset($_POST[$preference])) {
-                $preference_option_id = intval($_POST[$preference]);
+//     try {
+//         foreach ($preferences as $preference) {
+//             if (isset($_POST[$preference])) {
+//                 $preference_option_id = intval($_POST[$preference]);
 
-                // Insert into user_preferences
-                $stmt = $conn->prepare("
-                    INSERT INTO user_preferences (user_id, preference_option_id) 
-                    VALUES (?, ?)
+//                 // Insert into user_preferences
+//                 $stmt = $conn->prepare("
+//                     INSERT INTO user_preferences (user_id, preference_option_id) 
+//                     VALUES (?, ?)
                     
-                ");
-                $stmt->bind_param("ii", $user_id, $preference_option_id);
+//                 ");
+//                 $stmt->bind_param("ii", $user_id, $preference_option_id);
 
-                if (!$stmt->execute()) {
-                    $errors[] = "Failed to save preference for $preference.";
-                }
+//                 if (!$stmt->execute()) {
+//                     $errors[] = "Failed to save preference for $preference.";
+//                 }
 
-                $stmt->close();
-            }
-        }
+//                 $stmt->close();
+//             }
+//         }
 
-        // If there are no errors, commit the transaction
-        if (empty($errors)) {
-            $conn->commit();
-            header("Location: " . BASE_URL . "/pages/onboarding/preferences.php");
-            exit();
-        } else {
-            // Rollback if errors occurred
-            $conn->rollback();
-            echo "Error saving preferences: " . implode(", ", $errors);
-        }
-    } catch (Exception $e) {
-        $conn->rollback();
-        echo "Error: " . $e->getMessage();
-    }
-}
+//         // If there are no errors, commit the transaction
+//         if (empty($errors)) {
+//             $conn->commit();
+//             header("Location: " . BASE_URL . "/pages/onboarding/preferences.php");
+//             exit();
+//         } else {
+//             // Rollback if errors occurred
+//             $conn->rollback();
+//             echo "Error saving preferences: " . implode(", ", $errors);
+//         }
+//     } catch (Exception $e) {
+//         $conn->rollback();
+//         echo "Error: " . $e->getMessage();
+//     }
+// }
 
 
 ?>
@@ -75,12 +75,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body>
-    <form class="container" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"  >
+    <form class="container habits-container" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"  >
         <!-- Left Section -->
         <div class="left-section">
             <h2>Let’s dive into lifestyle choices, Vimukthi.</h2>
             <p>Do their habits align with yours?</p>
-            <button type="submit" class="next-btn">Next</button>
+            <button type="submit" class="next-btn btn-primary">Next</button>
         </div>
 
         <!-- Right Section -->
@@ -185,11 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </label>
                 </div>
             </div>
-
-           
-           
     </form>
-
 </body>
 
 </html>
