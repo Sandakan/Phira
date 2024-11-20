@@ -14,7 +14,7 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 }
 
 $user_id = $_SESSION["user_id"];
-$distance_range = $_POST["distance_range"];
+
 
 function is_distance_range_set($conn,$user_id)
 {
@@ -30,6 +30,7 @@ function is_distance_range_set($conn,$user_id)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $distance_range = $_POST["distance_range"];
 
     if (!empty($distance_range)) {
         // Update distance range in the profiles table

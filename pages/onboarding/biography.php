@@ -13,22 +13,22 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 }
 
 $user_id = $_SESSION["user_id"];
-$biography = $_POST["biography"];
 $biography = '';
 
-function is_distance_range_set($conn,$user_id)
+function is_biography_set($conn,$user_id)
 {
     $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND distance_range IS NOT NULL";
     $check_result = mysqli_query($conn, $check_query);
     $check_row = mysqli_fetch_assoc($check_result);
 
     if ($check_row['count'] > 0) {
-        header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
+        header("Location: " . BASE_URL . "/pages/onboarding/relationship_type.php");
         exit();
     }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $biography = $_POST["biography"];
 
 
     if (!empty($biography)) {
@@ -45,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $biography = "Biography cannot be empty.";
     }
 }
+
+is_biography_set($conn,$user_id);
 ?>
 
 
