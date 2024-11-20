@@ -15,7 +15,7 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 $user_id = $_SESSION["user_id"];
 $gender = $_POST["gender"];
 
-function is_gender_set($conn,$user_id)
+function is_gender_set($conn, $user_id)
 {
 
     // Check if gender record already exists for the logged-in user
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-is_gender_set($conn,$user_id);
+is_gender_set($conn, $user_id);
 
 ?>
 
@@ -68,8 +68,6 @@ is_gender_set($conn,$user_id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Select Your Gender - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>

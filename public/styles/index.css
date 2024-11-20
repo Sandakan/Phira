@@ -52,7 +52,7 @@ header {
 }
 
 section.title {
-	background-image: url(./public/images/home-banner.png);
+	background-image: url(../images/home-banner.png);
 	display: flex;
 	height: 95vh;
 	justify-content: center;

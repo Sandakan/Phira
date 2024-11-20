@@ -15,7 +15,7 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 $user_id = $_SESSION["user_id"];
 $biography = '';
 
-function is_biography_set($conn,$user_id)
+function is_biography_set($conn, $user_id)
 {
     $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND distance_range IS NOT NULL";
     $check_result = mysqli_query($conn, $check_query);
@@ -58,8 +58,6 @@ is_biography_set($conn,$user_id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Biography - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 

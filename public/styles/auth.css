@@ -1,0 +1,207 @@
+
+
+/* ------------------Login Form------------------- */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 300px;
+}
+
+.login-form input {
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    font-weight: 400;
+    border: 1px solid #ccc;
+    border-radius: 2.9375rem;
+    outline: none;
+    width: 40.3125rem;
+    height: 5.125rem;
+}
+
+.login-form input:focus {
+    border-color: #ff5252;
+}
+
+.forgot-password {
+    font-size: 12px;
+    color: var(--primary-font-color-varient);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-left: 1.375rem;
+    margin-top: -1.25rem;
+    text-decoration: underline;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+button {
+    padding: .625rem 1.25rem;
+    background-color: var(--primary-highlight-color);
+    border: none;
+    color: var(--secondary-font-color);
+    border-radius: 2.75rem;
+    cursor: pointer;
+    font-size: 1.75rem;
+    font-weight: 600;
+    width: 13.75rem;
+    height: 4.375rem;
+}
+
+button:hover {
+    background-color: var(--primary-highlight-color-varient);
+}
+
+.signup-link {
+    font-size: 1.1875rem;
+    font-weight: 400;
+    color: var(--primary-font-color-varient);
+    text-decoration: none;
+    margin-left: 1.5rem;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+
+/*--------------------- Gender --------------------*/
+
+
+
+#next-button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    width: 100px;
+    background-color: var(--primary-highlight-color);
+    border: none;
+    color: var(--secondary-font-color);
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#next-button:hover {
+    background-color: var(--primary-highlight-color-varient);
+}
+
+/* new */
+
+.left-panel{
+    display: flex;
+    justify-content: center;
+    width: 45.8125rem;
+    flex-direction: column;
+    margin: 0rem 6.25rem;
+}
+body{
+    height: 67.5rem;
+    display: grid;
+    grid-template-columns: auto auto ;
+    justify-content: space-between;
+}
+.left-panel h1{
+    font-size: 4.4375rem;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: -0.125rem;
+}
+.left-panel p{
+    font-size: 1.4375rem;
+    font-weight: 700;
+    text-align: left;
+    color: var(--primary-font-color-varient);
+}
+#form-actions{
+    display: inline;
+    width: 45.8125rem;
+}
+.photo-reel {
+    display: grid;
+}
+.photo-reel1{
+    display: grid;
+    gap: 3.125rem;
+}
+.right-panel{
+    display: flex;
+    gap: 2.5rem;
+    margin-right: 4.375rem;
+}
+.model-container{
+    display: flex;
+    align-items: center;
+}
+.register-form{
+    width: 45.375rem;
+    height: 39.75rem;
+}
+#register-header h1{
+    font-size: 4.4375rem;
+    font-weight: 700;
+    margin-bottom: 0rem;
+    height: 4.9375rem;
+    margin-left: 4.375rem;
+}
+#register-header p{
+    height: 2.625rem;
+    font-size: 1.4375rem;
+    font-weight: 400;
+    margin-left: 4.375rem;
+    margin-bottom: 0px;
+}
+.input-group-container{
+    margin-bottom: 0rem;
+    gap: 2rem;
+}
+.input-container{
+    margin-bottom: 0rem;
+}
+.input-container input{
+    margin: 1.375rem 8.0625rem 0rem 4.375rem;
+    width: 45.375rem;
+    height: 5.125rem;
+    border-radius: 2.9375rem;
+    font-size: 1.5rem;
+    font-weight:300;
+}
+#first_name{
+    margin-right: 0px;
+    margin-top: 1.375rem;
+    width: 21.625rem;
+    height: 5.125rem;
+}
+#last_name{
+    width: 21.625rem;
+    height: 5.125rem;
+    margin-left: 0px;
+    margin-top: 1.375rem
+}
+.register-form-actions-container{
+    margin-top: 3.1875rem;
+    margin-left: 4.375rem;
+    display: flex;
+    align-items: center;
+}
+.create-account-link-container{
+    margin-left: 1.625rem;
+}
+.create-account-link-container a{
+    text-decoration: none;
+    font-size: 1.1875rem;
+    font-weight: 400;
+    text-align: left;
+    color: var(--primary-font-color-varient);
+}
+.register-form-actions-container button{
+    font-size: 2.0625rem;
+    font-weight: 700;
+    width: 14.125rem;
+    height: 4.875rem;
+    background-color: #ff5252;
+    color: white;
+}

@@ -15,17 +15,18 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 $user_id = $_SESSION["user_id"];
 $date_of_birth = $_POST["birth_day"];
 
-function is_birthday_set($conn, $user_id){
-      // Check if a record already exists for this user_id in the profiles table
-      $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND date_of_birth IS NOT NULL ";
-      $check_result = mysqli_query($conn, $check_query);
-      $check_row = mysqli_fetch_assoc($check_result);
+function is_birthday_set($conn, $user_id)
+{
+    // Check if a record already exists for this user_id in the profiles table
+    $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND date_of_birth IS NOT NULL ";
+    $check_result = mysqli_query($conn, $check_query);
+    $check_row = mysqli_fetch_assoc($check_result);
 
-      // If a record exists, prevent further insertion
-      if ($check_row['count'] > 0) {
-          header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
-          exit();
-      }
+    // If a record exists, prevent further insertion
+    if ($check_row['count'] > 0) {
+        header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
+        exit();
+    }
 }
 
 $birth_day_error = "";
@@ -50,20 +51,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo "Error: " . $query . "<br>" . mysqli_error($conn);
             }
-        } else{
+        } else {
             if (mysqli_query($conn, $query)) {
                 header("Location: " . BASE_URL . "/pages/onboarding/unauthorized.php");
                 exit();
             } else {
                 echo "Error: " . $query . "<br>" . mysqli_error($conn);
             }
-
         }
-
     } else {
         $birth_day_error = "Birthday can not be empty";
     }
-
 }
 
 is_birthday_set($conn, $user_id);
@@ -78,8 +76,6 @@ is_birthday_set($conn, $user_id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Date of Birth - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
