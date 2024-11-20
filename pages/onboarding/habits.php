@@ -6,13 +6,13 @@ require '../../utils/authenticate.php';
 $conn = initialize_database();
 session_start();
 
-authenticate(array("USER"));
+// authenticate(array("USER"));
 
 
-if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
-    header("Location: " . BASE_URL . "/pages/app/matches.php");
-}
-?>
+// if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
+//     header("Location: " . BASE_URL . "/pages/app/matches.php");
+// }
+// ?>
 
 
 <!DOCTYPE html>
@@ -28,63 +28,120 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 </head>
 
 <body>
-    <div class="container">
+<div class="container">
         <!-- Left Section -->
         <div class="left-section">
-            <h1>Phira<span class="logo-accent">©</span></h1>
             <h2>Let’s dive into lifestyle choices, Vimukthi.</h2>
             <p>Do their habits align with yours?</p>
-            <button class="next-btn">Next</button>
         </div>
 
         <!-- Right Section -->
         <div class="right-section">
-            <div class="question" data-question="drink">
-                <p>How often do you drink?</p>
-                <div class="options">
-                    <button class="option">Newly teetotal</button>
-                    <button class="option danger">Not for me</button>
-                    <button class="option">On special occasions</button>
-                    <button class="option">At the weekends</button>
-                    <button class="option">Most nights</button>
+            <form action="/submit-lifestyle" method="post">
+                <div class="question">
+                    <p>How often do you drink?</p>
+                    <div class="options">
+                        <label>
+                            <input type="radio" name="drink" value="Newly teetotal">
+                            <span>Newly teetotal</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="drink" value="Not for me">
+                            <span class="danger">Not for me</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="drink" value="On special occasions">
+                            <span>On special occasions</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="drink" value="At the weekends">
+                            <span>At the weekends</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="drink" value="Most nights">
+                            <span>Most nights</span>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="question" data-question="smoke">
-                <p>How often do you smoke?</p>
-                <div class="options">
-                    <button class="option">Newly teetotal</button>
-                    <button class="option danger">Not for me</button>
-                    <button class="option">On special occasions</button>
-                    <button class="option">At the weekends</button>
-                    <button class="option">Most nights</button>
+                <div class="question">
+                    <p>How often do you smoke?</p>
+                    <div class="options">
+                        <label>
+                            <input type="radio" name="smoke" value="Newly teetotal">
+                            <span>Newly teetotal</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="smoke" value="Not for me">
+                            <span class="danger">Not for me</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="smoke" value="On special occasions">
+                            <span>On special occasions</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="smoke" value="At the weekends">
+                            <span>At the weekends</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="smoke" value="Most nights">
+                            <span>Most nights</span>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="question" data-question="exercise">
-                <p>Do you exercise?</p>
-                <div class="options">
-                    <button class="option">Every day</button>
-                    <button class="option danger">Often</button>
-                    <button class="option">Sometimes</button>
-                    <button class="option">Never</button>
+                <div class="question">
+                    <p>Do you exercise?</p>
+                    <div class="options">
+                        <label>
+                            <input type="radio" name="exercise" value="Every day">
+                            <span>Every day</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="exercise" value="Often">
+                            <span class="danger">Often</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="exercise" value="Sometimes">
+                            <span>Sometimes</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="exercise" value="Never">
+                            <span>Never</span>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="question" data-question="pets">
-                <p>Do you have any pets?</p>
-                <div class="options">
-                    <button class="option">Dog</button>
-                    <button class="option danger">Cat</button>
-                    <button class="option">Fish</button>
-                    <button class="option">Bird</button>
-                    <button class="option">Amphibian</button>
+                <div class="question">
+                    <p>Do you have any pets?</p>
+                    <div class="options">
+                        <label>
+                            <input type="radio" name="pets" value="Dog">
+                            <span>Dog</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="pets" value="Cat">
+                            <span class="danger">Cat</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="pets" value="Fish">
+                            <span>Fish</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="pets" value="Bird">
+                            <span>Bird</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="pets" value="Amphibian">
+                            <span>Amphibian</span>
+                        </label>
+                    </div>
                 </div>
-            </div>
+
+                <button type="submit" class="next-btn">Next</button>
+            </form>
         </div>
     </div>
-
-    <script src="<?php echo BASE_URL; ?>/public/scripts/habits.js"></script>
 </body>
 
 </html>
