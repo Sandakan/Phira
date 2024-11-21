@@ -318,3 +318,85 @@ input[type="radio"]:checked + label {
     background-color: var(--primary-highlight-color);
     color: var(--secondary-font-color);
 }
+
+/*------ END OF PREFERENCES ------- */
+
+
+/* ------ Distance preference -------- */
+
+.distance-preference-right-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 4.375rem;
+}
+span {
+    background-color: transparent;
+    color: var(--primary-font-color);
+    padding: 0;
+    border: none;
+    border-radius: 0px;
+    font-size: 1.4375rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.circle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25rem;
+}
+
+#dynamic-circle {
+    width: 15.625rem;
+    height: 15.625rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--primary-highlight-color) 30%, var(--primary-button-selected-background-color) 100%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0s ease;
+}
+#change-text{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0rem auto;
+}
+/* Slider Container */
+.slider-container {
+    text-align: center;
+}
+
+.slider-label {
+    font-size: 1.5625rem;
+    font-weight: bold;
+    margin-bottom: .625rem;
+    display: block;
+    color: var(--primary-font-color);
+}
+
+#distance-slider {
+    width: 80%;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+#distance-value {
+    /* display: block;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #666; */
+}
+
+.left-panel h2{
+    font-size: 4.375rem;
+    font-weight: bold;
+    color: var(--primary-font-color);
+    line-height: 5.625rem;
+}
+
+.left-panel p{
+    font-size: 23;
+    font-weight: bold;
+    color: var(--primary-font-color-varient);
+}

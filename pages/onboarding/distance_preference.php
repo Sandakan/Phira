@@ -68,33 +68,47 @@ is_distance_range_set($conn, $user_id);
     <form method="POST" class="container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <!-- Left Panel -->
         <div class="left-panel">
-
             <h2>Your distance preference?</h2>
             <p>How far is too far?</p>
             <button class="next-btn">Next</button>
         </div>
 
         <!-- Right Panel -->
-        <div class="right-panel">
-            <div class="circle">
-                <div class="inner-circle"></div>
+        <div class="distance-preference-right-section">
+            <div class="circle-container">
+                <div id="dynamic-circle"></div>
             </div>
-            <div class="range-container">
-                <label for="distance-range">distance preference ?</label>
-                <input type="range" name="distance_range" id="distance-range" min="0" max="100" value="50" step="1">
-                <span class="range-value">50 KM</span>
+            <div class="slider-container">
+                <div id="change-text">
+                <label for="distance-slider" class="slider-label">Distance Preference ?</label>
+                <span id="distance-value">50 KM</span>
+                </div>
+                <input
+                    type="range"
+                    id="distance-slider"
+                    min="10"
+                    max="100"
+                    value="50"
+                    name="distance_range"
+                    step="1"
+                    oninput="updateCircleSize(this.value)"
+                />
             </div>
-
         </div>
     </form>
 
     <script>
-        const range = document.getElementById("distance-range");
-        const rangeValue = document.querySelector(".range-value");
+        // Function to update the circle size dynamically
+        function updateCircleSize(value) {
+            const circle = document.getElementById("dynamic-circle");
+            const distanceValue = document.getElementById("distance-value");
 
-        range.addEventListener("input", () => {
-            rangeValue.textContent = `${range.value} KM`;
-        });
+            const size = parseInt(value) + 200;
+            circle.style.width = `${size}px`;
+            circle.style.height = `${size}px`;
+
+            distanceValue.textContent = `${value} KM`;
+        }
     </script>
 </body>
 
