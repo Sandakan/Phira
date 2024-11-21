@@ -66,8 +66,9 @@ is_biography_set($conn,$user_id);
     <div class="model-container biography-model-container">
         <form class="biography-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
+        <div class="left-panel">
             <div class="input-container">
-                <label for="biography">About Me</label>
+               <h1> <label for="biography">About Me</label></h1>
                 <p>Share a little about yourself! 📝 Highlight your passions, interests, and what makes you unique. Let others get to know the real you—be creative, be genuine, be you!</p>
 
                 <textarea name="biography" id="biography"></textarea>
@@ -78,6 +79,19 @@ is_biography_set($conn,$user_id);
                 <button class="btn-primary form-submit-btn" type="submit">Next</button>
             </div>
         </form>
+        </div>
+
+        <div class="right-panel">
+            <div class="photo-reel">
+                <img src="<?php echo BASE_URL; ?>/public/images/Tiana.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/Maya.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/Maya02.png" alt="1">
+            </div>
+            <div class="photo-reel1">
+                <img src="<?php echo BASE_URL; ?>/public/images/Nila.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/Noor.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/pic03.png" alt="1">
+            </div>
 
     </div>
 </body>
