@@ -49,7 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 P.date_of_birth,
                 P.gender,
                 P.distance_range,
-                P.biography
+                P.biography,
+                P.profile_picture_url
             FROM
                 users AS U
                 LEFT JOIN profiles AS P ON U.user_id = P.user_id
@@ -74,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["last_name"] = $row["last_name"];
             $_SESSION["role"] = $row["role"];
             $_SESSION["onboarding_completed"] = isset($row["onboarding_completed_at"]);
+            $_SESSION["profile_picture_url"] = $row["profile_picture_url"];
 
             $gender = $row["gender"];
             $distance_range = $row["distance_range"];

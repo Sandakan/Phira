@@ -1,3 +1,5 @@
+@import url('./app.css');
+
 .matches {
 	width: 100%;
 	height: 100%;
@@ -168,7 +170,9 @@
 
 /* NO PERMISSIONS ALERT */
 
-.no-location-permissions-alert {
+.no-location-permissions-alert,
+.no-matches-alert,
+.match-found-alert {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -176,71 +180,14 @@
 	justify-content: center;
 }
 
-.no-location-permissions-alert > .material-symbols-rounded {
+:is(.no-location-permissions-alert, .no-matches-alert, .match-found-alert) > .material-symbols-rounded {
 	font-size: 5rem;
 	font-weight: 500;
 	margin-bottom: 2rem;
 }
 
-.no-matches-container{
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	text-align: center;
-    background-color: white;
-    /* padding: 40px; */
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    width: 109.3125rem;
-}
-.alert-icon{
-	font-size: 7.125rem;
-	width: 7.125rem;
-    color: #ff4d4f;
-}
-
-#main-error p{
-	font-size: 2.625rem;
-    font-weight: bold;
-    color: var(--primary-font-color);
-    /* height: 7.125rem; */
-}
-#sub-error{
-	width: 63.6875rem;
-}
-#sub-error p{
-	font-size: 1.5625rem;
-    color: var(--primary-font-color-varient);
-}
-.button-container{
-	display: inline;
-    gap: 1.6875rem;	
-}
-.Refresh{
-	border: none;
-	width: 15.875rem;
-    height: 5.875rem;
-	background-color: #E5E5E5;
-	color: #000000;
-	border-radius: 62.5rem;
-}
-.Refresh a{
-	font-weight: 700;
-	font-size: 2rem;
-	text-decoration:none ;
-}
-.btn-settings{
-	border: none;
-	width: 24.8125rem;
-    height: 5.875rem;
-	background-color:#FFE1DC;
-	color: #FF5252;
-	border-radius: 62.5rem;
-	margin-left: 1.6875rem;
-}
-.btn-settings a{
-	font-weight: 700;
-	font-size: 2rem;
-	text-decoration:none ;
+.no-matches-alert #reload-page-btn {
+	background-color: hsl(0, 0%, 75%, 0.25);
+	color: hsl(0, 0%, 0%, 0.8);
+	border-color: transparent;
 }
