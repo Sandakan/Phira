@@ -3,7 +3,7 @@ require '../../config.php';
 require '../../utils/database.php';
 require '../../utils/authenticate.php';
 
-$conn = initialize_database();
+/*$conn = initialize_database();
 session_start();
 
 authenticate(array("USER"));
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-is_gender_set($conn, $user_id);
+is_gender_set($conn, $user_id);*/
 
 ?>
 

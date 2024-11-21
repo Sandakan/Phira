@@ -47,6 +47,7 @@ p {
 
 .next-btn:hover {
 	background-color: var(--primary-highlight-color-varient);
+	color: var(--primary-font-color);
 }
 
 /* Right Panel */
@@ -361,6 +362,56 @@ input[type='radio']:checked + label {
 	border-radius: 6250rem;
 }
 
+/*------------ Date of birth -----------*/
+.dateOfBirth-container .dateOfBirth-h1{
+	font-size: 3.4375rem;
+	font-weight: 700;
+	margin-bottom: 0rem;
+	height: 4.9375rem;
+	color: black;
+}
+.dateOfBirth-container .dateOfBirth-p{
+	height: 2.625rem;
+    font-size: 1.4375rem;
+    font-weight: 400;
+}
+.dateOfBirth-container :is(.photo-reel, .photo-reel1) {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1.5rem;
+	height: 100%;
+}
 
+.dateOfBirth-container :is(.photo-reel, .photo-reel1) > img {
+	height: 100%;
+}
+.dateOfBirth-container .gender-container .radio-option{
+	border-color: var(--primary-highlight-color);
+	border-style: solid;
+	border-radius: 6250rem;
+}
+.dateOfBirth-container .dateOfBirth-span{
+	width: 657px;
+	text-align:center;
+	font-size: 38px;
+	border-color:var(--primary-highlight-color) ;
+	background-color: var(--primary-background-color);
+  color: #333;
+  padding: 8px 20px;
+  border-radius: 6250rem;
+  font-size: 1.4375rem;
+  font-weight: 400;
+  transition: all 0.3s ease;
 
-
+}
+.dateOfBirth-container .dateOfBirth-span:hover{
+	background-color: var(--primary-highlight-color);
+	color: var(--secondary-font-color);
+	border-radius: 6250rem;
+}
+.dateOfBirth-container .radio-option{
+	border-color: var(--primary-highlight-color);
+	border-style: solid;
+	border-radius: 6250rem;
+}
