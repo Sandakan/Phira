@@ -105,13 +105,15 @@ form {
 }
 
 .input-container > :is(input, select, textarea) {
-	padding: 0.75rem 1rem;
-	border-radius: 0.5rem;
+	border-radius: 3rem;
+	padding: 1rem 1.25rem;
 	border: 3px solid var(--secondary-background-color);
-	background-color: hsla(228, 33%, 97%, 0.5);
+	/* background-color: hsla(228, 33%, 97%, 0.5); */
 	backdrop-filter: blur(1px);
 	transition: border-color 0.2s ease-in-out;
 	outline: none;
+	font-size: 1.25rem;
+	font-weight: 300;
 }
 
 /* .input-container > :is(input, select, textarea):first-child {

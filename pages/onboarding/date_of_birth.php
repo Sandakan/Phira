@@ -82,6 +82,7 @@ is_birthday_set($conn, $user_id);
 
 <body>
 
+
     <div class="model-container register-model-container">
         <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
