@@ -44,19 +44,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    $conn->begin_transaction();
+    $conn->beginTransaction();
 
     if (!$is_error) {
         try {
             // Insert into database
+            $query = <<< SQL
+            INSERT INTO
+                photos (user_id, photo_url)
+            VALUES (
+                :user_id,
+                :photo_url
+            );
+            SQL;
+            $statement = $conn->prepare($query);
+
             foreach ($photos as $index => $photo) {
                 if (isset($photo) && !empty($photo["tmp_name"])) {
                     $image_file = $photo["name"];
                     $image_ext = '.' . pathinfo($image_file, PATHINFO_EXTENSION);
 
-                    $query = "INSERT INTO photos (user_id, photo_url) VALUES (?, ?)";
-                    $conn->execute_query($query, [$user_id, ""]);
-                    $photo_id = $conn->insert_id;
+                    $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+                    $statement->bindParam("photo_url", $image, PDO::PARAM_STR);
+                    $result = $statement->execute();
+
+                    $photo_id = $conn->lastInsertId();
 
                     $image_new_filename = $photo_id .  $image_ext;
                     $image_save_path = $image_target_dir . $image_new_filename;
@@ -70,22 +82,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     $image = $image_new_filename;
 
-                    $query = "UPDATE photos SET photo_url = ? WHERE photo_id = ?";
-                    $conn->execute_query($query, [$image_new_filename, $photo_id]);
-                    $photo_id = $conn->insert_id;
+                    $update_query = "UPDATE photos SET photo_url = :photo_url WHERE photo_id = :photo_id";
+                    $update_stmt = $conn->prepare($query);
+                    $update_stmt->bindParam("photo_url", $image_new_filename, PDO::PARAM_STR);
+                    $update_stmt->bindParam("photo_id", $photo_id, PDO::PARAM_INT);
+                    $update_result = $update_stmt->execute();
                 }
             }
 
-            $query = "UPDATE users SET onboarding_completed_at = NOW() WHERE user_id = ?";
-            $conn->execute_query($query, [$user_id]);
+            $query = "UPDATE users SET onboarding_completed_at = NOW() WHERE user_id = :user_id";
+            $statement = $conn->prepare($query);
+            $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+            $result = $statement->execute();
 
             $conn->commit();
             echo 'Photos uploaded successfully.';
             $_SESSION["onboarding_completed"] = true;
+
+            header("Location: " . BASE_URL . "/pages/app/matches.php");
+            exit();
         } catch (\Throwable $e) {
             $conn->rollback();
             $image_error = "An error occurred. Please try again." . $e->getMessage();
-            throw $e;
         }
     }
 }
@@ -112,7 +130,8 @@ if (isset($_SESSION["onboarding_completed"])) {
 <body>
 
     <div class="model-container register-model-container">
-        <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" enctype="multipart/form-data">
+        <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>"
+            enctype="multipart/form-data">
 
             <div class="input-container">
                 <label for="preference">Show off the latest you! </label>

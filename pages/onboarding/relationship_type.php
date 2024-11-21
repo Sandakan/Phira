@@ -15,7 +15,7 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 $user_id = $_SESSION["user_id"];
 $relationship_type_error = '';
 
-function is_relationship_type_set($conn,$user_id)
+function is_relationship_type_set($conn, $user_id)
 {
     $check_query = <<< SQL
     SELECT 
@@ -23,15 +23,17 @@ function is_relationship_type_set($conn,$user_id)
     FROM 
         user_preferences 
     WHERE 
-        user_id = '$user_id' AND
+        user_id = :user_id AND
         preference_option_id IN (
             SELECT preference_option_id FROM preference_options WHERE preference_id = 1
         )
     SQL;
-    $check_result = mysqli_query($conn, $check_query);
-    $check_row = mysqli_fetch_assoc($check_result);
+    $statement = $conn->prepare($check_query);
+    $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+    $result = $statement->execute();
+    $check_row = $statement->fetch();
 
-    if ($check_row['count'] > 0) {
+    if ($result && $check_row['count'] > 0) {
         header("Location: " . BASE_URL . "/pages/onboarding/habits.php");
         exit();
     }
@@ -42,20 +44,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($relationship_type)) {
         // Update biography in the profiles table
-        $query = "INSERT INTO user_preferences  (user_id,preference_option_id) VALUES ($user_id, $relationship_type);";
+        try {
+            $query = <<< SQL
+        INSERT INTO
+            user_preferences (user_id ,preference_option_id)
+        VALUES (:user_id, :relationship_type);
+        SQL;
 
-        if (mysqli_query($conn, $query)) {
-            header("Location: " . BASE_URL . "/pages/onboarding/habits.php");
-            exit();
-        } else {
-            echo "Error: " . $query . "<br>" . mysqli_error($conn);
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
+            $stmt->bindParam("relationship_type", $relationship_type, PDO::PARAM_INT);
+            $result = $stmt->execute();
+
+            if ($result) {
+                header("Location: " . BASE_URL . "/pages/onboarding/habits.php");
+                exit();
+            } else {
+                echo "Failed to update relationship type.";
+            }
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
         }
     } else {
         $relationship_type_error = "Relationship type cannot be empty.";
     }
 }
 
-is_relationship_type_set($conn,$user_id);
+is_relationship_type_set($conn, $user_id);
 ?>
 
 

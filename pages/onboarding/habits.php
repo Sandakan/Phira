@@ -15,28 +15,34 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
 
-function is_habits_set($conn,$user_id)
+function is_habits_set($conn, $user_id)
 {
-    $check_query = <<< SQL
-    SELECT 
-        COUNT(*) AS count 
-    FROM 
-        user_preferences 
-    WHERE 
-        user_id = $user_id AND
-        preference_option_id IN (
-            SELECT preference_option_id FROM preference_options WHERE preference_id = 2 
-            OR preference_id = 3 
-            OR preference_id = 4 
-            OR preference_id = 5
-        )
+    try {
+        $check_query = <<< SQL
+        SELECT 
+            COUNT(*) AS count 
+        FROM 
+            user_preferences 
+        WHERE 
+            user_id = :user_id AND
+            preference_option_id IN (
+                SELECT preference_option_id FROM preference_options WHERE preference_id = 2 
+                OR preference_id = 3 
+                OR preference_id = 4 
+                OR preference_id = 5
+            )
     SQL;
-    $check_result = mysqli_query($conn, $check_query);
-    $check_row = mysqli_fetch_assoc($check_result);
+        $statement = $conn->prepare($check_query);
+        $result = $statement->execute();
+        $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+        $check_row = $statement->fetch();
 
-    if ($check_row['count'] > 0) {
-        header("Location: " . BASE_URL . "/pages/onboarding/preferences.php");
-        exit();
+        if ($result && $check_row['count'] > 0) {
+            header("Location: " . BASE_URL . "/pages/onboarding/preferences.php");
+            exit();
+        }
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
 
@@ -45,26 +51,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $preferences = array("drink", "smoke", "exercise", "pets");
     $errors = [];
 
-    $conn->begin_transaction();
-
+    $conn->beginTransaction();
     try {
+        // Insert into user_preferences
+        $query = <<< SQL
+            INSERT INTO
+                user_preferences (user_id, preference_option_id)
+            VALUES (:user_id, :preference_option_id);
+        SQL;
+        $stmt = $conn->prepare($query);
+
         foreach ($preferences as $preference) {
             if (isset($_POST[$preference])) {
                 $preference_option_id = intval($_POST[$preference]);
 
-                // Insert into user_preferences
-                $stmt = $conn->prepare("
-                    INSERT INTO user_preferences (user_id, preference_option_id) 
-                    VALUES (?, ?)
-                    
-                ");
-                $stmt->bind_param("ii", $user_id, $preference_option_id);
+                $stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
+                $stmt->bindParam("preference_option_id", $preference_option_id, PDO::PARAM_INT);
 
-                if (!$stmt->execute()) {
+                $result = $stmt->execute();
+
+                if (!$result) {
                     $errors[] = "Failed to save preference for $preference.";
                 }
-
-                $stmt->close();
             }
         }
 
@@ -84,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-is_habits_set($conn,$user_id);
+is_habits_set($conn, $user_id);
 ?>
 
 
@@ -101,7 +109,8 @@ is_habits_set($conn,$user_id);
 </head>
 
 <body>
-    <form class="container habits-container" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"  >
+    <form class="container habits-container" method="post"
+        action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <!-- Left Section -->
         <div class="left-section">
             <h2>Let’s dive into lifestyle choices, <?php echo $name; ?>.</h2>
