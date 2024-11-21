@@ -191,18 +191,11 @@ input[type="range"]::-moz-range-thumb {
 /* Right Section */
 .right-section {
     width: 48.4375rem;
-    /* height: 53.8125rem; */
-    /* margin: 6.875rem 0rem; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 3.125rem;
 }
-
-form .question {
-    /* margin-bottom: 30px; */
-}
-
 form .question p {
     font-size: 1.9375rem;
     font-weight: 25rem;
@@ -247,50 +240,39 @@ input[type="radio"]:checked + span {
 /* Container Layout */
 .preferences-container {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: flex-start;
-    width: 90%;
-    max-width: 1200px;
-    gap: 20px;
+    padding: 6.875rem;
+    gap: 8.125rem;
 }
-
-/* Left Section */
-.preferences-left-section {
-    flex: 1;
-    max-width: 40%;
-    text-align: center;
+form .preferences-question {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 48.4375rem;
 }
-
-.preferences-title {
-    font-size: 28px;
+/* Right Section */
+.preferences-right-section {
+    width: 48.4375rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.preferences-right-section h1 {
+    font-size: 4.4375rem;
     font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
+    color: var(--primary-font-color);
+    margin: 0rem;
 }
-
-.preferences-description {
-    font-size: 18px;
-    color: #666;
-    margin-bottom: 30px;
-}
-
-.preferences-next-btn {
-    background-color: #ff4d4f;
-    color: white;
-    padding: 12px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.preferences-right-section p {
+    font-size: 1.4375rem;
+    color: var(--primary-font-color-varient);
 }
 
 .preferences-next-btn:hover {
     background-color: #ff6666;
 }
 
-/* Right Section */
+/* Left Section */
 .preferences-right-section {
     flex: 2;
     max-width: 55%;
@@ -301,9 +283,10 @@ input[type="radio"]:checked + span {
 }
 
 .preferences-question-title {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 1.9375rem;
+    font-weight: 400;
     margin-bottom: 15px;
+    color: var(--primary-font-color);
 }
 
 .preferences-options {
@@ -312,16 +295,15 @@ input[type="radio"]:checked + span {
     flex-wrap: wrap;
 }
 
-.preferences-options label {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
+.preferences-options label{
+    position: relative; 
     padding: 10px 20px;
     background-color: #f0f0f0;
-    color: #333;
-    font-size: 16px;
-    border-radius: 25px;
+    font-size: 1.4375rem;
+    font-weight: 500;
+    border-radius: 6250rem;
     transition: all 0.3s ease;
+    color: var(--primary-font-color);
 }
 
 label:hover {
@@ -333,6 +315,6 @@ input[type="radio"] {
 }
 
 input[type="radio"]:checked + label {
-    background-color: orange;
-    color: white;
+    background-color: var(--primary-highlight-color);
+    color: var(--secondary-font-color);
 }

@@ -8,14 +8,40 @@ session_start();
 
 authenticate(array("USER"));
 
+$user_id = $_SESSION["user_id"];
+$name = $_SESSION["first_name"];
+
 if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
 
+function is_habits_set($conn,$user_id)
+{
+    $check_query = <<< SQL
+    SELECT 
+        COUNT(*) AS count 
+    FROM 
+        user_preferences 
+    WHERE 
+        user_id = $user_id AND
+        preference_option_id IN (
+            SELECT preference_option_id FROM preference_options WHERE preference_id = 2 
+            OR preference_id = 3 
+            OR preference_id = 4 
+            OR preference_id = 5
+        )
+    SQL;
+    $check_result = mysqli_query($conn, $check_query);
+    $check_row = mysqli_fetch_assoc($check_result);
+
+    if ($check_row['count'] > 0) {
+        header("Location: " . BASE_URL . "/pages/onboarding/preferences.php");
+        exit();
+    }
+}
+
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    $user_id = $_SESSION["user_id"];
     $preferences = array("drink", "smoke", "exercise", "pets");
     $errors = [];
 
@@ -58,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-
+is_habits_set($conn,$user_id);
 ?>
 
 
@@ -78,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <form class="container habits-container" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"  >
         <!-- Left Section -->
         <div class="left-section">
-            <h2>Let’s dive into lifestyle choices, Vimukthi.</h2>
+            <h2>Let’s dive into lifestyle choices, <?php echo $name; ?>.</h2>
             <p>Do their habits align with yours?</p>
             <button type="submit" class="next-btn btn-primary">Next</button>
         </div>

@@ -9,10 +9,82 @@ session_start();
 // authenticate(array("USER"));
 
 
-// if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
-//     header("Location: " . BASE_URL . "/pages/app/matches.php");
-// }
-// ?>
+if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
+    header("Location: " . BASE_URL . "/pages/app/matches.php");
+}
+$user_id = $_SESSION["user_id"]?? null; 
+$error = '';
+function is_preferences_set($conn, $user_id)
+{
+    $check_query = <<< SQL
+    SELECT 
+        COUNT(*) AS count 
+    FROM 
+        user_preferences 
+    WHERE 
+        user_id = $user_id AND
+        preference_option_id IN (
+            SELECT preference_option_id FROM preference_options WHERE preference_id = 6
+        )
+    SQL;
+    $check_result = mysqli_query($conn, $check_query);
+    $check_row = mysqli_fetch_assoc($check_result);
+
+    if ($check_row['count'] > 0) {
+        header("Location: " . BASE_URL . "/pages/onboarding/show_off.php");
+        exit();
+    }
+}
+
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $communication = $_POST['communication'] ?? null;
+    $loveLanguage = $_POST['love-language'] ?? null;
+    $education = $_POST['education'] ?? null;
+    $sleeping = $_POST['sleeping'] ?? null;
+
+    // Check if all preferences are selected
+    if ($communication && $loveLanguage && $education && $sleeping) {
+        try {
+
+            $conn->begin_transaction();
+
+            // Insert preferences into user_preferences table
+            $query = "INSERT INTO user_preferences (user_id, preference_option_id) VALUES (?, ?)";
+            $stmt = $conn->prepare($query);
+
+            // Bind and execute for each preference
+            $stmt->bind_param("ii", $user_id, $preferenceOptionId);
+
+            $preferenceOptionId = $communication;
+            $stmt->execute();
+
+            $preferenceOptionId = $loveLanguage;
+            $stmt->execute();
+
+            $preferenceOptionId = $education;
+            $stmt->execute();
+
+            $preferenceOptionId = $sleeping;
+            $stmt->execute();
+
+            $conn->commit();
+
+            header("Location: " . BASE_URL . "/pages/onboarding/show_off.php");
+            exit;
+        } catch (Exception $e) {
+            // Rollback transaction on error
+            // TODO: Save preferences failed.
+            $conn->rollback();
+            $error = "Failed to save preferences. Please try again.";
+        }
+    } else {
+        $error = "Please select all preferences.";
+    }
+}
+
+is_preferences_set($conn,$user_id);
+?>
 
 
 <!DOCTYPE html>
@@ -28,17 +100,10 @@ session_start();
 </head>
 
 <body>
-<form action="#" method="post">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 <div class="preferences-container">
-    <!-- Left Section -->
-    <div class="preferences-left-section">
-        <h1 class="preferences-title">What makes you uniquely you?</h1>
-        <p class="preferences-description">Be real. The right match will love the real you.</p>
-        <button class="preferences-next-btn">Next</button>
-    </div>
 
-    <!-- Right Section -->
-    <div class="preferences-right-section">
+    <div class="preferences-question">
        
             <!-- Communication Style -->
             <div class="preferences-question">
@@ -117,8 +182,18 @@ session_start();
                     <label for="unique">It varies</label>
                 </div>
             </div>
-       
+        </div>
+
+        <!-- Right Section -->
+    <div class="preferences-right-section">
+        <h1>What makes you uniquely you?</h1>
+        <p>Be real. The right match will love the real you.</p>
+        <span class="error-message"> <?php echo $error; ?> </span>
+        <br>
+        <button class="next-btn btn-primary">Next</button>
+        
     </div>
+
 </div>
 </form>
 </body>
