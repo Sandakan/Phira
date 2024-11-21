@@ -92,16 +92,16 @@ is_relationship_type_set($conn, $user_id);
         <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
             <div class="relationship-right-section">
-            <div class="options">
-                <input type="radio" id="relationship_type" name="relationship_type" value="1">
-                <label for="html">Long-Term Partner</label><br>
-                <input type="radio" id="relationship_type" name="relationship_type" value="2">
-                <label for="html">Short-Term Partner</label><br>
-                <input type="radio" id="relationship_type" name="relationship_type" value="3">
-                <label for="html">New Friends</label><br>
-                <input type="radio" id="relationship_type" name="relationship_type" value="4">
-                <label for="html">Still figuring it out</label><br>
-            </div>
+                <div class="options">
+                    <input type="radio" id="relationship_type" name="relationship_type" value="1">
+                    <label for="html">Long-Term Partner</label><br>
+                    <input type="radio" id="relationship_type" name="relationship_type" value="2">
+                    <label for="html">Short-Term Partner</label><br>
+                    <input type="radio" id="relationship_type" name="relationship_type" value="3">
+                    <label for="html">New Friends</label><br>
+                    <input type="radio" id="relationship_type" name="relationship_type" value="4">
+                    <label for="html">Still figuring it out</label><br>
+                </div>
 
             </div>
 
