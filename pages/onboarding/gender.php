@@ -13,7 +13,6 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
 $user_id = $_SESSION["user_id"];
-$gender = $_POST["gender"];
 
 function is_gender_set($conn, $user_id)
 {
@@ -31,7 +30,8 @@ function is_gender_set($conn, $user_id)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    
+    $gender = $_POST["gender"];
 
     if (!empty($user_id)) {
 

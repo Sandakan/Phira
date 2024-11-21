@@ -8,10 +8,83 @@ session_start();
 
 authenticate(array("USER"));
 
+$user_id = $_SESSION["user_id"];
+$name = $_SESSION["first_name"];
 
 if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
+
+function is_habits_set($conn,$user_id)
+{
+    $check_query = <<< SQL
+    SELECT 
+        COUNT(*) AS count 
+    FROM 
+        user_preferences 
+    WHERE 
+        user_id = $user_id AND
+        preference_option_id IN (
+            SELECT preference_option_id FROM preference_options WHERE preference_id = 2 
+            OR preference_id = 3 
+            OR preference_id = 4 
+            OR preference_id = 5
+        )
+    SQL;
+    $check_result = mysqli_query($conn, $check_query);
+    $check_row = mysqli_fetch_assoc($check_result);
+
+    if ($check_row['count'] > 0) {
+        header("Location: " . BASE_URL . "/pages/onboarding/preferences.php");
+        exit();
+    }
+}
+
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $preferences = array("drink", "smoke", "exercise", "pets");
+    $errors = [];
+
+    $conn->begin_transaction();
+
+    try {
+        foreach ($preferences as $preference) {
+            if (isset($_POST[$preference])) {
+                $preference_option_id = intval($_POST[$preference]);
+
+                // Insert into user_preferences
+                $stmt = $conn->prepare("
+                    INSERT INTO user_preferences (user_id, preference_option_id) 
+                    VALUES (?, ?)
+                    
+                ");
+                $stmt->bind_param("ii", $user_id, $preference_option_id);
+
+                if (!$stmt->execute()) {
+                    $errors[] = "Failed to save preference for $preference.";
+                }
+
+                $stmt->close();
+            }
+        }
+
+        // If there are no errors, commit the transaction
+        if (empty($errors)) {
+            $conn->commit();
+            header("Location: " . BASE_URL . "/pages/onboarding/preferences.php");
+            exit();
+        } else {
+            // Rollback if errors occurred
+            $conn->rollback();
+            echo "Error saving preferences: " . implode(", ", $errors);
+        }
+    } catch (Exception $e) {
+        $conn->rollback();
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+is_habits_set($conn,$user_id);
 ?>
 
 
@@ -28,63 +101,117 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 </head>
 
 <body>
-    <div class="container">
+    <form class="container habits-container" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"  >
         <!-- Left Section -->
         <div class="left-section">
-            <h1>Phira<span class="logo-accent">©</span></h1>
-            <h2>Let’s dive into lifestyle choices, Vimukthi.</h2>
+            <h2>Let’s dive into lifestyle choices, <?php echo $name; ?>.</h2>
             <p>Do their habits align with yours?</p>
-            <button class="next-btn">Next</button>
+            <button type="submit" class="next-btn btn-primary">Next</button>
         </div>
 
         <!-- Right Section -->
         <div class="right-section">
-            <div class="question" data-question="drink">
+
+            <div class="question">
                 <p>How often do you drink?</p>
                 <div class="options">
-                    <button class="option">Newly teetotal</button>
-                    <button class="option danger">Not for me</button>
-                    <button class="option">On special occasions</button>
-                    <button class="option">At the weekends</button>
-                    <button class="option">Most nights</button>
+                    <label>
+                        <input type="radio" name="drink" value="5">
+                        <span>Newly teetotal</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="drink" value="6">
+                        <span class="danger">Not for me</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="drink" value="7">
+                        <span>On special occasions</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="drink" value="8">
+                        <span>At the weekends</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="drink" value="9">
+                        <span>Most nights</span>
+                    </label>
                 </div>
             </div>
 
-            <div class="question" data-question="smoke">
+            <div class="question">
                 <p>How often do you smoke?</p>
                 <div class="options">
-                    <button class="option">Newly teetotal</button>
-                    <button class="option danger">Not for me</button>
-                    <button class="option">On special occasions</button>
-                    <button class="option">At the weekends</button>
-                    <button class="option">Most nights</button>
+                    <label>
+                        <input type="radio" name="smoke" value="10">
+                        <span>Newly teetotal</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="smoke" value="11">
+                        <span class="danger">Not for me</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="smoke" value="12">
+                        <span>On special occasions</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="smoke" value="13">
+                        <span>At the weekends</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="smoke" value="14">
+                        <span>Most nights</span>
+                    </label>
                 </div>
             </div>
 
-            <div class="question" data-question="exercise">
+            <div class="question">
                 <p>Do you exercise?</p>
                 <div class="options">
-                    <button class="option">Every day</button>
-                    <button class="option danger">Often</button>
-                    <button class="option">Sometimes</button>
-                    <button class="option">Never</button>
+                    <label>
+                        <input type="radio" name="exercise" value="15">
+                        <span>Every day</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="exercise" value="16">
+                        <span class="danger">Often</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="exercise" value="17">
+                        <span>Sometimes</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="exercise" value="18">
+                        <span>Never</span>
+                    </label>
                 </div>
             </div>
 
-            <div class="question" data-question="pets">
+            <div class="question">
                 <p>Do you have any pets?</p>
                 <div class="options">
-                    <button class="option">Dog</button>
-                    <button class="option danger">Cat</button>
-                    <button class="option">Fish</button>
-                    <button class="option">Bird</button>
-                    <button class="option">Amphibian</button>
+                    <label>
+                        <input type="radio" name="pets" value="19">
+                        <span>Dog</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="pets" value="20">
+                        <span class="danger">Cat</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="pets" value="21">
+                        <span>Fish</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="pets" value="22">
+                        <span>Bird</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="pets" value="23">
+                        <span>Amphibian</span>
+                    </label>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <script src="<?php echo BASE_URL; ?>/public/scripts/habits.js"></script>
+    </form>
 </body>
 
 </html>
