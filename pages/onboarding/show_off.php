@@ -107,39 +107,57 @@ if (isset($_SESSION["onboarding_completed"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gallery - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
 
-    <div class="model-container register-model-container">
-        <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" enctype="multipart/form-data">
-
+    <form class="container" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" enctype="multipart/form-data">
+        <div class="left-section">
             <div class="input-container">
-                <label for="preference">Show off the latest you! </label>
+                <h1>Show off the latest you!</h1>
                 <p> Add your recent photos </p>
-
-            </div>
-
-            <div class="input-container">
-                <input type="file" name="photo-1" id="#photo">
-                <span class="error-message"><?php echo $image_error ?></span>
-            </div>
-
-            <div class="input-container">
-                <input type="file" name="photo-2" id="#photo">
-                <span class="error-message"><?php echo $image_error ?></span>
-            </div>
-
-            <div class="input-container">
-                <input type="file" name="photo-3" id="#photo">
-                <span class="error-message"><?php echo $image_error ?></span>
-            </div>
-
-            <div class="register-form-actions-container">
+                <div class="register-form-actions-container">
                 <button class="btn-primary form-submit-btn" type="submit">Next</button>
+             </div>
             </div>
-        </form>
+
+        </div>
+
+        <div class="right-section">
+
+            <div class="input-group-container">
+                <div class="input-container">
+                    <input type="file" name="photo-1" id="#photo">
+                    <span class="error-message"><?php echo $image_error ?></span>
+                </div>
+                <div class="input-container">
+                    <input type="file" name="photo-2" id="#photo">
+                    <span class="error-message"><?php echo $image_error ?></span>
+                </div>
+                <div class="input-container">
+                    <input type="file" name="photo-3" id="#photo">
+                    <span class="error-message"><?php echo $image_error ?></span>
+                </div>
+            </div>
+
+            <div class="input-group-container">
+                <div class="input-container">
+                    <input type="file" name="photo-4" id="#photo">
+                    <span class="error-message"><?php echo $image_error ?></span>
+                </div>
+                <div class="input-container">
+                    <input type="file" name="photo-5" id="#photo">
+                    <span class="error-message"><?php echo $image_error ?></span>
+                </div>
+                <div class="input-container">
+                    <input type="file" name="photo-6" id="#photo">
+                    <span class="error-message"><?php echo $image_error ?></span>
+                </div>
+            </div>
+        </div>
+    </form>
 
     </div>
 </body>
