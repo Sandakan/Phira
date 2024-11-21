@@ -93,32 +93,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    $query = "SELECT COUNT (*) AS count FROM users WHERE email = '$email' ";
-    $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_assoc($result);
-    if ($row["count"] > 0) {
-        $email_error = "Email already exists in the system.";
+    try {
+        $query = <<< SQL
+            SELECT
+                COUNT(*) AS count
+            FROM
+                users 
+            WHERE
+                email = :email;
+        SQL;
+
+        $statement = $conn->prepare($query);
+        $statement->bindParam(":email", $email, PDO::PARAM_STR);
+        $statement->execute();
+        $data = $statement->fetch();
+
+        if ($data["count"] > 0) {
+            $email_error = "Email already exists in the system.";
+            $is_error = true;
+        }
+    } catch (Exception $e) {
         $is_error = true;
+        $email_error = $e->getMessage();
     }
 
 
     if (!$is_error) {
-        $random = generateRandomString(25);
+        try {
+            $random = generateRandomString(25);
 
-        $message = <<< EOT
-            <html>
-                <body>
-                    <p>Welcome to Phira</p>
+            $message = <<< EOT
+                <html>
+                    <body>
+                        <p>Welcome to Phira</p>
 
-                    <h3>Hi, $first_name</h3>
-                    <p>Click the link below to verify your account.</p>
-                    <a href="$BASE_URL/pages/auth/email_verification.php?token=$random">Verify your account</a>
-                </body>
-            </html>
-        EOT;
+                        <h3>Hi, $first_name</h3>
+                        <p>Click the link below to verify your account.</p>
+                        <a href="$BASE_URL/pages/auth/email_verification.php?token=$random">Verify your account</a>
+                    </body>
+                </html>
+            EOT;
 
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $query = <<< SQL
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            $query = <<< SQL
             INSERT 
                 INTO users (
                     first_name,
@@ -129,27 +147,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     token_expiry
                     )
                 VALUES (
-                    '$first_name', 
-                    '$last_name', 
-                    '$email', 
-                    '$hashed_password', 
-                    '$random', 
+                    :first_name, 
+                    :last_name, 
+                    :email, 
+                    :password, 
+                    :token, 
                     NOW() + INTERVAL 1 DAY);
             SQL;
 
-        sendEmail($email, $first_name, "Welcome to Phira - Verify your account", $message);
+            sendEmail($email, $first_name, "Welcome to Phira - Verify your account", $message);
 
-        if (mysqli_query($conn, $query)) {
-            $new_user_id = mysqli_insert_id($conn);
-            $_SESSION["user_id"] = $new_user_id;
-            $_SESSION["user_first_name"] = $first_name;
-            $_SESSION["user_last_name"] = $last_name;
-            $_SESSION["role"] = "USER";
+            $statement = $conn->prepare($query);
+            $statement->bindParam(":first_name", $first_name, PDO::PARAM_STR);
+            $statement->bindParam(":last_name", $last_name, PDO::PARAM_STR);
+            $statement->bindParam(":email", $email, PDO::PARAM_STR);
+            $statement->bindParam(":password", $hashed_password, PDO::PARAM_STR);
+            $statement->bindParam(":token", $random, PDO::PARAM_STR);
+            $result = $statement->execute();
 
-            header("Location: " . BASE_URL . "/pages/auth/email_verification.php");
-            exit();
-        } else {
-            echo "Error: " . $query . "<br>" . mysqli_error($conn);
+
+            if ($result) {
+                header("Location: " . BASE_URL . "/pages/auth/email_verification.php");
+                exit();
+            }
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
         }
     }
 }

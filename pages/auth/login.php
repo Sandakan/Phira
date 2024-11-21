@@ -54,17 +54,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 users AS U
                 LEFT JOIN profiles AS P ON U.user_id = P.user_id
             WHERE
-                email = '$email' 
+                email = :email 
             LIMIT 1;
         SQL;
 
-    $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_assoc($result);
+    $statement = $conn->prepare($query);
+    $statement->bindParam("email", $email, PDO::PARAM_STR);
+    $result = $statement->execute();
+    $row = $statement->fetch();
 
-    if (mysqli_num_rows($result) > 0) {
+
+    if ($row) {
         $hashed_password = $row["password"];
+        $is_password_valid = password_verify($password, $hashed_password);
 
-        if (password_verify($password, $hashed_password)) {
+        if ($is_password_valid) {
             $_SESSION["user_id"] = $row["user_id"];
             $_SESSION["first_name"] = $row["first_name"];
             $_SESSION["last_name"] = $row["last_name"];
@@ -113,13 +117,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     LEFT JOIN preference_options AS PRO ON UPR.preference_option_id = PRO.preference_option_id 
                     LEFT JOIN preferences AS PR ON PRO.preference_id = PR.preference_id
                 WHERE
-                    email = '$email';
+                    email = :email;
                 SQL;
 
-                $result = mysqli_query($conn, $query);
+                $statement = $conn->prepare($query);
+                $statement->bindParam("email", $email, PDO::PARAM_STR);
+                $result = $statement->execute();
+                $data = $statement->fetchAll();
 
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_array($result)) {
+                if ($data) {
+                    foreach ($data as $row) {
                         $name = preg_replace('/\W/', '_', strtoupper($row["preference_name"]));
                         $text = preg_replace('/\W/', '_', strtoupper($row["option_text"]));
 
@@ -144,18 +151,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         $query = <<< SQL
                         SELECT
-                            P.photo_id,
-                            P.photo_url,
-                            P.caption
+                            COUNT(P.photo_id) AS photo_count
                         FROM
                             users AS U
                             INNER JOIN photos AS P ON U.user_id = P.user_id
                         WHERE
-                            email = '@email'; 
+                            email = :email; 
                         SQL;
 
-                        $result = mysqli_query($conn, $query);
-                        if (mysqli_num_rows($result) > 0) {
+                        $statement = $conn->prepare($query);
+                        $statement->bindParam("email", $email, PDO::PARAM_STR);
+                        $result = $statement->execute();
+                        $data = $statement->fetch();
+
+                        if ($data) {
                             header("Location: " . BASE_URL . "/pages/app/matches.php");
                             exit();
                         } else {
@@ -200,8 +209,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="email" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>" required>
             <span class="error-message"><?php echo $email_error ?></span>
 
-            <input type="password" name="password" id="password" placeholder="Password"
-                value="<?php echo $password; ?>" required>
+            <input type="password" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>"
+                required>
             <span class="error-message"><?php echo $password_error ?></span>
 
             <a href="#" class="forgot-password">I forgot my password</a>

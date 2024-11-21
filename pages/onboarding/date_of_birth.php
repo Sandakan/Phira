@@ -17,15 +17,28 @@ $user_id = $_SESSION["user_id"];
 
 function is_birthday_set($conn, $user_id)
 {
-    // Check if a record already exists for this user_id in the profiles table
-    $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND date_of_birth IS NOT NULL ";
-    $check_result = mysqli_query($conn, $check_query);
-    $check_row = mysqli_fetch_assoc($check_result);
+    try {
+        // Check if a record already exists for this user_id in the profiles table
+        $check_query = <<< SQL
+            SELECT
+                COUNT(*) AS count
+            FROM
+                profiles
+            WHERE
+                user_id = :user_id AND date_of_birth IS NOT NULL;
+        SQL;
+        $statement = $conn->prepare($check_query);
+        $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+        $result = $statement->execute();
+        $data = $statement->fetch();
 
-    // If a record exists, prevent further insertion
-    if ($check_row['count'] > 0) {
-        header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
-        exit();
+        // If a record exists, prevent further insertion
+        if ($result && $data['count'] > 0) {
+            header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
+            exit();
+        }
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
 
@@ -33,7 +46,7 @@ $birth_day_error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_of_birth = $_POST["birth_day"];
-    
+
     if (!empty($date_of_birth)) {
 
         // Calculate the age based on the date of birth
@@ -41,24 +54,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $current_date = new DateTime();
         $age = $current_date->diff($birth_date)->y;
 
+        try {
+            $query = <<< SQL
+            INSERT INTO
+                profiles (user_id, date_of_birth)
+            VALUES (
+                :user_id,
+                :date_of_birth
+            );
+        SQL;
+            $statement = $conn->prepare($query);
+            $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+            $statement->bindParam("date_of_birth", $date_of_birth, PDO::PARAM_STR);
+            $result = $statement->execute();
 
-        $query = "INSERT INTO profiles  (user_id, date_of_birth) VALUES ('$user_id','$date_of_birth')  ";
-
-        if ($age >= 18) {
-
-            if (mysqli_query($conn, $query)) {
-                header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
-                exit();
+            if ($result) {
+                if ($age >= 18) {
+                    header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
+                    exit();
+                } else {
+                    header("Location: " . BASE_URL . "/pages/onboarding/unauthorized.php");
+                    exit();
+                }
             } else {
-                echo "Error: " . $query . "<br>" . mysqli_error($conn);
+                echo "Failed to insert data of birth";
             }
-        } else {
-            if (mysqli_query($conn, $query)) {
-                header("Location: " . BASE_URL . "/pages/onboarding/unauthorized.php");
-                exit();
-            } else {
-                echo "Error: " . $query . "<br>" . mysqli_error($conn);
-            }
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
         }
     } else {
         $birth_day_error = "Birthday can not be empty";

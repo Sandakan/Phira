@@ -15,6 +15,10 @@
 	transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
 }
 
+:root {
+	font-size: 16px;
+}
+
 html {
 	scroll-behavior: smooth;
 }
@@ -129,7 +133,8 @@ form {
 	resize: vertical;
 }
 
-.input-container > .error-message {
+/* .input-container > .error-message { */
+.error-message {
 	color: red;
 	margin-top: 0.25rem;
 	font-size: 0.75rem;

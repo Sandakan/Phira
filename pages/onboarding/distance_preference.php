@@ -18,14 +18,28 @@ $user_id = $_SESSION["user_id"];
 
 function is_distance_range_set($conn, $user_id)
 {
-    $check_query = "SELECT COUNT(*) AS count FROM profiles WHERE user_id = '$user_id' AND distance_range IS NOT NULL";
-    $check_result = mysqli_query($conn, $check_query);
-    $check_row = mysqli_fetch_assoc($check_result);
+    try {
+        // Check if a record already exists for this user_id in the profiles table
+        $check_query = <<< SQL
+            SELECT
+                COUNT(*) AS count
+            FROM
+                profiles
+            WHERE
+                user_id = :user_id AND distance_range IS NOT NULL;
+        SQL;
+        $statement = $conn->prepare($check_query);
+        $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+        $result = $statement->execute();
+        $data = $statement->fetch();
 
-
-    if ($check_row['count'] > 0) {
-        header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
-        exit();
+        // If a record exists, prevent further insertion
+        if ($result && $data['count'] > 0) {
+            header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
+            exit();
+        }
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
 
@@ -34,13 +48,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($distance_range)) {
         // Update distance range in the profiles table
-        $query = "UPDATE profiles SET distance_range = '$distance_range' WHERE user_id = '$user_id';";
+        try {
+            // Check if a record already exists for this user_id in the profiles table
+            $check_query = <<< SQL
+                UPDATE
+                    profiles
+                SET
+                    distance_range = :distance_range
+                WHERE
+                    user_id = :user_id;
+            SQL;
+            $statement = $conn->prepare($check_query);
+            $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+            $statement->bindParam("distance_range", $distance_range, PDO::PARAM_INT);
+            $result = $statement->execute();
 
-        if (mysqli_query($conn, $query)) {
-            header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
-            exit();
-        } else {
-            echo "Error: " . $query . "<br>" . mysqli_error($conn);
+            if ($result) {
+                header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
+                exit();
+            } else {
+                echo "Failed to update distance range.";
+            }
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
         }
     } else {
         $distance_error = "Distance preference cannot be empty.";

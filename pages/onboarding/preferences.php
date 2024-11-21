@@ -14,6 +14,7 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 }
 $user_id = $_SESSION["user_id"] ?? null;
 $error = '';
+
 function is_preferences_set($conn, $user_id)
 {
     $check_query = <<< SQL
@@ -22,13 +23,15 @@ function is_preferences_set($conn, $user_id)
     FROM 
         user_preferences 
     WHERE 
-        user_id = $user_id AND
+        user_id = :user_id AND
         preference_option_id IN (
             SELECT preference_option_id FROM preference_options WHERE preference_id = 6
         )
     SQL;
-    $check_result = mysqli_query($conn, $check_query);
-    $check_row = mysqli_fetch_assoc($check_result);
+    $statement = $conn->prepare($check_query);
+    $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+    $result = $statement->execute();
+    $check_row = $statement->fetch();
 
     if ($check_row['count'] > 0) {
         header("Location: " . BASE_URL . "/pages/onboarding/show_off.php");
@@ -45,28 +48,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Check if all preferences are selected
     if ($communication && $loveLanguage && $education && $sleeping) {
+        $conn->beginTransaction();
+
         try {
-
-            $conn->begin_transaction();
-
             // Insert preferences into user_preferences table
-            $query = "INSERT INTO user_preferences (user_id, preference_option_id) VALUES (?, ?)";
+            $query = <<< SQL
+            INSERT INTO
+                user_preferences (user_id, preference_option_id)
+            VALUES
+                (:user_id, :communication_preference_option_id),
+                (:user_id, :love_language_preference_option_id),
+                (:user_id, :education_preference_option_id),
+                (:user_id, :sleeping_preference_option_id);
+            SQL;
             $stmt = $conn->prepare($query);
 
             // Bind and execute for each preference
-            $stmt->bind_param("ii", $user_id, $preferenceOptionId);
+            $stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
+            $stmt->bindParam("communication_preference_option_id", $communication, PDO::PARAM_INT);
+            $stmt->bindParam("love_language_preference_option_id", $loveLanguage, PDO::PARAM_INT);
+            $stmt->bindParam("education_preference_option_id", $education, PDO::PARAM_INT);
+            $stmt->bindParam("sleeping_preference_option_id", $sleeping, PDO::PARAM_INT);
 
-            $preferenceOptionId = $communication;
-            $stmt->execute();
-
-            $preferenceOptionId = $loveLanguage;
-            $stmt->execute();
-
-            $preferenceOptionId = $education;
-            $stmt->execute();
-
-            $preferenceOptionId = $sleeping;
-            $stmt->execute();
+            $result = $stmt->execute();
 
             $conn->commit();
 
