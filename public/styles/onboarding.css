@@ -52,11 +52,10 @@ p {
 /* Right Panel */
 .right-panel {
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding-right: 70px;
-	position: relative;
+  gap: 2.5rem;
+  overflow: hidden;
+  justify-content: center;
+  height: 100%;
 }
 
 .circle {
@@ -310,4 +309,58 @@ input[type='radio']:checked + label {
 	background-color: var(--primary-highlight-color);
 	color: var(--secondary-font-color);
 }
+
+/*------------ Gender -----------*/
+.gender-container .gender-h1 {
+	font-size: 3.4375rem;
+	font-weight: 700;
+	margin-bottom: 0rem;
+	height: 4.9375rem;
+	color: black;
+}
+.gender-container .gender-p{
+	height: 2.625rem;
+    font-size: 1.4375rem;
+    font-weight: 400;
+}
+
+
+.gender-container .gender-span{
+	width: 657px;
+	text-align:center;
+	font-size: 38px;
+	border-color:var(--primary-highlight-color) ;
+	background-color: var(--primary-background-color);
+  color: #333;
+  padding: 8px 20px;
+  border-radius: 6250rem;
+  font-size: 1.4375rem;
+  font-weight: 400;
+  transition: all 0.3s ease;
+
+}
+.gender-container .gender-span:hover{
+	background-color: var(--primary-highlight-color);
+	color: var(--secondary-font-color);
+	border-radius: 6250rem;
+}
+.gender-container :is(.photo-reel, .photo-reel1) {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1.5rem;
+	height: 100%;
+}
+
+.gender-container :is(.photo-reel, .photo-reel1) > img {
+	height: 100%;
+}
+.gender-container .radio-option{
+	border-color: var(--primary-highlight-color);
+	border-style: solid;
+	border-radius: 6250rem;
+}
+
+
+
 
