@@ -130,7 +130,8 @@ form {
 	resize: vertical;
 }
 
-.input-container > .error-message {
+/* .input-container > .error-message { */
+.error-message {
 	color: red;
 	margin-top: 0.25rem;
 	font-size: 0.75rem;

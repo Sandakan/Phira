@@ -3,7 +3,7 @@ require '../config.php';
 require '../utils/database.php';
 
 $conn = initialize_database();
-function findMatches($user_id,  $conn, $latitude = null, $longitude = null)
+function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
 {
     // Fetch the current user's profile details
     $query = <<<SQL
@@ -18,11 +18,14 @@ function findMatches($user_id,  $conn, $latitude = null, $longitude = null)
             GROUP_CONCAT(UP.preference_option_id) AS user_preferences
         FROM profiles AS P
         LEFT JOIN user_preferences AS UP ON P.user_id = UP.user_id
-        WHERE P.user_id = $user_id
+        WHERE P.user_id = :user_id
         GROUP BY P.user_id;
     SQL;
 
-    $currentUser = mysqli_query($conn, $query)->fetch_assoc();
+    $statement = $conn->prepare($query);
+    $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+    $statement->execute();
+    $currentUser = $statement->fetch();
 
     if (!$currentUser) {
         return []; // User profile not found
@@ -33,7 +36,9 @@ function findMatches($user_id,  $conn, $latitude = null, $longitude = null)
     $user_longitude = $longitude ?? $currentUser['user_longitude'];
     $user_gender = $currentUser['user_gender'];
     $distance_range = $currentUser['distance_range'];
-    $userPreferences = explode(',', $currentUser['user_preferences']);
+    $user_preferences = explode(',', $currentUser['user_preferences']);
+    $preferred_age_min = $currentUser['preferred_age_min'];
+    $preferred_age_max = $currentUser['preferred_age_max'];
 
     // Find potential matches
     $query = <<<SQL
@@ -49,40 +54,44 @@ function findMatches($user_id,  $conn, $latitude = null, $longitude = null)
                 ST_Y(p.location) AS match_longitude,
                 (
                     6371 * ACOS(
-                        COS(RADIANS($user_latitude)) * COS(RADIANS(ST_X(p.location))) *
-                        COS(RADIANS(ST_Y(p.location)) - RADIANS($user_longitude)) +
-                        SIN(RADIANS($user_latitude)) * SIN(RADIANS(ST_X(p.location)))
+                        COS(RADIANS(:user_latitude)) * COS(RADIANS(ST_X(p.location))) *
+                        COS(RADIANS(ST_Y(p.location)) - RADIANS(:user_longitude)) +
+                        SIN(RADIANS(:user_latitude)) * SIN(RADIANS(ST_X(p.location)))
                     )
                 ) AS distance_km,
                 GROUP_CONCAT(up.preference_option_id) AS match_preferences
             FROM profiles p
             INNER JOIN user_preferences up ON p.user_id = up.user_id
             WHERE 
-                p.user_id != $user_id
-                AND p.gender != '$user_gender'
-                AND YEAR(CURDATE()) - YEAR(p.date_of_birth) BETWEEN {$currentUser['preferred_age_min']} AND {$currentUser['preferred_age_max']}
+                p.user_id != :user_id
+                AND p.gender != ':user_gender'
+                AND YEAR(CURDATE()) - YEAR(p.date_of_birth) BETWEEN :preferred_age_min AND :preferred_age_max
                 AND NOT EXISTS (
                     SELECT 1
                     FROM interactions i
-                    WHERE i.user_id = $user_id AND i.interacted_user_id = p.user_id
+                    WHERE i.user_id = :user_id AND i.interacted_user_id = p.user_id
                 )
             GROUP BY p.user_id
         ) AS filtered_matches
-        WHERE distance_km <= $distance_range;
+        WHERE distance_km <= :distance_range;
     SQL;
 
-    $potentialMatches = [];
-    $result = mysqli_query($conn, $query);
-
-    while ($row = $result->fetch_assoc()) {
-        $potentialMatches[] = $row;
-    }
+    $statement = $conn->prepare($query);
+    $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+    $statement->bindParam("user_latitude", $user_latitude, PDO::PARAM_STR);
+    $statement->bindParam("user_longitude", $user_longitude, PDO::PARAM_STR);
+    $statement->bindParam("user_gender", $user_gender, PDO::PARAM_STR);
+    $statement->bindParam("distance_range", $distance_range, PDO::PARAM_INT);
+    $statement->bindParam("preferred_age_min", $preferred_age_min, PDO::PARAM_INT);
+    $statement->bindParam("preferred_age_max", $preferred_age_max, PDO::PARAM_INT);
+    $result = $statement->execute();
+    $potentialMatches = $statement->fetchAll();
 
     // Filter matches based on common preferences
     $matches = [];
     foreach ($potentialMatches as $match) {
         $matchPreferences = explode(',', $match['match_preferences']);
-        $commonPreferences = array_intersect($userPreferences, $matchPreferences);
+        $commonPreferences = array_intersect($user_preferences, $matchPreferences);
 
         if (count($commonPreferences) > 0) { // Require at least one common preference
             $matches[] = [
@@ -122,12 +131,12 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
             (
                 6371 * ACOS(
                     COS(
-                        RADIANS(?)) * COS(
+                        RADIANS(:latitude)) * COS(
                         RADIANS(
                         ST_X ( p.location ))) * COS(
                         RADIANS(
-                        ST_Y ( p.location )) - RADIANS(?)) + SIN(
-                        RADIANS(?)) * SIN(
+                        ST_Y ( p.location )) - RADIANS(:longitude)) + SIN(
+                        RADIANS(:latitude)) * SIN(
                         RADIANS(
                         ST_X ( p.location ))) 
                 ) 
@@ -145,7 +154,7 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
             LEFT JOIN photos ph ON p.user_id = ph.user_id 
             LEFT JOIN photos ON p.user_id = photos.user_id 
         WHERE
-            p.user_id IN ($placeholders) 
+            p.user_id IN (:placeholders) 
         GROUP BY
             p.user_id,
             pr.preference_name 
@@ -154,21 +163,18 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
             pr.preference_name;
         SQL;
 
-    // Prepare the statement
     $stmt = $conn->prepare($sql);
-
-    // Bind the latitude and longitude for distance calculation and user IDs dynamically
-    $bindParams = array_merge([$latitude, $longitude, $latitude], $matchUserIds);
-    $stmt->bind_param(str_repeat('d', 3) . str_repeat('i', count($matchUserIds)), ...$bindParams);
-
-    // Execute the query
+    $stmt->bindParam(':latitude', $latitude, PDO::PARAM_STR);
+    $stmt->bindParam(':longitude', $longitude, PDO::PARAM_STR);
+    $stmt->bindParam(':placeholders', $placeholders, PDO::PARAM_STR);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $data = $stmt->fetchAll();
 
     // Process results
     $userDetails = [];
-    while ($row = $result->fetch_assoc()) {
+    foreach ($data as $row) {
         $userId = $row['user_id'];
+
         if (!isset($userDetails[$userId])) {
             // Initialize the user details
             $birthDate = new DateTime($row['date_of_birth']);
@@ -207,8 +213,17 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
 
 function addMatchInteractionStatus($user_id, $interacted_user_id, $status, $conn)
 {
-    $sql = "INSERT INTO interactions (user_id, interacted_user_id, status) VALUES ($user_id, $interacted_user_id, '$status')";
-    $result = mysqli_query($conn, $sql);
+    $sql = <<< SQL
+    INSERT INTO
+        interactions (user_id, interacted_user_id, status)
+    VALUES (:user_id, :interacted_user_id, :status);
+    SQL;
+
+    $statement = $conn->prepare($sql);
+    $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $statement->bindParam(':interacted_user_id', $interacted_user_id, PDO::PARAM_INT);
+    $statement->bindParam(':status', $status, PDO::PARAM_STR);
+    $result = $statement->execute();
 
     return !$result;
 }

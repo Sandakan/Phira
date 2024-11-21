@@ -11,23 +11,48 @@ $description = "We've sent a verification link to your email 📧. Please check 
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
 
-    $query = "SELECT * FROM users WHERE verification_token = '$token' AND token_expiry > NOW()";
-    $result = mysqli_query($conn, $query);
+    try {
+        $query = <<< SQL
+        SELECT
+            *
+        FROM
+            users
+        WHERE
+            verification_token = :token AND token_expiry > NOW();
+    SQL;
+        $statement = $conn->prepare($query);
+        $statement->bindParam("token", $token, PDO::PARAM_STR);
+        $result = $statement->execute();
+        $data = $statement->fetch();
 
-    if ($result->num_rows > 0) {
-        $query = "UPDATE users SET verified_at = NOW(), token_expiry = NOW() WHERE verification_token = '$token'";
-        $result = mysqli_query($conn, $query);
+        if ($data) {
+            $query = <<< SQL
+            UPDATE
+                users
+            SET
+                verified_at = NOW(),
+                token_expiry = NOW()
+            WHERE
+                verification_token = :token;
+        SQL;
+            $statement = $conn->prepare($query);
+            $statement->bindParam("token", $token, PDO::PARAM_STR);
+            $result = $statement->execute();
 
-        if ($result) {
-            $title = "Account Verified Successfully";
-            $description = "Your account has been verified. You can now log in to your account.";
+            if ($result) {
+                $title = "Account Verified Successfully";
+                $description = "Your account has been verified. You can now log in to your account.";
+            } else {
+                $title = "Account Verification Failed";
+                $description = "The verification link is invalid or has expired. Please request a new verification link.";
+            }
         } else {
             $title = "Account Verification Failed";
-            $description = "The verification link is invalid or has expired. Please request a new verification link.";
+            $description = "The verification link is invalid, expired or the account is already verified. Please request a new verification link if there is an error.";
         }
-    } else {
+    } catch (Exception $e) {
         $title = "Account Verification Failed";
-        $description = "The verification link is invalid, expired or the account is already verified. Please request a new verification link if there is an error.";
+        $description = "Something went wrong. Please try again later.";
     }
 }
 ?>
@@ -48,16 +73,17 @@ if (isset($_GET['token'])) {
 
     <div class="model-container verification-model-container">
 
-<div class="left-panel">
-        <div class="input-container">
-            <h1><label for="verification"><?php echo $title; ?></label></h1>
-            <p><?php echo $description; ?></p>
+        <div class="left-panel">
+            <div class="input-container">
+                <h1><label for="verification"><?php echo $title; ?></label></h1>
+                <p><?php echo $description; ?></p>
 
-        </div>
+            </div>
 
-        <div class="verification-form-actions-container">
-            <a href="<?php echo BASE_URL; ?>/pages/auth/login.php" class="btn btn-primary form-submit-btn">Back to login</a>
-        </div>
+            <div class="verification-form-actions-container">
+                <a href="<?php echo BASE_URL; ?>/pages/auth/login.php" class="btn btn-primary form-submit-btn">Back to
+                    login</a>
+            </div>
         </div>
         <div class="right-panel">
             <div class="photo-reel">
