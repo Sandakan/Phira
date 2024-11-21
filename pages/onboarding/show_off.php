@@ -12,7 +12,6 @@ $image_error = "";
 $image_target_dir = "./../../private/media/user_photos/";
 
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION["user_id"];
 
