@@ -3,7 +3,7 @@ require '../../config.php';
 require '../../utils/database.php';
 require '../../utils/authenticate.php';
 
-/*$conn = initialize_database();
+$conn = initialize_database();
 session_start();
 
 authenticate(array("USER"));
@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-is_birthday_set($conn, $user_id);*/
+is_birthday_set($conn, $user_id);
 
 ?>
 
@@ -119,6 +119,7 @@ is_birthday_set($conn, $user_id);*/
                 <p class="dateOfBirth-p">Enter your date of birth to find better matches.</p>
                 <label class="radio-option">
                 <input  class="dateOfBirth-span" type="date" name="birth_day" id="birth_day" placeholder="2000-01-01" required />
+                <span><?php echo $birth_day_error;?></span>
                 </label>
             
             <div>
