@@ -147,31 +147,7 @@ button:hover {
 	font-size: 1.4375rem;
 	font-weight: 400;
 }
-/* .input-group-container {
-	margin-bottom: 0rem;
-	gap: 2rem;
-}
-.input-container {
-	margin-bottom: 0rem;
-}
-.input-container input {
-	height: 5.125rem;
-	border-radius: 2.9375rem;
-	font-size: 1.5rem;
-	font-weight: 300;
-} 
-#first_name {
-	margin-right: 0px;
-	margin-top: 1.375rem;
-	width: 21.625rem;
-	height: 5.125rem;
-}
-#last_name {
-	width: 21.625rem;
-	height: 5.125rem;
-	margin-left: 0px;
-	margin-top: 1.375rem;
-} */
+
 .register-form-actions-container {
 	margin-top: 3.1875rem;
 	display: flex;
@@ -200,4 +176,27 @@ button:hover {
 }
 .btn btn-primary form-submit-btn {
 	background-color: var(--primary-highlight-color-varient);
+}
+
+/* ----- Email Varification ----- */
+
+.email-right-panel {
+	display: flex;
+	gap: 2.5rem;
+	overflow: hidden;
+	justify-content: center;
+	padding-right: 4.375rem;
+}
+.verification-form-actions-container a{
+	font-size: 1.875rem;
+	font-weight: bold;
+	width: 19.375rem;
+	height: 4.6875rem;
+	background-color: var(--primary-highlight-color);
+	color: var(--secondary-font-color);
+}	
+.input-container h1 {
+	font-size: 4.375rem;
+	font-weight: bold;
+	
 }
