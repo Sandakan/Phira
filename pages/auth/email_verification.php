@@ -48,15 +48,28 @@ if (isset($_GET['token'])) {
 
     <div class="model-container verification-model-container">
 
-
+<div class="left-panel">
         <div class="input-container">
-            <label for="verification"><?php echo $title; ?></label>
-            <p> <?php echo $description; ?></p>
+            <h1><label for="verification"><?php echo $title; ?></label></h1>
+            <p><?php echo $description; ?></p>
 
         </div>
 
         <div class="verification-form-actions-container">
             <a href="<?php echo BASE_URL; ?>/pages/auth/login.php" class="btn btn-primary form-submit-btn">Back to login</a>
+        </div>
+        </div>
+        <div class="right-panel">
+            <div class="photo-reel">
+                <img src="<?php echo BASE_URL; ?>/public/images/Frame 01.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/Frame 02.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/Frame 03.png" alt="1">
+            </div>
+            <div class="photo-reel1">
+                <img src="<?php echo BASE_URL; ?>/public/images/Frame 04.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/Frame 05.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/Frame 06.png" alt="1">
+            </div>
         </div>
 
     </div>

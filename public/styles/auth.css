@@ -195,3 +195,9 @@ button:hover {
 	background-color: #ff5252;
 	color: white;
 }
+.input-container h1 {
+	font-weight: bold;
+}
+.btn btn-primary form-submit-btn {
+	background-color: var(--primary-highlight-color-varient);
+}

@@ -310,3 +310,4 @@ input[type='radio']:checked + label {
 	background-color: var(--primary-highlight-color);
 	color: var(--secondary-font-color);
 }
+
