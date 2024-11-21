@@ -1,0 +1,14 @@
+body {
+	display: flex;
+}
+
+body > main {
+	display: flex;
+	height: 100vh;
+	flex: 1;
+	overflow: hidden;
+}
+
+body > main > * {
+	padding: 3rem 3rem;
+}

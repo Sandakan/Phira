@@ -1,18 +1,27 @@
 :root {
-	--primary-font-color: #1e1e1e;
-	--secondary-font-color: #ffffff;
+	--primary-font-color: hsl(0, 0%, 12%);
+	--secondary-font-color: hsl(0, 0%, 100%);
+	--primary-font-color-varient:hsl(0, 0%, 30%);
 
-	--primary-background-color: #fff;
-	--secondary-background-color: hsl(230, 33%, 95%);
-	--primary-highlight-color: #f0e6db;
+	--primary-background-color: hsl(0, 0%, 100%);
+	--secondary-background-color: hsla(0, 0%, 80%, 0.75);
+	--primary-highlight-color: hsl(0, 100%, 66%);
+	--primary-highlight-color-varient:#e04141;
 	--secondary-highlight-color: var(--primary-font-color, #000);
+	--primary-button-selected-background-color: #ffe1dc;
 
 	/* BUTTONS */
-	--primary-button-font-color: var(--secondary-font-color);
-	--primary-button-background-color: var(--primary-font-color);
-	--primary-button-hover-background-color: #000;
+	--primary-button-font-color: var(--primary-highlight-color);
+	--primary-button-background-color: hsl(0, 100%, 66%, 0.25);
+	--primary-button-hover-background-color: hsl(0, 0%, 0%);
 
-	/* BUTTONS */
+	--sidebar-nav-button-active-font-color: var(--primary-highlight-color);
+	--sidebar-nav-button-active-background-color: hsl(0, 100%, 66%, 0.25);
+
+	--sidebar-nav-button-font-color: var(--primary-font-color);
+	--sidebar-nav-button-background-color: hsl(0, 0%, 80%, 0.25);
+	--sidebar-nav-button-hover-background-color: var(--sidebar-nav-button-active-background-color);
+	/* LINKS */
 	--primary-link-font-color: var(--primary-font-color);
-	--primary-link-hover-font-color: #000;
+	--primary-link-hover-font-color: hsl(0, 0%, 0%);
 }

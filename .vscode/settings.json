@@ -4,5 +4,6 @@
 		"textMateRules": []
 	},
 	"cSpell.words": ["Phira", "WAMP"],
-	"php.validate.executablePath": "C:\\wamp64\\bin\\php\\php8.3.6\\php.exe"
+	"php.validate.executablePath": "C:\\wamp64\\bin\\php\\php8.3.6\\php.exe",
+	"php.debug.executablePath": "C:\\wamp64\\bin\\php\\php8.3.6\\php.exe"
 }
