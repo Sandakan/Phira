@@ -6,12 +6,12 @@ require '../../utils/authenticate.php';
 $conn = initialize_database();
 session_start();
 
-authenticate(array("USER"));
-if (!isset($_SESSION["onboarding_completed"])) {
-    header("Location: " . BASE_URL . "/login.php");
-}
+// authenticate(array("USER"));
+// if (!isset($_SESSION["onboarding_completed"])) {
+//     header("Location: " . BASE_URL . "/login.php");
+// }
 
-?>
+// ?>
 
 <!DOCTYPE html>
 <html lang="en">

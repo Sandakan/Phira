@@ -66,12 +66,14 @@ if (isset($_GET['token'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Account Verification - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/auth.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/fonts.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
 
-    <div class="model-container verification-model-container">
+    <div class="container">
 
         <div class="left-panel">
             <div class="input-container">
@@ -85,16 +87,12 @@ if (isset($_GET['token'])) {
                     login</a>
             </div>
         </div>
-        <div class="right-panel">
-            <div class="photo-reel">
-                <img src="<?php echo BASE_URL; ?>/public/images/Frame 01.png" alt="1">
-                <img src="<?php echo BASE_URL; ?>/public/images/Frame 02.png" alt="1">
-                <img src="<?php echo BASE_URL; ?>/public/images/Frame 03.png" alt="1">
+        <div class="email-right-panel">
+            <div>
+                <img src="<?php echo BASE_URL; ?>/public/images/email-varification/Left-side.png" alt="1">
             </div>
-            <div class="photo-reel1">
-                <img src="<?php echo BASE_URL; ?>/public/images/Frame 04.png" alt="1">
-                <img src="<?php echo BASE_URL; ?>/public/images/Frame 05.png" alt="1">
-                <img src="<?php echo BASE_URL; ?>/public/images/Frame 06.png" alt="1">
+            <div>
+            <img src="<?php echo BASE_URL; ?>/public/images/email-varification/Right-side.png" alt="1">
             </div>
         </div>
 
