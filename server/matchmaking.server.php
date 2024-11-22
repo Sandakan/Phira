@@ -5,6 +5,19 @@ require '../utils/database.php';
 $conn = initialize_database();
 function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
 {
+    // save current user's location
+    $query = <<<SQL
+        UPDATE profiles
+        SET location = POINT(:longitude, :latitude)
+        WHERE user_id = :user_id;
+    SQL;
+
+    $statement = $conn->prepare($query);
+    $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+    $statement->bindParam("latitude", $latitude, PDO::PARAM_STR);
+    $statement->bindParam("longitude", $longitude, PDO::PARAM_STR);
+    $statement->execute();
+
     // Fetch the current user's profile details
     $query = <<<SQL
         SELECT 
@@ -28,7 +41,7 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
     $currentUser = $statement->fetch();
 
     if (!$currentUser) {
-        return []; // User profile not found
+        throw new Exception('User not found');
     }
 
     // Use passed latitude and longitude, or fall back to database values
@@ -88,7 +101,6 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
     $potentialMatches = $statement->fetchAll();
 
     // Filter matches based on common preferences
-    $matches = [];
     foreach ($potentialMatches as $match) {
         $matchPreferences = explode(',', $match['match_preferences']);
         $commonPreferences = array_intersect($user_preferences, $matchPreferences);
@@ -103,7 +115,6 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
             ];
         }
     }
-
     return $matches;
 }
 
@@ -144,7 +155,7 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
             pr.preference_name,
             po.option_text,
             ph.photo_url AS profile_picture,
-            GROUP_CONCAT( photos.photo_url ) AS all_photos 
+            GROUP_CONCAT(DISTINCT ph.photo_url ORDER BY ph.photo_id) AS all_photos 
         FROM
             users u
             INNER JOIN profiles p ON u.user_id = p.user_id
@@ -152,7 +163,6 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
             LEFT JOIN preference_options po ON up.preference_option_id = po.preference_option_id
             LEFT JOIN preferences pr ON po.preference_id = pr.preference_id 
             LEFT JOIN photos ph ON p.user_id = ph.user_id 
-            LEFT JOIN photos ON p.user_id = photos.user_id 
         WHERE
             p.user_id IN ($placeholders) 
         GROUP BY
@@ -213,7 +223,7 @@ function sendNotifications($notification_type, $notification, $user_ids, $conn)
 {
     $notificationIds = array();
 
-    $sql = <<<SQL
+    $sql = <<< SQL
         INSERT INTO notifications (user_id, notification_type, notification)
         VALUES (:user_id, :notification_type, :notification);
         SQL;
@@ -351,11 +361,25 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $latitude = $_GET['latitude'];
         $longitude = $_GET['longitude'];
 
-        $matches = findMatches($user_id, $conn, $latitude, $longitude);
-        $user_details = getMatchUserDetails($matches, $latitude, $longitude, $conn);
-        echo json_encode($user_details);
-        // echo json_encode([]);
-    } else echo json_encode(array("error" => "Invalid request"));
+        $response = array(
+            "success" => true,
+            "matches" => array(),
+            "error" => null
+        );
+
+        try {
+            $matches = findMatches($user_id, $conn, $latitude, $longitude);
+            $match_user_details = getMatchUserDetails($matches, $latitude, $longitude, $conn);
+
+            $response["matches"] = $match_user_details;
+
+            echo json_encode($response);
+        } catch (Exception $e) {
+            $response["success"] = false;
+            $response["error"] = $e->getMessage();
+            echo json_encode($response);
+        }
+    } else echo json_encode(array("success" => false, "error" => "Invalid request"));
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -364,6 +388,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $match_user_id = $_POST['match_user_id'];
         $status = $_POST['status'];
 
-        echo json_encode(addMatchInteractionStatus(intval($user_id), intval($match_user_id), $status, $conn));
-    } else echo json_encode(array("error" => "Invalid request"));
+        $response = array(
+            "success" => true,
+            "error" => null
+        );
+
+        try {
+            $output = addMatchInteractionStatus($user_id, $match_user_id, $status, $conn);
+
+            echo json_encode(array_merge($output, $response));
+        } catch (Exception $e) {
+            $response["success"] = false;
+            $response["error"] = $e->getMessage();
+            echo json_encode($response);
+        }
+    } else echo json_encode(array("success" => false, "error" => "Invalid request"));
 }

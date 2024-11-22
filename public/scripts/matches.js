@@ -44,17 +44,22 @@ function getMatches(BASE_URL, user_id, latitude, longitude) {
 	)
 		.then((res) => res.json())
 		.then((res) => {
-			loader?.classList.add('hidden');
 			console.log(res);
+			const { success, matches: data } = res;
 
-			if (res.length > 0) {
-				matches = res.map((user) => generateMatchElement(user_id, user, BASE_URL));
+			if (!success) return alert('Failed to get matches.');
+
+			loader?.classList.add('hidden');
+
+			if (data.length > 0) {
+				matches = data.map((user) => generateMatchElement(user_id, user, BASE_URL));
 				showNextAvailableMatch();
 			} else {
 				matchesContainer.classList.add('hidden');
 				noMatchesAlert.classList.remove('hidden');
 			}
-		});
+		})
+		.catch((err) => alert(err));
 }
 
 function generateMatchElement(user_id, match, BASE_URL) {
@@ -77,6 +82,9 @@ function generateMatchElement(user_id, match, BASE_URL) {
 		const photoElement = `<img class="photo" src="${photo}" alt="Temp Match">`;
 		return photoElement;
 	});
+	const relationshipType = preferences
+		.find((preference) => preference.preference_name === 'Relationship Type')
+		?.option_text?.toLowerCase();
 
 	matchElement = `
 			<div class="match" data-user-id="${match_user_id}">
@@ -123,7 +131,7 @@ function generateMatchElement(user_id, match, BASE_URL) {
                             <span class="match-preference-icon-container">
                                 <span class="material-symbols-rounded">digital_wellbeing</span>
                             </span>
-                            <span class="match-preference-text">Looking for a <b>long-time partner</b></span>
+                            <span class="match-preference-text">Looking for <b>${relationshipType}</b></span>
                         </div>
                     </div>
                     <div class="match-actions-container">
@@ -174,13 +182,15 @@ async function setMatchInteractionStatus(user_id, match_user_id, status, BASE_UR
 function likeMatch(user_id, match_id, BASE_URL) {
 	setMatchInteractionStatus(user_id, match_id, 'LIKED', BASE_URL)
 		.then((res) => {
+			if (!res.success) return alert('Failed to like match.' + res.error);
+
+			const { is_a_match, match_user_data, match_id, chat_id, notification_ids } = res;
+
 			console.log(`Liked match id ${match_id}: `, res);
 
 			matches = matches.filter((match) => match.user_id !== match_id);
 
-			if (res.is_a_match) {
-				const { match_user_data, match_id, chat_id, notification_ids } = res;
-
+			if (is_a_match) {
 				matchesContainer.classList.add('hidden');
 				matchFoundAlert.classList.remove('hidden');
 				matchFoundAlert.dataset.matchId = match_id;
@@ -201,6 +211,8 @@ function likeMatch(user_id, match_id, BASE_URL) {
 function dislikeMatch(user_id, match_id, BASE_URL) {
 	setMatchInteractionStatus(user_id, match_id, 'REJECTED', BASE_URL)
 		.then((res) => {
+			if (!res.success) return alert('Failed to dislike match.');
+
 			console.log(`Disliked match id ${match_id}: `, res);
 			matches = matches.filter((match) => match.user_id !== match_id);
 			showNextAvailableMatch();

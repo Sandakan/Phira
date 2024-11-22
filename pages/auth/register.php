@@ -1,15 +1,14 @@
 <?php
+
+//Load Composer's autoloader
+require '../../vendor/autoload.php';
 require '../../config.php';
 require '../../utils/database.php';
 require '../../utils/generate_random_string.php';
 
-
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-require '../../packages/PHPMailer/src/Exception.php';
-require '../../packages/PHPMailer/src/PHPMailer.php';
-require '../../packages/PHPMailer/src/SMTP.php';
 
 
 function sendEmail($sendEmail, $first_name, $subject, $message)
