@@ -112,7 +112,7 @@ section > .title-container > h1 {
   flex-direction: column;
 }
 .image-container {
-  border: .1875rem dashed var(--primary-highlight-color-varient); 
+  border: 0.1875rem dashed var(--primary-highlight-color-varient);
   border-radius: 1.25rem;
   width: 13.75rem;
   height: 16.25rem;
@@ -135,6 +135,125 @@ section > .title-container > h1 {
   object-fit: cover;
   border-radius: 1.25rem;
 }
-.media{
+.media {
   padding: 6.25rem 4.5rem 0rem 4.5rem;
 }
+
+/* ----- Privacy and Security ----- */
+.privacy{
+  gap: 0rem;
+}
+
+.privacy-and-security h2{
+  font-size: 2.5rem;
+  font-weight: 500;
+}
+.privacy-and-security p{
+  font-size: 1.125rem;
+  font-weight: 400;
+}
+
+.privacy-settings {
+  padding-left: 1.875rem;
+}
+.privacy-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.625rem;
+}
+.sub-title p {
+  font-size: 1.0625rem;
+  font-weight: 300;
+  width: 50.3125rem;
+}
+.sub-title-container {
+  display: flex;
+  align-items: center;
+}
+.sub-title-container h3 {
+  padding-left: 0.3125rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.privacy-icon {
+  font-size: 2.375rem;
+}
+.toggle {
+  width: 10.625rem;
+  height: 3.25rem;
+  border-radius: .9375rem;
+  border: none;
+  background-color: var(--secondary-background-color);
+}
+
+/* -- toggle switch -- */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 5rem;
+  height: 2.5rem;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 2.0625rem;
+  width: 2.0625rem;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-highlight-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(39px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+ /* -- end toggle switch --  */
+
+.security{
+  gap: 0rem;
+}
+
+.change-password{
+  width: 13.75rem;
+  height: 3.25rem;
+  border-radius: .9375rem;
+  border: none;
+  font-size: 1.1875rem;
+  font-weight: 500;
+}
+
