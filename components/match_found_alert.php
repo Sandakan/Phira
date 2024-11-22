@@ -4,7 +4,7 @@ if (!isset($_SESSION["profile_picture_url"])) die("Profile picture URL not set")
 $profile_picture_url = BASE_URL . "/private/media/user_photos/" . $_SESSION["profile_picture_url"];
 ?>
 
-<section class="match-found-alert" id="match-found-alert">
+<section class="match-found-alert hidden" id="match-found-alert">
     <button class="close-btn" onclick="hideMatchFoundAlert()"><span
             class="material-symbols-rounded">close</span></button>
 
