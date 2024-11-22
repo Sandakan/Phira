@@ -1,7 +1,7 @@
 <?php
-require '../../config.php';
-require '../../utils/database.php';
-require '../../utils/authenticate.php';
+require '../../../config.php';
+require '../../../utils/database.php';
+require '../../../utils/authenticate.php';
 
 $conn = initialize_database();
 session_start();
@@ -19,7 +19,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User - Phira</title>
+    <title>User Media - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/app.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/sidebar.css">
@@ -28,9 +28,9 @@ session_start();
 </head>
 
 <body>
-    <?php include('../../components/sidebar.php') ?> 
+    <?php include('../../../components/sidebar.php') ?> 
     <main>
-        <?php include('../../components/settings_navbar.php') ?>
+        <?php include('../../../components/settings_navbar.php') ?>
         <section>
             <div class="title-container">
                 <span class="material-symbols-rounded">camera</span>
@@ -43,7 +43,7 @@ session_start();
                 <div class="media-card">
                     <label class="image-container">
                         <input type="file" name="photo-1">
-                        <img src="../../public/images/ProfilePic.png" alt="">
+                        <img src="../../../public/images/ProfilePic.png" alt="">
                         <span class="add-icon material-symbols-rounded">add_circle</span>
                     </label>
                     <label class="image-container">
