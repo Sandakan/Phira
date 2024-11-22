@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $query = <<< SQL
+    $query = <<<SQL
             SELECT
                 U.user_id,
                 U.first_name,
@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
 
 
-                $query = <<< SQL
+                $query = <<<SQL
                 SELECT
                     U.user_id,
                     PR.preference_name,
@@ -151,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             exit();
                         }
 
-                        $query = <<< SQL
+                        $query = <<<SQL
                         SELECT
                             COUNT(P.photo_id) AS photo_count
                         FROM
@@ -184,7 +184,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $email_error = "Invalid email or password";
     }
-};
+}
+;
 
 
 ?>
@@ -202,38 +203,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <!-- Left Panel -->
-    <div class="left-panel">
-        <h1>Let’s Start.</h1>
-        <p>Login to your account to find connections, start chatting, and make meaningful connections.</p>
-        <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>">
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <h1>Let’s Start.</h1>
+            <p>Login to your account to find connections, start chatting, and make meaningful connections.</p>
+            <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>">
 
-            <input type="email" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>" required>
-            <span class="error-message"><?php echo $email_error ?></span>
+                <input type="email" name="email" id="email" placeholder="Email" value="<?php echo $email; ?>" required>
+                <span class="error-message"><?php echo $email_error ?></span>
 
-            <input type="password" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>"
-                required>
-            <span class="error-message"><?php echo $password_error ?></span>
+                <input type="password" name="password" id="password" placeholder="Password"
+                    value="<?php echo $password; ?>" required>
+                <span class="error-message"><?php echo $password_error ?></span>
 
-            <a href="#" class="forgot-password">I forgot my password</a>
-            <div id="form-actions">
-                <button type="submit">Next</button>
-                <a href="<?php echo BASE_URL; ?>/pages/auth/register.php" class="signup-link">I Don’t have an
-                    account</a>
-            </div>
-        </form>
-    </div>
-    <!-- Right Panel -->
-    <div class="right-panel">
-        <div class="photo-reel">
-            <img src="<?php echo BASE_URL; ?>/public/images/DesignPics (Nila).png" alt="1">
-            <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Tara).png" alt="1">
-            <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Noor).png" alt="1">
+                <a href="<?php echo BASE_URL; ?>/pages/auth/forgot_password.php" class="forgot-password">I forgot my
+                    password</a>
+                <div id="form-actions">
+                    <button type="submit">Next</button>
+                    <a href="<?php echo BASE_URL; ?>/pages/auth/register.php" class="signup-link">I Don’t have an
+                        account</a>
+                </div>
+            </form>
         </div>
-        <div class="photo-reel1">
-            <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Aurora).png" alt="1">
-            <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Anne).png" alt="1">
-            <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (3).png" alt="1">
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="photo-reel">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPics (Nila).png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Tara).png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Noor).png" alt="1">
+            </div>
+            <div class="photo-reel1">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Aurora).png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (Anne).png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/DesignPic (3).png" alt="1">
+            </div>
         </div>
     </div>
 </body>

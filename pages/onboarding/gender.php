@@ -133,7 +133,7 @@ is_gender_set($conn, $user_id);
         <div class="right-panel">
             
                <img src="<?php echo BASE_URL; ?>/public/images/gender/gender-reel-1.png" alt="1">
-               <img src="<?php echo BASE_URL; ?>/public/images/gender/gender-reel-2.png" alt="">
+               <img src="<?php echo BASE_URL; ?>/public/images/gender/gender-reel-2.png" alt="2">
               
             
         </div>
