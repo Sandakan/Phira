@@ -112,6 +112,7 @@ session_start();
                     </div>
                 </div>
             </form>
+            <button class="btn btn-primary">Save</button>
 
             <!-- ----- security ----- -->
 
