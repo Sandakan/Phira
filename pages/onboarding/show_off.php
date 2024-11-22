@@ -147,30 +147,30 @@ if (isset($_SESSION["onboarding_completed"])) {
 
             <div class="input-group-container">
                 <div class="input-container">
-                    <input type="file" name="photo-1" id="#photo">
+                    <input type="file" name="photo-1">
                     <span class="error-message"><?php echo $image_error ?></span>
                 </div>
                 <div class="input-container">
-                    <input type="file" name="photo-2" id="#photo">
+                    <input type="file" name="photo-2">
                     <span class="error-message"><?php echo $image_error ?></span>
                 </div>
                 <div class="input-container">
-                    <input type="file" name="photo-3" id="#photo">
+                    <input type="file" name="photo-3">
                     <span class="error-message"><?php echo $image_error ?></span>
                 </div>
             </div>
 
             <div class="input-group-container">
                 <div class="input-container">
-                    <input type="file" name="photo-4" id="#photo">
+                    <input type="file" name="photo-4">
                     <span class="error-message"><?php echo $image_error ?></span>
                 </div>
                 <div class="input-container">
-                    <input type="file" name="photo-5" id="#photo">
+                    <input type="file" name="photo-5">
                     <span class="error-message"><?php echo $image_error ?></span>
                 </div>
                 <div class="input-container">
-                    <input type="file" name="photo-6" id="#photo">
+                    <input type="file" name="photo-6">
                     <span class="error-message"><?php echo $image_error ?></span>
                 </div>
             </div>
