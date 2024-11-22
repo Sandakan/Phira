@@ -28,7 +28,7 @@ session_start();
 </head>
 
 <body>
-    <?php include('../../components/sidebar.php') ?>
+    <?php include('../../components/sidebar.php') ?> 
     <main>
         <?php include('../../components/settings_navbar.php') ?>
         <section>
