@@ -31,7 +31,7 @@ $email_error = '';
         <span class="error-message"><?php echo $email_error ?></span>
       </label>
       <div>
-        <button type="submit">Next</button>
+        <button type="submit">Continue</button>
       </div>
 
     </form>
