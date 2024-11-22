@@ -1,5 +1,5 @@
 .btn {
-	margin-top:1rem;
+	margin-top: 1rem;
 }
 
 .btn-primary {
@@ -14,7 +14,7 @@
 	transition: all 0.25s ease-in-out;
 	outline: none;
 	text-align: center;
-	border: 3px solid var(--primary-button-background-color);
+	border: 3px solid transparent;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -76,12 +76,12 @@ a.btn-secondary {
 }
 
 .btn:disabled {
-	background-color:#ccc;
-	border-color:#ccc;
+	background-color: #ccc;
+	border-color: #ccc;
 }
 
 .buttons-container {
 	display: flex;
 	gap: 1rem;
-	color:white !important;
+	color: white !important;
 }

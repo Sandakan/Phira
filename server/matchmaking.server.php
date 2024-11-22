@@ -131,12 +131,12 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
             (
                 6371 * ACOS(
                     COS(
-                        RADIANS(:latitude)) * COS(
+                        RADIANS(?)) * COS(
                         RADIANS(
                         ST_X ( p.location ))) * COS(
                         RADIANS(
-                        ST_Y ( p.location )) - RADIANS(:longitude)) + SIN(
-                        RADIANS(:latitude)) * SIN(
+                        ST_Y ( p.location )) - RADIANS(?)) + SIN(
+                        RADIANS(?)) * SIN(
                         RADIANS(
                         ST_X ( p.location ))) 
                 ) 
@@ -154,7 +154,7 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
             LEFT JOIN photos ph ON p.user_id = ph.user_id 
             LEFT JOIN photos ON p.user_id = photos.user_id 
         WHERE
-            p.user_id IN (:placeholders) 
+            p.user_id IN ($placeholders) 
         GROUP BY
             p.user_id,
             pr.preference_name 
@@ -164,10 +164,8 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
         SQL;
 
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':latitude', $latitude, PDO::PARAM_STR);
-    $stmt->bindParam(':longitude', $longitude, PDO::PARAM_STR);
-    $stmt->bindParam(':placeholders', $placeholders, PDO::PARAM_STR);
-    $stmt->execute();
+    $params = array_merge([$latitude, $longitude, $latitude], $matchUserIds);
+    $stmt->execute($params);
     $data = $stmt->fetchAll();
 
     // Process results
@@ -211,8 +209,69 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
     return array_values($userDetails); // Reset array keys
 }
 
-function addMatchInteractionStatus($user_id, $interacted_user_id, $status, $conn)
+function sendNotifications($notification_type, $notification, $user_ids, $conn)
 {
+    $notificationIds = array();
+
+    $sql = <<<SQL
+        INSERT INTO notifications (user_id, notification_type, notification)
+        VALUES (:user_id, :notification_type, :notification);
+        SQL;
+
+    $statement = $conn->prepare($sql);
+    foreach ($user_ids as $user_id) {
+        $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $statement->bindParam(':notification_type', $notification_type, PDO::PARAM_STR);
+        $statement->bindParam(':notification', $notification, PDO::PARAM_STR);
+        $statement->execute();
+
+        $notificationIds[] = $conn->lastInsertId();
+    }
+
+    return $notificationIds;
+}
+
+function createMatchEntry($user1_id, $user2_id, PDO $conn)
+{
+    $sql = <<< SQL
+    INSERT INTO 
+        matches (user1_id, user2_id)
+    VALUES (:user1_id, :user2_id);
+    SQL;
+
+    $statement = $conn->prepare($sql);
+    $statement->bindParam(':user1_id', $user1_id, PDO::PARAM_INT);
+    $statement->bindParam(':user2_id', $user2_id, PDO::PARAM_INT);
+    $result = $statement->execute();
+
+    return $conn->lastInsertId();
+}
+
+function createChat($match_id, PDO $conn)
+{
+    $sql = <<< SQL
+    INSERT INTO
+        chats (match_id)
+    VALUES (:match_id);
+    SQL;
+
+    $statement = $conn->prepare($sql);
+    $statement->bindParam(':match_id', $match_id, PDO::PARAM_INT);
+    $result = $statement->execute();
+
+    return $conn->lastInsertId();
+}
+
+function addMatchInteractionStatus($user_id, $interacted_user_id, $status, PDO $conn)
+{
+    $response = array(
+        "is_a_match" => false,
+        "match_user_data" => null,
+        "match_id" => null,
+        "chat_id" => null,
+        "notification_ids" => array()
+    );
+
     $sql = <<< SQL
     INSERT INTO
         interactions (user_id, interacted_user_id, status)
@@ -225,7 +284,63 @@ function addMatchInteractionStatus($user_id, $interacted_user_id, $status, $conn
     $statement->bindParam(':status', $status, PDO::PARAM_STR);
     $result = $statement->execute();
 
-    return !$result;
+    // Check if interaction from interacted user has already been saved with liked status
+    if ($status == 'LIKED') {
+        $sql = <<< SQL
+            SELECT
+                U.user_id,
+                U.first_name,
+                U.last_name,
+                P.profile_picture_url,
+                I.interaction_id
+            FROM
+                users AS U
+            INNER JOIN interactions AS I ON U.user_id = I.user_id
+            INNER JOIN profiles AS P ON P.user_id = U.user_id
+            WHERE
+                I.interacted_user_id = :user_id AND
+                I.user_id = :interacted_user_id AND
+                status = 'LIKED'
+            LIMIT 1;
+        SQL;
+
+        $statement = $conn->prepare($sql);
+        $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $statement->bindParam(':interacted_user_id', $interacted_user_id, PDO::PARAM_INT);
+        $result = $statement->execute();
+        $data = $statement->fetch();
+
+        if ($result && $data) {
+            // another liked interaction already exists from the interacted user.
+            // That means both liked each other.
+            $response["is_a_match"] = true;
+            $response["match_user_data"] = $data;
+
+            $conn->beginTransaction();
+
+            try {
+                // send a notification to both users
+                $response["notification_ids"] = sendNotifications(
+                    "MATCH",
+                    "You have a new match!",
+                    [$user_id, $interacted_user_id],
+                    $conn
+                );
+
+                // add match entry
+                $response["match_id"] = createMatchEntry($user_id, $interacted_user_id, $conn);
+
+                // create a new chat
+                $response["chat_id"] = createChat($response["match_id"], $conn);
+
+                $conn->commit();
+            } catch (Exception $e) {
+                $conn->rollBack();
+                throw $e;
+            }
+        }
+    }
+    return $response;
 }
 
 
@@ -238,8 +353,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         $matches = findMatches($user_id, $conn, $latitude, $longitude);
         $user_details = getMatchUserDetails($matches, $latitude, $longitude, $conn);
-        // echo json_encode($matches);
         echo json_encode($user_details);
+        // echo json_encode([]);
     } else echo json_encode(array("error" => "Invalid request"));
 }
 

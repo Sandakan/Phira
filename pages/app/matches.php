@@ -32,12 +32,12 @@ if (!isset($_SESSION["onboarding_completed"])) {
     <?php include('../../components/sidebar.php') ?>
 
     <main id="main">
-        <section class="matches hidden" id="matches">
-        </section>
+        <section class="matches hidden" id="matches"></section>
 
-        <?php include('../../components/no_location_permission_alert.php') ?>
-        <?php include('../../components/nothing_to_display_alert.php') ?>
         <?php include('../../components/loader.php') ?>
+        <?php include('../../components/no_location_permission_alert.php') ?>
+        <?php include('../../components/no_matches_alert.php') ?>
+        <?php include('../../components/match_found_alert.php') ?>
     </main>
 
     <script src="<?php echo BASE_URL; ?>/public/scripts/matches.js"></script>

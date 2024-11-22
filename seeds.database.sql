@@ -509,7 +509,7 @@ VALUES (
         'Male',
         'Enjoys traveling and photography.',
         POINT(6.9271, 79.8607),
-        'https://example.com/profile1.jpg',
+        '1.jpg',
         50,
         25,
         35
@@ -520,7 +520,7 @@ VALUES (
         'Female',
         'Loves cooking and outdoor adventures.',
         POINT(6.9319, 79.8525),
-        'https://example.com/profile2.jpg',
+        '2.jpg',
         40,
         28,
         40
@@ -531,7 +531,7 @@ VALUES (
         'Male',
         'Passionate about music and art.',
         POINT(6.9164, 79.8656),
-        'https://example.com/profile3.jpg',
+        '3.jpg',
         30,
         22,
         32
@@ -542,7 +542,7 @@ VALUES (
         'Female',
         'Enjoys hiking and reading.',
         POINT(6.9278, 79.8629),
-        'https://example.com/profile4.jpg',
+        '4.jpg',
         60,
         27,
         37
@@ -553,7 +553,7 @@ VALUES (
         'Male',
         'A foodie who loves to explore new cuisines.',
         POINT(6.9323, 79.8574),
-        'https://example.com/profile5.jpg',
+        '5.jpg',
         20,
         21,
         31
@@ -564,7 +564,7 @@ VALUES (
         'Female',
         'Fitness enthusiast and traveler.',
         POINT(6.9224, 79.8663),
-        'https://example.com/profile6.jpg',
+        '6.jpg',
         35,
         24,
         34
@@ -575,7 +575,7 @@ VALUES (
         'Male',
         'Tech geek and gaming lover.',
         POINT(6.9284, 79.8591),
-        'https://example.com/profile7.jpg',
+        '7.jpg',
         40,
         26,
         36
@@ -586,7 +586,7 @@ VALUES (
         'Female',
         'Writer and coffee enthusiast.',
         POINT(6.9261, 79.8682),
-        'https://example.com/profile8.jpg',
+        '8.jpg',
         50,
         27,
         37
@@ -597,7 +597,7 @@ VALUES (
         'Male',
         'Adventurer with a love for the ocean.',
         POINT(6.9306, 79.8617),
-        'https://example.com/profile9.jpg',
+        '9.jpg',
         25,
         23,
         33
@@ -608,7 +608,7 @@ VALUES (
         'Female',
         'Cat lover and bookworm.',
         POINT(6.9245, 79.8644),
-        'https://example.com/profile10.jpg',
+        '10.jpg',
         30,
         24,
         34
@@ -619,7 +619,7 @@ VALUES (
         'Male',
         'Fitness coach and motivational speaker.',
         POINT(6.9294, 79.8556),
-        'https://example.com/profile11.jpg',
+        '11.jpg',
         40,
         29,
         39
@@ -630,7 +630,7 @@ VALUES (
         'Female',
         'Art lover and yoga enthusiast.',
         POINT(6.9237, 79.8671),
-        'https://example.com/profile12.jpg',
+        '12.jpg',
         60,
         26,
         36
@@ -641,7 +641,7 @@ VALUES (
         'Male',
         'Enjoys extreme sports and mountain biking.',
         POINT(6.9256, 79.8599),
-        'https://example.com/profile13.jpg',
+        '13.jpg',
         35,
         20,
         30
@@ -652,7 +652,7 @@ VALUES (
         'Female',
         'Tea connoisseur and traveler.',
         POINT(6.9282, 79.8637),
-        'https://example.com/profile14.jpg',
+        '14.jpg',
         50,
         24,
         34
@@ -663,7 +663,7 @@ VALUES (
         'Male',
         'History buff and museum explorer.',
         POINT(6.9332, 79.8568),
-        'https://example.com/profile15.jpg',
+        '15.jpg',
         40,
         30,
         40
@@ -674,7 +674,7 @@ VALUES (
         'Female',
         'Adventure seeker and photographer.',
         POINT(6.9215, 79.8650),
-        'https://example.com/profile16.jpg',
+        '16.jpg',
         45,
         27,
         37
@@ -685,7 +685,7 @@ VALUES (
         'Male',
         'Beach lover and scuba diver.',
         POINT(6.9299, 79.8603),
-        'https://example.com/profile17.jpg',
+        '17.jpg',
         30,
         23,
         33
@@ -696,7 +696,7 @@ VALUES (
         'Female',
         'Dog mom and nature lover.',
         POINT(6.9270, 79.8624),
-        'https://example.com/profile18.jpg',
+        '18.jpg',
         55,
         28,
         38
@@ -707,7 +707,7 @@ VALUES (
         'Male',
         'Car enthusiast and engineer.',
         POINT(6.9203, 79.8648),
-        'https://example.com/profile19.jpg',
+        '19.jpg',
         40,
         25,
         35
@@ -718,7 +718,7 @@ VALUES (
         'Female',
         'Pianist and language learner.',
         POINT(6.9335, 79.8587),
-        'https://example.com/profile20.jpg',
+        '20.jpg',
         30,
         28,
         38
@@ -729,7 +729,7 @@ VALUES (
         'Male',
         'Guitarist and songwriter.',
         POINT(6.9275, 79.8572),
-        'https://example.com/profile21.jpg',
+        '21.jpg',
         35,
         22,
         32
@@ -740,7 +740,7 @@ VALUES (
         'Female',
         'DIY enthusiast and blogger.',
         POINT(6.9298, 79.8625),
-        'https://example.com/profile22.jpg',
+        '22.jpg',
         50,
         26,
         36
@@ -751,7 +751,7 @@ VALUES (
         'Male',
         'Chef and restaurant owner.',
         POINT(6.9219, 79.8594),
-        'https://example.com/profile23.jpg',
+        '23.jpg',
         25,
         23,
         33
@@ -762,7 +762,7 @@ VALUES (
         'Female',
         'Digital nomad and podcaster.',
         POINT(6.9286, 79.8602),
-        'https://example.com/profile24.jpg',
+        '24.jpg',
         45,
         27,
         37
@@ -773,7 +773,7 @@ VALUES (
         'Male',
         'Martial artist and mentor.',
         POINT(6.9320, 79.8579),
-        'https://example.com/profile25.jpg',
+        '25.jpg',
         40,
         20,
         30
@@ -784,7 +784,7 @@ VALUES (
         'Female',
         'Gardener and eco-warrior.',
         POINT(6.9251, 79.8664),
-        'https://example.com/profile26.jpg',
+        '26.jpg',
         60,
         30,
         40
@@ -795,7 +795,7 @@ VALUES (
         'Male',
         'Hiker and wildlife photographer.',
         POINT(6.9216, 79.8630),
-        'https://example.com/profile27.jpg',
+        '27.jpg',
         50,
         24,
         34
@@ -806,7 +806,7 @@ VALUES (
         'Female',
         'Coffee shop owner and designer.',
         POINT(6.9269, 79.8612),
-        'https://example.com/profile28.jpg',
+        '28.jpg',
         40,
         29,
         39
@@ -817,7 +817,7 @@ VALUES (
         'Male',
         'Architect and urban planner.',
         POINT(6.9302, 79.8640),
-        'https://example.com/profile29.jpg',
+        '29.jpg',
         35,
         26,
         36
@@ -828,7 +828,7 @@ VALUES (
         'Female',
         'Freelance writer and yoga instructor.',
         POINT(6.9285, 79.8563),
-        'https://example.com/profile30.jpg',
+        '30.jpg',
         30,
         21,
         31
@@ -839,7 +839,7 @@ VALUES (
         'Female',
         'Nature lover and avid photographer.',
         POINT(6.5773, 79.9604),
-        'https://example.com/profile31.jpg',
+        '31.jpg',
         50,
         25,
         35
@@ -850,7 +850,7 @@ VALUES (
         'Male',
         'Passionate about adventure sports.',
         POINT(6.5759, 79.9580),
-        'https://example.com/profile32.jpg',
+        '32.jpg',
         40,
         28,
         40
@@ -861,7 +861,7 @@ VALUES (
         'Female',
         'Loves cooking and exploring cultures.',
         POINT(6.5801, 79.9562),
-        'https://example.com/profile33.jpg',
+        '33.jpg',
         30,
         22,
         32
@@ -872,7 +872,7 @@ VALUES (
         'Male',
         'Tech enthusiast and gaming lover.',
         POINT(6.5784, 79.9536),
-        'https://example.com/profile34.jpg',
+        '34.jpg',
         60,
         27,
         37
@@ -883,7 +883,7 @@ VALUES (
         'Female',
         'Explorer with a love for hiking.',
         POINT(6.5798, 79.9518),
-        'https://example.com/profile35.jpg',
+        '35.jpg',
         20,
         21,
         31
@@ -894,7 +894,7 @@ VALUES (
         'Male',
         'Coffee lover and bookworm.',
         POINT(6.5779, 79.9502),
-        'https://example.com/profile36.jpg',
+        '36.jpg',
         35,
         24,
         34
@@ -905,7 +905,7 @@ VALUES (
         'Female',
         'Animal rights advocate.',
         POINT(6.5804, 79.9593),
-        'https://example.com/profile37.jpg',
+        '37.jpg',
         40,
         26,
         36
@@ -916,7 +916,7 @@ VALUES (
         'Male',
         'Fitness coach and adventure seeker.',
         POINT(6.5767, 79.9576),
-        'https://example.com/profile38.jpg',
+        '38.jpg',
         50,
         27,
         37
@@ -927,7 +927,7 @@ VALUES (
         'Female',
         'Art enthusiast and painter.',
         POINT(6.5791, 79.9545),
-        'https://example.com/profile39.jpg',
+        '39.jpg',
         25,
         23,
         33
@@ -938,7 +938,7 @@ VALUES (
         'Male',
         'Cyclist and marathon runner.',
         POINT(6.5786, 79.9523),
-        'https://example.com/profile40.jpg',
+        '40.jpg',
         30,
         24,
         34
@@ -949,7 +949,7 @@ VALUES (
         'Female',
         'Singer and songwriter.',
         POINT(6.5760, 79.9569),
-        'https://example.com/profile41.jpg',
+        '41.jpg',
         40,
         29,
         39
@@ -960,7 +960,7 @@ VALUES (
         'Male',
         'Beach lover and scuba diver.',
         POINT(6.5807, 79.9530),
-        'https://example.com/profile42.jpg',
+        '42.jpg',
         60,
         26,
         36
@@ -971,7 +971,7 @@ VALUES (
         'Female',
         'Enjoys creative writing.',
         POINT(6.5783, 79.9582),
-        'https://example.com/profile43.jpg',
+        '43.jpg',
         35,
         20,
         30
@@ -982,7 +982,7 @@ VALUES (
         'Male',
         'Cycling enthusiast.',
         POINT(6.5795, 79.9505),
-        'https://example.com/profile44.jpg',
+        '44.jpg',
         50,
         24,
         34
@@ -993,7 +993,7 @@ VALUES (
         'Female',
         'Interior designer.',
         POINT(6.5769, 79.9601),
-        'https://example.com/profile45.jpg',
+        '45.jpg',
         40,
         30,
         40
@@ -1004,7 +1004,7 @@ VALUES (
         'Male',
         'Photographer.',
         POINT(6.5789, 79.9510),
-        'https://example.com/profile46.jpg',
+        '46.jpg',
         45,
         27,
         37
@@ -1015,7 +1015,7 @@ VALUES (
         'Female',
         'Food blogger and traveler.',
         POINT(6.5762, 79.9548),
-        'https://example.com/profile47.jpg',
+        '47.jpg',
         30,
         23,
         33
@@ -1026,7 +1026,7 @@ VALUES (
         'Male',
         'Engineer with a love for technology.',
         POINT(6.5774, 79.9559),
-        'https://example.com/profile48.jpg',
+        '48.jpg',
         55,
         28,
         38
@@ -1037,7 +1037,7 @@ VALUES (
         'Female',
         'Pet lover.',
         POINT(6.5799, 79.9572),
-        'https://example.com/profile49.jpg',
+        '49.jpg',
         40,
         25,
         35
@@ -1048,7 +1048,7 @@ VALUES (
         'Male',
         'Avid biker.',
         POINT(6.5766, 79.9508),
-        'https://example.com/profile50.jpg',
+        '50.jpg',
         30,
         28,
         38
@@ -1059,7 +1059,7 @@ VALUES (
         'Female',
         'DIY expert.',
         POINT(6.5782, 79.9538),
-        'https://example.com/profile51.jpg',
+        '51.jpg',
         35,
         22,
         32
@@ -1070,7 +1070,7 @@ VALUES (
         'Male',
         'Loves cricket and rugby.',
         POINT(6.5768, 79.9579),
-        'https://example.com/profile52.jpg',
+        '52.jpg',
         50,
         26,
         36
@@ -1081,7 +1081,7 @@ VALUES (
         'Female',
         'Yoga and wellness enthusiast.',
         POINT(6.5793, 79.9542),
-        'https://example.com/profile53.jpg',
+        '53.jpg',
         25,
         23,
         33
@@ -1092,7 +1092,7 @@ VALUES (
         'Male',
         'Film enthusiast and aspiring director.',
         POINT(6.5776, 79.9515),
-        'https://example.com/profile54.jpg',
+        '54.jpg',
         45,
         27,
         37
@@ -1103,7 +1103,7 @@ VALUES (
         'Female',
         'Dreams of traveling the world.',
         POINT(6.5806, 79.9600),
-        'https://example.com/profile55.jpg',
+        '55.jpg',
         40,
         20,
         30
@@ -1114,7 +1114,7 @@ VALUES (
         'Male',
         'Car mechanic.',
         POINT(6.5785, 79.9529),
-        'https://example.com/profile56.jpg',
+        '56.jpg',
         60,
         30,
         40
@@ -1125,7 +1125,7 @@ VALUES (
         'Female',
         'Sculptor and artist.',
         POINT(6.5765, 79.9595),
-        'https://example.com/profile57.jpg',
+        '57.jpg',
         50,
         24,
         34
@@ -1136,7 +1136,7 @@ VALUES (
         'Male',
         'DJ and music producer.',
         POINT(6.5797, 79.9586),
-        'https://example.com/profile58.jpg',
+        '58.jpg',
         40,
         29,
         39
@@ -1147,7 +1147,7 @@ VALUES (
         'Female',
         'Animal rescuer.',
         POINT(6.5802, 79.9503),
-        'https://example.com/profile59.jpg',
+        '59.jpg',
         35,
         26,
         36
@@ -1158,7 +1158,7 @@ VALUES (
         'Male',
         'Blogger.',
         POINT(6.5778, 79.9567),
-        'https://example.com/profile60.jpg',
+        '60.jpg',
         30,
         21,
         31

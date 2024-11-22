@@ -4,6 +4,8 @@ const loader = document.getElementById('loader');
 const body = document.getElementById('body');
 const main = document.getElementById('main');
 const noPermissionsAlert = document.getElementById('no-location-permissions-alert');
+const noMatchesAlert = document.getElementById('no-matches-alert');
+const matchFoundAlert = document.getElementById('match-found-alert');
 const matchesContainer = document.getElementById('matches');
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -45,8 +47,13 @@ function getMatches(BASE_URL, user_id, latitude, longitude) {
 			loader?.classList.add('hidden');
 			console.log(res);
 
-			matches = res.map((user) => generateMatchElement(user_id, user, BASE_URL));
-			showNextAvailableMatch();
+			if (res.length > 0) {
+				matches = res.map((user) => generateMatchElement(user_id, user, BASE_URL));
+				showNextAvailableMatch();
+			} else {
+				matchesContainer.classList.add('hidden');
+				noMatchesAlert.classList.remove('hidden');
+			}
 		});
 }
 
@@ -72,7 +79,7 @@ function generateMatchElement(user_id, match, BASE_URL) {
 	});
 
 	matchElement = `
-	            <div class="match">
+			<div class="match" data-user-id="${match_user_id}">
                 <div class="match-banner">
                     <img src="${profile_picture_url}" alt="${first_name} ${last_name} profile picture">
                     <div class="match-banner-data">
@@ -147,7 +154,10 @@ function showNextAvailableMatch() {
 	if (matches.length > 0) {
 		const match = matches.shift();
 		matchesContainer.innerHTML = match.element;
-	} else matchesContainer.innerHTML = '';
+	} else {
+		matchesContainer.classList.add('hidden');
+		noMatchesAlert.classList.remove('hidden');
+	}
 }
 
 async function setMatchInteractionStatus(user_id, match_user_id, status, BASE_URL) {
@@ -163,18 +173,46 @@ async function setMatchInteractionStatus(user_id, match_user_id, status, BASE_UR
 
 function likeMatch(user_id, match_id, BASE_URL) {
 	setMatchInteractionStatus(user_id, match_id, 'LIKED', BASE_URL)
-		.then(() => {
+		.then((res) => {
+			console.log(`Liked match id ${match_id}: `, res);
+
 			matches = matches.filter((match) => match.user_id !== match_id);
-			showNextAvailableMatch();
+
+			if (res.is_a_match) {
+				const { match_user_data, match_id, chat_id, notification_ids } = res;
+
+				matchesContainer.classList.add('hidden');
+				matchFoundAlert.classList.remove('hidden');
+				matchFoundAlert.dataset.matchId = match_id;
+				matchFoundAlert.dataset.chatId = chat_id;
+				matchFoundAlert.dataset.notificationIds = notification_ids.join(',');
+				matchFoundAlert.querySelector('#matched-user-name').textContent = match_user_data.first_name;
+				matchFoundAlert
+					.querySelector('#matched-user-profile-picture')
+					.setAttribute('src', match_user_data.profile_picture_url);
+			} else showNextAvailableMatch();
 		})
-		.catch(() => alert('Failed to like match.'));
+		.catch((err) => {
+			alert('Failed to like match.');
+			console.warn(err);
+		});
 }
 
 function dislikeMatch(user_id, match_id, BASE_URL) {
 	setMatchInteractionStatus(user_id, match_id, 'REJECTED', BASE_URL)
-		.then(() => {
+		.then((res) => {
+			console.log(`Disliked match id ${match_id}: `, res);
 			matches = matches.filter((match) => match.user_id !== match_id);
 			showNextAvailableMatch();
 		})
-		.catch(() => alert('Failed to dislike match.'));
+		.catch((err) => {
+			alert('Failed to dislike match.');
+			console.warn(err);
+		});
+}
+
+function hideMatchFoundAlert() {
+	matchFoundAlert.classList.add('hidden');
+	matchesContainer.classList.remove('hidden');
+	showNextAvailableMatch();
 }
