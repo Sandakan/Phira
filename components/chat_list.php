@@ -1,11 +1,13 @@
 <nav class="chats">
-        <h1>Chats</h1>
-        <div class="chats-container">
+<div class="chats-container">       
+<h1>Chats</h1>
+       
 
-            <div class="search-bar">
+            <lable class="search-bar">
                 <span class="icons material-symbols-rounded">search</span>
-                <p>search</p>
-            </div>
+                
+                <input type="search" placeholder="search">
+            </lable>
             <div class="chats-list">
                 <div class="chat-profile">
                     <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="" class="profile-img">

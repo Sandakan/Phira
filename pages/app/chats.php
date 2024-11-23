@@ -21,6 +21,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chats - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/app.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/sidebar.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/chats.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
@@ -28,7 +29,17 @@ session_start();
 
 <body>
     <?php include('../../components/sidebar.php') ?>
-    <?php include('../../components/chat_list.php') ?>
+    <main>
+        <?php include('../../components/chat_list.php') ?>
+        <section>
+            <div>
+                <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
+                <h1>Anjalee Nethmi</h1>
+                <p>Online</p>
+                <span class="material-symbols-outlined">info</span>
+            </div>
+        </section>
+    </main>
 </body>
 
 </html>
