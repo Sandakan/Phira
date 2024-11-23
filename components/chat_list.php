@@ -33,6 +33,7 @@ $statement->execute();
 $chats = $statement->fetchAll();
 ?>
 <nav class="chats">
+<<<<<<<<< Temporary merge branch 1
 <div class="chats-container">       
 <h1>Chats</h1>
        
@@ -105,12 +106,14 @@ $chats = $statement->fetchAll();
                     </div>
                 </div>
             </div>
+=========
     <h1>Chats</h1>
     <div class="chats-container">
 
         <div class="search-bar">
             <span class="icons material-symbols-rounded">search</span>
             <p>search</p>
+>>>>>>>>> Temporary merge branch 2
         </div>
 
         <div class="chats-list">
@@ -143,5 +146,4 @@ $chats = $statement->fetchAll();
             }
             ?>
         </div>
-    </div>
 </nav>
