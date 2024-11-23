@@ -53,6 +53,7 @@
 	-moz-osx-font-smoothing: grayscale;
 	font-feature-settings: 'liga';
 	font-size: inherit;
+	line-height: 1;
 }
 
 .material-symbols-rounded-filled {

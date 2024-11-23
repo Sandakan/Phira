@@ -729,7 +729,7 @@ VALUES (
         'Male',
         'Guitarist and songwriter.',
         POINT(6.9275, 79.8572),
-        '21.jpg',
+        '1.jpg',
         35,
         22,
         32
@@ -740,7 +740,7 @@ VALUES (
         'Female',
         'DIY enthusiast and blogger.',
         POINT(6.9298, 79.8625),
-        '22.jpg',
+        '2.jpg',
         50,
         26,
         36
@@ -751,7 +751,7 @@ VALUES (
         'Male',
         'Chef and restaurant owner.',
         POINT(6.9219, 79.8594),
-        '23.jpg',
+        '3.jpg',
         25,
         23,
         33
@@ -762,7 +762,7 @@ VALUES (
         'Female',
         'Digital nomad and podcaster.',
         POINT(6.9286, 79.8602),
-        '24.jpg',
+        '4.jpg',
         45,
         27,
         37
@@ -773,7 +773,7 @@ VALUES (
         'Male',
         'Martial artist and mentor.',
         POINT(6.9320, 79.8579),
-        '25.jpg',
+        '5.jpg',
         40,
         20,
         30
@@ -784,7 +784,7 @@ VALUES (
         'Female',
         'Gardener and eco-warrior.',
         POINT(6.9251, 79.8664),
-        '26.jpg',
+        '6.jpg',
         60,
         30,
         40
@@ -795,7 +795,7 @@ VALUES (
         'Male',
         'Hiker and wildlife photographer.',
         POINT(6.9216, 79.8630),
-        '27.jpg',
+        '7.jpg',
         50,
         24,
         34
@@ -806,7 +806,7 @@ VALUES (
         'Female',
         'Coffee shop owner and designer.',
         POINT(6.9269, 79.8612),
-        '28.jpg',
+        '8.jpg',
         40,
         29,
         39
@@ -817,7 +817,7 @@ VALUES (
         'Male',
         'Architect and urban planner.',
         POINT(6.9302, 79.8640),
-        '29.jpg',
+        '9.jpg',
         35,
         26,
         36
@@ -828,7 +828,7 @@ VALUES (
         'Female',
         'Freelance writer and yoga instructor.',
         POINT(6.9285, 79.8563),
-        '30.jpg',
+        '10.jpg',
         30,
         21,
         31
@@ -839,7 +839,7 @@ VALUES (
         'Female',
         'Nature lover and avid photographer.',
         POINT(6.5773, 79.9604),
-        '31.jpg',
+        '11.jpg',
         50,
         25,
         35
@@ -850,7 +850,7 @@ VALUES (
         'Male',
         'Passionate about adventure sports.',
         POINT(6.5759, 79.9580),
-        '32.jpg',
+        '12.jpg',
         40,
         28,
         40
@@ -861,7 +861,7 @@ VALUES (
         'Female',
         'Loves cooking and exploring cultures.',
         POINT(6.5801, 79.9562),
-        '33.jpg',
+        '13.jpg',
         30,
         22,
         32
@@ -872,7 +872,7 @@ VALUES (
         'Male',
         'Tech enthusiast and gaming lover.',
         POINT(6.5784, 79.9536),
-        '34.jpg',
+        '14.jpg',
         60,
         27,
         37
@@ -883,7 +883,7 @@ VALUES (
         'Female',
         'Explorer with a love for hiking.',
         POINT(6.5798, 79.9518),
-        '35.jpg',
+        '15.jpg',
         20,
         21,
         31
@@ -894,7 +894,7 @@ VALUES (
         'Male',
         'Coffee lover and bookworm.',
         POINT(6.5779, 79.9502),
-        '36.jpg',
+        '16.jpg',
         35,
         24,
         34
@@ -905,7 +905,7 @@ VALUES (
         'Female',
         'Animal rights advocate.',
         POINT(6.5804, 79.9593),
-        '37.jpg',
+        '17.jpg',
         40,
         26,
         36
@@ -916,7 +916,7 @@ VALUES (
         'Male',
         'Fitness coach and adventure seeker.',
         POINT(6.5767, 79.9576),
-        '38.jpg',
+        '18.jpg',
         50,
         27,
         37
@@ -927,7 +927,7 @@ VALUES (
         'Female',
         'Art enthusiast and painter.',
         POINT(6.5791, 79.9545),
-        '39.jpg',
+        '19.jpg',
         25,
         23,
         33
@@ -938,7 +938,7 @@ VALUES (
         'Male',
         'Cyclist and marathon runner.',
         POINT(6.5786, 79.9523),
-        '40.jpg',
+        '20.jpg',
         30,
         24,
         34
@@ -949,7 +949,7 @@ VALUES (
         'Female',
         'Singer and songwriter.',
         POINT(6.5760, 79.9569),
-        '41.jpg',
+        '1.jpg',
         40,
         29,
         39
@@ -960,7 +960,7 @@ VALUES (
         'Male',
         'Beach lover and scuba diver.',
         POINT(6.5807, 79.9530),
-        '42.jpg',
+        '2.jpg',
         60,
         26,
         36
@@ -971,7 +971,7 @@ VALUES (
         'Female',
         'Enjoys creative writing.',
         POINT(6.5783, 79.9582),
-        '43.jpg',
+        '3.jpg',
         35,
         20,
         30
@@ -982,7 +982,7 @@ VALUES (
         'Male',
         'Cycling enthusiast.',
         POINT(6.5795, 79.9505),
-        '44.jpg',
+        '4.jpg',
         50,
         24,
         34
@@ -993,7 +993,7 @@ VALUES (
         'Female',
         'Interior designer.',
         POINT(6.5769, 79.9601),
-        '45.jpg',
+        '5.jpg',
         40,
         30,
         40
@@ -1004,7 +1004,7 @@ VALUES (
         'Male',
         'Photographer.',
         POINT(6.5789, 79.9510),
-        '46.jpg',
+        '6.jpg',
         45,
         27,
         37
@@ -1015,7 +1015,7 @@ VALUES (
         'Female',
         'Food blogger and traveler.',
         POINT(6.5762, 79.9548),
-        '47.jpg',
+        '7.jpg',
         30,
         23,
         33
@@ -1026,7 +1026,7 @@ VALUES (
         'Male',
         'Engineer with a love for technology.',
         POINT(6.5774, 79.9559),
-        '48.jpg',
+        '8.jpg',
         55,
         28,
         38
@@ -1037,7 +1037,7 @@ VALUES (
         'Female',
         'Pet lover.',
         POINT(6.5799, 79.9572),
-        '49.jpg',
+        '9.jpg',
         40,
         25,
         35
@@ -1048,7 +1048,7 @@ VALUES (
         'Male',
         'Avid biker.',
         POINT(6.5766, 79.9508),
-        '50.jpg',
+        '10.jpg',
         30,
         28,
         38
@@ -1059,7 +1059,7 @@ VALUES (
         'Female',
         'DIY expert.',
         POINT(6.5782, 79.9538),
-        '51.jpg',
+        '11.jpg',
         35,
         22,
         32
@@ -1070,7 +1070,7 @@ VALUES (
         'Male',
         'Loves cricket and rugby.',
         POINT(6.5768, 79.9579),
-        '52.jpg',
+        '12.jpg',
         50,
         26,
         36
@@ -1081,7 +1081,7 @@ VALUES (
         'Female',
         'Yoga and wellness enthusiast.',
         POINT(6.5793, 79.9542),
-        '53.jpg',
+        '13.jpg',
         25,
         23,
         33
@@ -1092,7 +1092,7 @@ VALUES (
         'Male',
         'Film enthusiast and aspiring director.',
         POINT(6.5776, 79.9515),
-        '54.jpg',
+        '14.jpg',
         45,
         27,
         37
@@ -1103,7 +1103,7 @@ VALUES (
         'Female',
         'Dreams of traveling the world.',
         POINT(6.5806, 79.9600),
-        '55.jpg',
+        '15.jpg',
         40,
         20,
         30
@@ -1114,7 +1114,7 @@ VALUES (
         'Male',
         'Car mechanic.',
         POINT(6.5785, 79.9529),
-        '56.jpg',
+        '16.jpg',
         60,
         30,
         40
@@ -1125,7 +1125,7 @@ VALUES (
         'Female',
         'Sculptor and artist.',
         POINT(6.5765, 79.9595),
-        '57.jpg',
+        '17.jpg',
         50,
         24,
         34
@@ -1136,7 +1136,7 @@ VALUES (
         'Male',
         'DJ and music producer.',
         POINT(6.5797, 79.9586),
-        '58.jpg',
+        '18.jpg',
         40,
         29,
         39
@@ -1147,7 +1147,7 @@ VALUES (
         'Female',
         'Animal rescuer.',
         POINT(6.5802, 79.9503),
-        '59.jpg',
+        '19.jpg',
         35,
         26,
         36
@@ -1158,7 +1158,7 @@ VALUES (
         'Male',
         'Blogger.',
         POINT(6.5778, 79.9567),
-        '60.jpg',
+        '20.jpg',
         30,
         21,
         31

@@ -1,4 +1,4 @@
-﻿@import url('./variables.css');
+@import url('./variables.css');
 @import url('./buttons.css');
 @import url('./fonts.css');
 
@@ -22,7 +22,7 @@ html {
 body {
 	min-height: 100vh;
 	position: relative;
-	background-color: var(--primary-background-color, #fff);
+	background: var(--primary-background-color, #fff);
 	color: var(--primary-font-color, #000);
 	/* overflow-x: hidden; */
 }
@@ -288,4 +288,8 @@ main > .loader > .loader-circle {
 	100% {
 		transform: rotate(360deg);
 	}
+}
+
+body.match-found {
+	background: linear-gradient(45deg, hsl(22, 100%, 70%), hsl(43, 90%, 70%));
 }

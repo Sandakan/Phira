@@ -1,23 +1,31 @@
-/* ------------------Login Form------------------- */
-.container {
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+body > .container {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	width: 100%;
 	height: 100vh;
+	max-width: 150rem;
 }
+
+/* ------------------Login Form------------------- */
 
 .login-form {
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
-	width: 300px;
+	gap: 1.25rem;
+	width: 18.75rem;
 }
 
 .login-form input {
-	padding: 10px 15px;
+	padding: 0.625rem 0.9375rem;
 	font-size: 1.5rem;
 	font-weight: 400;
-	border: 1px solid #ccc;
+	border: 0.0625rem solid #ccc;
 	border-radius: 2.9375rem;
 	outline: none;
 	width: 40.3125rem;
@@ -29,7 +37,7 @@
 }
 
 .forgot-password {
-	font-size: 12px;
+	font-size: 0.75rem;
 	color: var(--primary-font-color-varient);
 	text-decoration: none;
 	font-size: 1rem;
@@ -73,15 +81,15 @@ button:hover {
 }
 
 #next-button {
-	margin-top: 30px;
-	padding: 10px 20px;
-	width: 100px;
+	margin-top: 1.875rem;
+	padding: 0.625rem 1.25rem;
+	width: 6.25rem;
 	background-color: var(--primary-highlight-color);
 	border: none;
 	color: var(--secondary-font-color);
-	border-radius: 30px;
+	border-radius: 1.875rem;
 	cursor: pointer;
-	font-size: 16px;
+	font-size: 1rem;
 }
 
 #next-button:hover {
@@ -122,6 +130,7 @@ button:hover {
 
 :is(.photo-reel, .photo-reel1) > img {
 	height: 100%;
+	object-fit: cover;
 }
 .right-panel {
 	display: flex;
@@ -187,16 +196,34 @@ button:hover {
 	justify-content: center;
 	padding-right: 4.375rem;
 }
-.verification-form-actions-container a{
+.verification-form-actions-container a {
 	font-size: 1.875rem;
 	font-weight: bold;
 	width: 19.375rem;
 	height: 4.6875rem;
 	background-color: var(--primary-highlight-color);
 	color: var(--secondary-font-color);
-}	
+}
 .input-container h1 {
 	font-size: 4.375rem;
 	font-weight: bold;
-	
+}
+/* ----- Forgot Password ----- */
+
+.forgotPassword-container :is(.photo-reel, .photo-reel1) {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1.5rem;
+	height: 100%;
+}
+
+.forgotPassword-container :is(.photo-reel, .photo-reel1) > img {
+	height: 100%;
+}
+
+.forgot-password-h1 {
+	font-size: 3.4375rem;
+	font-weight: bold;
+	text-align: left;
 }
