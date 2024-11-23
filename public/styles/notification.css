@@ -1,0 +1,98 @@
+body {
+  display: flex;
+  flex-direction: row;
+}
+nav {
+  max-width: 505px;
+}
+.nav-bar {
+  display: flex;
+  flex-direction: column;
+}
+.nav-bar h1 {
+  font-size: 48px;
+  font-weight: 600;
+  margin-left: 2rem;
+}
+
+.notification-panal {
+  display: flex;
+}
+.notification-types {
+  display: flex;
+  align-items: center;
+}
+.material-symbols-rounded {
+  font-size: 24px;
+  margin-left: 2rem;
+}
+.notification-details {
+  display: block;
+}
+.notification-details h2 {
+  font-size: 20px;
+}
+.notification-details p {
+  font-size: 16px;
+}
+
+.notification-time p {
+  font-size: 14px;
+  color: #cccccc;
+}
+
+/*------------ Birthday Notification -----------*/
+
+/*.notification-birthday{
+  display: flex;
+}*/
+.notification-birthday-h {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  border-bottom-style: solid;
+  margin-right: -1082px;
+  border-color: var(--sidebar-nav-button-background-color);
+}
+.notification-birthday-h3 h2 {
+  display: flex;
+  align-items: center;
+  margin-left: 50px;
+}
+.notification-birthday-img {
+  margin-left: 100px;
+  margin-top: 17px;
+}
+.notification-birthday-notice {
+  width: 1051px;
+  height: 121px;
+  border-style: solid;
+  border-color: var(--primary-background-color);
+  background-color: var(--secondary-background-color);
+  border-radius: 16px;
+  margin-left: 114px;
+  margin-top: 32px;
+  padding: 17px;
+}
+.notification-birthday-btn {
+  width: 17.6875rem;
+  height: 45px;
+  border-radius: 2.75rem;
+  border-color: var(--primary-button-background-color);
+  background-color: var(--primary-button-background-color);
+  font-size: 1.0625rem;
+  color: var(--primary-highlight-color);
+}
+.notification-birthday-btn-2 {
+  display: flex;
+  gap: 10px;
+  margin-left: 60px;
+  margin-right: -322px;
+  padding-left: 47px;
+}
+.btn .btn-primary{
+  width: 1px;
+}
+.notification-birthday-reel{
+  margin-left: 93px;
+}
