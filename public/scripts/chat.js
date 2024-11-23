@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function initializeChatWebSocket(userId) {
-	chatWebSocket = new WebSocket(`ws://localhost:8080/chat?user_id=${userId}`);
+	chatWebSocket = new WebSocket(`ws://localhost:8080/chats?user_id=${userId}`);
 
 	chatWebSocket.onopen = () => {
 		console.log('Connected to WebSocket server');
