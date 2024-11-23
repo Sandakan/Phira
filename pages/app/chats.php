@@ -27,7 +27,7 @@ session_start();
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
-<body>
+<body id="body" class="" data-base-url="<?php echo BASE_URL; ?>" data-user-id="<?php echo $_SESSION["user_id"]; ?>">
     <?php include('../../components/sidebar.php') ?>
     <main>
         <?php include('../../components/chat_list.php') ?>
@@ -40,6 +40,8 @@ session_start();
             </div>
         </section>
     </main>
+
+    <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js"></script>
 </body>
 
 </html>
