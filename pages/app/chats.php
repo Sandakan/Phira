@@ -43,12 +43,27 @@ session_start();
                 </div>
             </div>
             <div class="message-container">
-
+                <div class="reserved-message">
+                    <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
+                    <div class="message">
+                        <p>Explorer at heart, always seeking the next adventure. Whether it's hiking up a mountain or
+                            diving
+                            into a new book, I'm all about the journey. Let's make some memories together!</p>
+                    </div>
+                </div>
+                <div class="reserved-message">
+                    <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
+                    <div class="message">
+                        <p>Explorer at heart, always seeking the next adventure. Whether it's hiking up a mountain or
+                            diving
+                            into a new book, I'm all about the journey. Let's make some memories together!</p>
+                    </div>
+                </div>
             </div>
             <div class="message-input-container">
                 <div class="type-area">
                     <p>
-                    Type your message here 
+                        Type your message here
                     </p>
                 </div>
                 <span class="privacy-icon material-symbols-rounded">send</span>

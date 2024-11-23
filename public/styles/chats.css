@@ -162,6 +162,7 @@ section {
   display: flex;
   justify-content: space-between;
   padding: 24px 20px 24px 30px;
+  box-shadow: 0px -5px 20px var(--secondary-background-color);
 }
 .type-area {
   display: flex;
@@ -170,4 +171,22 @@ section {
   border-radius: 1.25rem;
   background-color: var(--secondary-background-color);
   padding-left: 1.8rem;
+}
+
+.reserved-message{
+	display: flex;
+	width: 100%;
+	gap: .625rem;
+}
+.reserved-message img{
+	width: 2.1875rem;
+	height: 2.1875rem;
+}
+.message{
+	width: 75%;
+	font-size: 1rem;
+	font-weight: 400;
+	background-color: var(--secondary-background-color);
+	border-radius: 1.25rem;
+	padding: 1.25rem;
 }
