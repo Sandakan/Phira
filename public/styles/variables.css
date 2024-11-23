@@ -15,6 +15,7 @@
 	--primary-button-background-color: hsl(0, 100%, 66%, 0.25);
 	--primary-button-hover-background-color: hsl(0, 0%, 0%);
 
+	/* SIDEBAR */
 	--sidebar-nav-button-active-font-color: var(--primary-highlight-color);
 	--sidebar-nav-button-active-background-color: hsl(0, 100%, 66%, 0.25);
 
