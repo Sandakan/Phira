@@ -7,5 +7,5 @@
             <input type="search" placeholder="search">
         </label>
 
-        <div class="chats-list"></div>
+        <div class="chats-list" id="chat-list"></div>
 </nav>

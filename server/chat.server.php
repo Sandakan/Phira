@@ -1,110 +1,70 @@
 <?php
+require '../config.php';
+require '../utils/database.php';
 
-use Ratchet\MessageComponentInterface;
-use Ratchet\ConnectionInterface;
 
-require_once '../vendor/autoload.php';
-require_once '../config.php';
-require_once '../utils/database.php';
+$conn = initialize_database();
 
-class ChatWebSocketServer implements MessageComponentInterface
+function getUserChatList($user_id, PDO $conn)
 {
-    protected $clients;
-    protected $userConnections = [];
+    $sql = <<< SQL
+    SELECT
+        C.chat_id,
+        C.match_id,
+        ( CASE WHEN MA.user1_id = :user_id THEN MA.user2_id ELSE MA.user1_id END ) AS interacted_user_id,
+        U.first_name AS interacted_user_first_name,
+        U.last_name AS interacted_user_last_name,
+        P.profile_picture_url AS interacted_user_profile_picture,
+        M.message AS last_message,
+        M.updated_at AS last_message_time 
+    FROM
+        chats AS C
+        INNER JOIN matches AS MA ON C.match_id = MA.match_id
+        LEFT JOIN ( SELECT chat_id, message, updated_at FROM messages WHERE deleted_at IS NULL ORDER BY updated_at DESC LIMIT :user_id ) AS M ON C.chat_id = M.chat_id
+        INNER JOIN users AS U ON ( CASE WHEN MA.user1_id = :user_id THEN MA.user2_id ELSE MA.user1_id END ) = U.user_id
+        LEFT JOIN PROFILES AS P ON U.user_id = P.user_id 
+    WHERE
+        ( MA.user1_id = :user_id OR MA.user2_id = :user_id ) 
+        AND C.deleted_at IS NULL 
+    ORDER BY
+        M.updated_at DESC;
+    SQL;
 
-    public function __construct()
-    {
-        $this->clients = new \SplObjectStorage;
-    }
+    $statement = $conn->prepare($sql);
+    $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $statement->execute();
 
-    public function onOpen(ConnectionInterface $conn)
-    {
-        $queryParams = $conn->httpRequest->getUri()->getQuery();
-        parse_str($queryParams, $params);
+    $chats = $statement->fetchAll();
 
-        if (!isset($params['user_id'])) {
-            $conn->close();
-            return;
-        }
+    return $chats;
+}
 
-        $userId = (int)$params['user_id'];
+$response = array(
+    "success" => true,
+    "error" => null
+);
 
-        // Attach the connection and store by user ID
-        $this->clients->attach($conn);
-        $this->userConnections[$userId][] = $conn;
+try {
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        if ($_GET["reason"] == "get_user_chat_list" && isset($_GET["user_id"])) {
+            $user_id = $_GET["user_id"];
 
-        echo "User $userId connected\n";
-    }
+            $userChatList = getUserChatList($user_id, $conn);
+            $response["userChatList"] = $userChatList;
 
-    public function onMessage(ConnectionInterface $from, $msg)
-    {
-        $data = json_decode($msg, true);
-
-        if (!isset($data['chat_id'], $data['sender_id'], $data['receiver_id'], $data['content'])) {
-            return;
-        }
-
-        $chatId = (int)$data['chat_id'];
-        $senderId = (int)$data['sender_id'];
-        $receiverId = (int)$data['receiver_id'];
-        $content = $data['content'];
-
-        // // Save the message to the database
-        // global $db;
-        // $stmt = $db->prepare("
-        //     INSERT INTO messages (chat_id, sender_id, receiver_id, content)
-        //     VALUES (:chat_id, :sender_id, :receiver_id, :content)
-        // ");
-        // $stmt->execute([
-        //     'chat_id' => $chatId,
-        //     'sender_id' => $senderId,
-        //     'receiver_id' => $receiverId,
-        //     'content' => $content,
-        // ]);
-
-        // Notify relevant users
-        $this->notifyUsers($chatId, $senderId, $receiverId, $content);
-    }
-
-    public function notifyUsers($chatId, $senderId, $receiverId, $content)
-    {
-        $message = json_encode([
-            'chat_id' => $chatId,
-            'sender_id' => $senderId,
-            'content' => $content,
-        ]);
-
-        // Notify sender and receiver if connected
-        foreach ([$senderId, $receiverId] as $userId) {
-            if (isset($this->userConnections[$userId])) {
-                foreach ($this->userConnections[$userId] as $conn) {
-                    $conn->send($message);
-                }
-            }
+            echo json_encode($response);
+            flush();
+            exit();
         }
     }
 
-    public function onClose(ConnectionInterface $conn)
-    {
-        $this->clients->detach($conn);
+    $response["success"] = false;
+    $response["error"] = "Invalid request";
 
-        // Remove the connection from userConnections
-        foreach ($this->userConnections as $userId => $connections) {
-            $this->userConnections[$userId] = array_filter($connections, function ($clientConn) use ($conn) {
-                return $clientConn !== $conn;
-            });
+    echo json_encode($response);
+} catch (Exception $e) {
+    $response["success"] = false;
+    $response["error"] = $e->getMessage();
 
-            if (empty($this->userConnections[$userId])) {
-                unset($this->userConnections[$userId]);
-            }
-        }
-
-        echo "Connection closed\n";
-    }
-
-    public function onError(ConnectionInterface $conn, \Exception $e)
-    {
-        echo "Error: " . $e->getMessage() . "\n";
-        $conn->close();
-    }
+    echo json_encode($response);
 }

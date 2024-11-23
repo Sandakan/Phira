@@ -4,7 +4,7 @@ require_once '../vendor/autoload.php';
 require_once '../config.php';
 require_once '../utils/database.php';
 
-require './chat.server.php';
+require './chat.websocket.php';
 
 use ChatWebSocketServer;
 
