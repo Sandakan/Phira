@@ -46,12 +46,8 @@ session_start();
 
             </div>
             <div class="message-input-container">
-                <div class="type-area">
-                    <p>
-                    Type your message here 
-                    </p>
-                </div>
-                <span class="privacy-icon material-symbols-rounded">send</span>
+                <textarea class="type-area" id="message-input" placeholder="Type a message..."></textarea>
+                <button onclick="sendMessage()"><span class="privacy-icon material-symbols-rounded">send</span></button>
             </div>
         </section>
     </main>

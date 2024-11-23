@@ -3,11 +3,11 @@
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
-require '../vendor/autoload.php';
-require '../config.php';
-require '../utils/database.php';
+require_once '../vendor/autoload.php';
+require_once '../config.php';
+require_once '../utils/database.php';
 
-class ChatServer implements MessageComponentInterface
+class ChatWebSocketServer implements MessageComponentInterface
 {
     protected $clients;
     protected $userConnections = [];
@@ -108,7 +108,3 @@ class ChatServer implements MessageComponentInterface
         $conn->close();
     }
 }
-
-$app = new Ratchet\App('localhost', 8080);
-$app->route('/chat', new ChatServer, ['*']);
-$app->run();
