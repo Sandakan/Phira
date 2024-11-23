@@ -6,10 +6,10 @@ require '../../utils/authenticate.php';
 $conn = initialize_database();
 session_start();
 
-// authenticate(array("USER"));
-// if (!isset($_SESSION["onboarding_completed"])) {
-//     header("Location: " . BASE_URL . "/login.php");
-// }
+authenticate(array("USER"));
+if (!isset($_SESSION["onboarding_completed"])) {
+    header("Location: " . BASE_URL . "/login.php");
+}
 
 ?>
 
@@ -51,7 +51,7 @@ session_start();
                             into a new book, I'm all about the journey. Let's make some memories together!</p>
                     </div>
                 </div>
-                <div class="reserved-message">
+                <div class="send-message">
                     <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
                     <div class="message">
                         <p>Explorer at heart, always seeking the next adventure. Whether it's hiking up a mountain or

@@ -154,6 +154,7 @@ section {
 }
 .message-container {
   flex: 1;
+  gap: 1.25rem;
 }
 
 .message-input-container {
@@ -189,4 +190,11 @@ section {
 	background-color: var(--secondary-background-color);
 	border-radius: 1.25rem;
 	padding: 1.25rem;
+}
+.send-message{
+	display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+	width: 100%;
+	gap: .625rem;
 }
