@@ -33,13 +33,13 @@ $statement->execute();
 $chats = $statement->fetchAll();
 ?>
 <nav class="chats">
-    <h1>Chats</h1>
     <div class="chats-container">
+        <h1>Chats</h1>
 
-        <div class="search-bar">
+        <label class="search-bar">
             <span class="icons material-symbols-rounded">search</span>
-            <p>search</p>
-        </div>
+            <input type="search" placeholder="search">
+        </label>
 
         <div class="chats-list">
             <?php
@@ -71,5 +71,4 @@ $chats = $statement->fetchAll();
             }
             ?>
         </div>
-    </div>
 </nav>
