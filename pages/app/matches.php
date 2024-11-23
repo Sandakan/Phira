@@ -28,8 +28,7 @@ if (!isset($_SESSION["onboarding_completed"])) {
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
-<body id="body" class="" data-base-url="<?php echo BASE_URL; ?>"
-    data-user-id="<?php echo $_SESSION["user_id"]; ?>">
+<body id="body" class="" data-base-url="<?php echo BASE_URL; ?>" data-user-id="<?php echo $_SESSION["user_id"]; ?>">
     <?php include('../../components/sidebar.php') ?>
 
     <main id="main">
@@ -37,7 +36,7 @@ if (!isset($_SESSION["onboarding_completed"])) {
 
         <?php include('../../components/loader.php') ?>
         <?php include('../../components/no_location_permission_alert.php') ?>
-        <?php include('../../components/no_matches_alert.php') ?> -->
+        <?php include('../../components/no_matches_alert.php') ?>
         <?php include('../../components/match_found_alert.php') ?>
     </main>
 

@@ -17,10 +17,10 @@ $profile_picture_url = BASE_URL . "/private/media/user_photos/" . $_SESSION["pro
     <p>You have a match with <span id="matched-user-name">Nila</span>.</p>
 
     <div class="buttons-container">
-        <button class="btn btn-primary" id="say-something-nice-btn">
+        <a href="<?php echo BASE_URL . '/pages/app/chats.php'; ?>" class="btn btn-primary" id="say-something-nice-btn">
             <span class="material-symbols-rounded">chat</span>
             Say something nice
-        </button>
+        </a>
         <button class="btn btn-primary" id="find-more-matches-btn" onclick="reload()">
             <span class="material-symbols-rounded">explore</span>
             Find more matches
