@@ -81,6 +81,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $distance_range = $row["distance_range"];
             $biography = $row["biography"];
 
+            // Login activity: When User logged in
+            try {
+                $activity_query = <<< SQL
+                    INSERT INTO activities (user_id, activity_type, activity_timestamp)
+                    VALUES (:user_id, :activity_type, :activity_timestamp)
+                SQL;
+
+                $activity_stmt = $conn->prepare($activity_query);
+                $activity_stmt->execute([
+                    ':user_id' => $row["user_id"],
+                    ':activity_type' => 'LOGIN',
+                    ':activity_timestamp' => date('Y-m-d H:i:s')
+                ]);
+            } catch (PDOException $e) {
+                error_log("Activity log error: " . $e->getMessage());
+            }
+
+            // Redirect based on onboarding status
             if (isset($row["onboarding_completed_at"])) {
                 if (isset($_GET['redirect'])) {
                     $redirectUrl = urldecode($_GET['redirect']);
