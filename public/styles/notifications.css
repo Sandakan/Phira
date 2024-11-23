@@ -10,7 +10,6 @@ nav{
   display: flex;
   flex-direction: column;
   border-right: solid var(--secondary-background-color);
- 
   margin: 0;
 
 }
@@ -25,7 +24,6 @@ nav{
 .notification-panal{
   display: flex;
   flex-direction: column;
-  
   
 }
 
@@ -74,9 +72,7 @@ nav{
 .notification-times {
  display: flex;
  flex-direction: column;
- padding-left: 5px;
- 
-  
+ padding-left: 5px; 
 }
 
 .notification-time{
@@ -97,5 +93,4 @@ color:var(--secondary-background-color) ;
   width: 36px; 
   height: 24px; 
 
-  
 }
