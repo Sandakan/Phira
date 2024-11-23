@@ -31,40 +31,7 @@ if (!isset($_SESSION["onboarding_completed"])) {
     <?php include('../../components/sidebar.php') ?>
     <main>
         <?php include('../../components/chat_list.php') ?>
-        <section id="chat-container">
-            <div class="user-chat-profile">
-                <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
-                <div class="user-info-container">
-                    <div class="user-info">
-                        <h1>Anjalee Nethmi</h1>
-                        <p>Online</p>
-                    </div>
-                    <span class="privacy-icon material-symbols-rounded">info</span>
-                </div>
-            </div>
-            <div class="messages-container">
-                <div class="message-container receiver-message">
-                    <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
-                    <div class="message">
-                        <p>Explorer at heart, always seeking the next adventure. Whether it's hiking up a mountain or
-                            diving
-                            into a new book, I'm all about the journey. Let's make some memories together!</p>
-                    </div>
-                </div>
-                <div class="message-container sender-message">
-                    <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
-                    <div class="message">
-                        <p>Explorer at heart, always seeking the next adventure. Whether it's hiking up a mountain or
-                            diving
-                            into a new book, I'm all about the journey. Let's make some memories together!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="message-input-container">
-                <textarea class="type-area" id="message-input" placeholder="Type a message..."></textarea>
-                <button onclick="sendMessage()"><span class="privacy-icon material-symbols-rounded">send</span></button>
-            </div>
-        </section>
+        <section id="chat-container"></section>
     </main>
 
     <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js"></script>

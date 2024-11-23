@@ -39,6 +39,36 @@ function getUserChatList($user_id, PDO $conn)
     return $chats;
 }
 
+function getChatMessages($chat_id, PDO $conn)
+{
+    $sql = <<< SQL
+    SELECT
+        message_id,
+        chat_id,
+        sender_id,
+        message,
+        message_media_url,
+        message_type,
+        seen_at,
+        updated_at
+    FROM
+        messages
+    WHERE
+        chat_id = :chat_id
+        AND deleted_at IS NULL
+    ORDER BY
+        updated_at ASC;
+    SQL;
+
+    $statement = $conn->prepare($sql);
+    $statement->bindParam(':chat_id', $chat_id, PDO::PARAM_INT);
+    $statement->execute();
+
+    $messages =  $statement->fetchAll();
+
+    return $messages;
+}
+
 $response = array(
     "success" => true,
     "error" => null
@@ -51,6 +81,16 @@ try {
 
             $userChatList = getUserChatList($user_id, $conn);
             $response["userChatList"] = $userChatList;
+
+            echo json_encode($response);
+            flush();
+            exit();
+        }
+        if ($_GET["reason"] == "get_chat_messages" && isset($_GET["chat_id"])) {
+            $chat_id = $_GET["chat_id"];
+
+            $chatMessages = getChatMessages($chat_id, $conn);
+            $response["messages"] = $chatMessages;
 
             echo json_encode($response);
             flush();
