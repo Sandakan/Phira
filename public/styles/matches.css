@@ -24,7 +24,7 @@
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
-	max-width: 40rem;
+	max-width: 50%;
 	flex: 1;
 }
 
@@ -107,7 +107,7 @@
 }
 
 .match-info > .other-photos > .photo {
-	height: 10rem;
+	height: 100%;
 	border-radius: 0.5rem;
 }
 
@@ -141,6 +141,7 @@
 	gap: 2rem;
 	margin-top: 2.5rem;
 	margin-right: 2.5rem;
+	max-width: 40rem;
 }
 
 .match-actions-container > button {
@@ -190,4 +191,80 @@
 	background-color: hsl(0, 0%, 75%, 0.25);
 	color: hsl(0, 0%, 0%, 0.8);
 	border-color: transparent;
+}
+
+/* MATCH FOUND ALERT */
+.match-found-alert {
+	background: transparent;
+}
+
+.match-found-alert .close-btn {
+	position: absolute;
+	top: 2rem;
+	right: 2rem;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	outline: none;
+	padding: 0.5rem;
+	border-radius: 100rem;
+	font-size: 1.5rem;
+}
+
+.profile-pictures-container {
+	display: flex;
+	max-height: 15rem;
+	position: relative;
+}
+
+.profile-pictures-container > img {
+	height: 100%;
+	border-radius: 100rem;
+	aspect-ratio: 1/1;
+	object-fit: cover;
+	object-position: center;
+	position: relative;
+}
+
+.profile-pictures-container > img:first-child {
+	transform: translateX(1.5rem);
+	z-index: 1;
+}
+
+.match-found-alert > h1 {
+	font-size: 5rem;
+	font-weight: 800;
+	font-style: italic;
+	line-height: 1;
+	margin: 1rem 0 0.5rem 0;
+}
+
+.match-found-alert > p {
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+
+.match-found-alert > p > #matched-user-name {
+	font-weight: 600;
+}
+
+.match-found-alert .close-btn,
+.match-found-alert > .buttons-container > .btn {
+	background-color: hsla(0, 0%, 100%, 0.5);
+	color: var(--primary-font-color);
+}
+
+.match-found-alert > .buttons-container > .btn > .material-symbols-rounded {
+	font-size: 1.5rem;
+}
+
+.match-found-alert .close-btn:hover,
+.match-found-alert > .buttons-container > .btn:hover {
+	background-color: hsla(0, 0%, 100%, 0.75);
+}
+
+body:has(> main > section.match-found-alert:not(.hidden)) {
+	background: linear-gradient(45deg, hsl(22, 100%, 70%), hsl(43, 90%, 70%));
 }

@@ -1,6 +1,6 @@
 <?php
 
-require '../../utils/is_active_page.php';
+require_once ROOT_DIR . '/utils/is_active_page.php';
 
 $primary_links = array(
     array('name' => 'Matches', 'icon' => 'favorite', 'url' => '/pages/app/matches.php'),

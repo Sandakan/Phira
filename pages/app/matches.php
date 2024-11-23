@@ -28,7 +28,7 @@ if (!isset($_SESSION["onboarding_completed"])) {
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
-<body id="body" data-base-url="<?php echo BASE_URL; ?>" data-user-id="<?php echo $_SESSION["user_id"]; ?>">
+<body id="body" class="" data-base-url="<?php echo BASE_URL; ?>" data-user-id="<?php echo $_SESSION["user_id"]; ?>">
     <?php include('../../components/sidebar.php') ?>
 
     <main id="main">

@@ -539,7 +539,6 @@ input[type="radio"] {
 	
 	display:grid;
 	grid-template-columns: 1fr;
-	
 	gap: 3.125rem;
 }
 input[type='file']{
