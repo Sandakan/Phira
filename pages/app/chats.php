@@ -32,11 +32,26 @@ session_start();
     <main>
         <?php include('../../components/chat_list.php') ?>
         <section>
-            <div>
+            <div class="user-chat-profile">
                 <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
-                <h1>Anjalee Nethmi</h1>
-                <p>Online</p>
-                <span class="material-symbols-outlined">info</span>
+                <div class="user-info-container">
+                    <div class="user-info">
+                        <h1>Anjalee Nethmi</h1>
+                        <p>Online</p>
+                    </div>
+                    <span class="privacy-icon material-symbols-rounded">info</span>
+                </div>
+            </div>
+            <div class="message-container">
+
+            </div>
+            <div class="message-input-container">
+                <div class="type-area">
+                    <p>
+                    Type your message here 
+                    </p>
+                </div>
+                <span class="privacy-icon material-symbols-rounded">send</span>
             </div>
         </section>
     </main>
