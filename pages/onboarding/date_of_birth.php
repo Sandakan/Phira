@@ -19,7 +19,7 @@ function is_birthday_set($conn, $user_id)
 {
     try {
         // Check if a record already exists for this user_id in the profiles table
-        $check_query = <<< SQL
+        $check_query = <<<SQL
             SELECT
                 COUNT(*) AS count
             FROM
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $age = $current_date->diff($birth_date)->y;
 
         try {
-            $query = <<< SQL
+            $query = <<<SQL
             INSERT INTO
                 profiles (user_id, date_of_birth)
             VALUES (
@@ -99,28 +99,38 @@ is_birthday_set($conn, $user_id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Date of Birth - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
 
+    <div class="container dateOfBirth-container">
+        <div class="right-panel">
+            <img src="<?php echo BASE_URL; ?>/public/images/dateOfBirth/dateOfBirth-reel-1.png" alt="1">
+            <img src="<?php echo BASE_URL; ?>/public/images/dateOfBirth/dateOfBirth-reel-2.png" alt="2">
 
-    <div class="model-container register-model-container">
-        <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        </div>
+        <div class="left-panel">
+            <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
-            <div class="input-container">
-                <label for="birth_day">Your b-day</label>
-                <input type="date" name="birth_day" id="birth_day" placeholder="2000-01-01" required />
-                <span class="error-message"><?php echo $birth_day_error; ?></span>
-            </div>
 
-            <div class="register-form-actions-container">
-                <button class="btn-primary form-submit-btn" type="submit">Next</button>
-            </div>
-        </form>
+                <h1 class="dateOfBirth-h1">Your b-day?</h1>
+                <p class="dateOfBirth-p">Enter your date of birth to find better matches.</p>
+                <label class="radio-option">
+                    <input class="dateOfBirth-span" type="date" name="birth_day" id="birth_day" placeholder="2000-01-01"
+                        required />
+                    <span class="error-message"><?php echo $birth_day_error;?></span>
+                </label>
+
+                <div>
+                    <button class="next-btn" type="submit">Next</button>
+                </div>
+            </form>
+
+        </div>
 
     </div>
-
 </body>
 
 </html>

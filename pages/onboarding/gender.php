@@ -97,41 +97,45 @@ is_gender_set($conn, $user_id);
     <title>Select Your Gender - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/buttons.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 
 <body>
 
-    <div class="container">
+    <div class="container gender-container">
         <div class="left-panel">
 
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
-                <h1>What’s your gender?</h1>
-                <p>How do you roll?</p>
+                <h1 class="gender-h1">What’s your gender?</h1>
+                <p class="gender-p">How do you roll?</p>
                 <div class="gender-options">
                     <label class="radio-option">
                         <input type="radio" name="gender" value="Female">
-                        <span>Woman</span>
+                        <span class="gender-span">Woman</span>
                     </label>
                     <label class="radio-option">
                         <input type="radio" name="gender" value="Male">
-                        <span>Man</span>
+                        <span class="gender-span">Man</span>
                     </label>
                     <label class="radio-option">
                         <input type="radio" name="gender" value="Other">
-                        <span>Other</span>
+                        <span class="gender-span">Other</span>
                     </label>
                 </div>
-                <button id="next-button" type="submit">Next</button>
+                <div >
+                    <button class="next-btn" type="submit">Next</button>
+                </div>
             </form>
         </div>
         <div class="right-panel">
-            <div class="photo-reel">
-                <div class="profile-card">Tiana, 34</div>
-                <div class="profile-card">Kathy, 22</div>
-            </div>
+            
+               <img src="<?php echo BASE_URL; ?>/public/images/gender/gender-reel-1.png" alt="1">
+               <img src="<?php echo BASE_URL; ?>/public/images/gender/gender-reel-2.png" alt="2">
+              
+            
         </div>
     </div>
 
