@@ -83,6 +83,7 @@ is_relationship_type_set($conn, $user_id);
     <title>Relationship type - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/relationship.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
@@ -101,6 +102,8 @@ is_relationship_type_set($conn, $user_id);
                     <label for="html">New Friends</label><br>
                     <input type="radio" id="relationship_type" name="relationship_type" value="4">
                     <label for="html">Still figuring it out</label><br>
+                    <input type="radio" id="relationship_type" name="relationship_type" value="4">
+                    <label for="html">Just a Fling</label><br>
                 </div>
 
             </div>

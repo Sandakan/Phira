@@ -124,26 +124,26 @@ if (isset($_SESSION["onboarding_completed"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gallery - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/show_off.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
-
     <form class="container" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>"
         enctype="multipart/form-data">
-        <div class="left-section">
+
+        <div class="left-panal">
             <div class="input-container">
-                <h1>Show off the latest you!</h1>
+                <h1>Show off the latest <br>you!</h1>
                 <p> Add your recent photos </p>
                 <div class="register-form-actions-container">
-                    <button class="btn-primary form-submit-btn" type="submit">Next</button>
+                    <button class="btn btn-primary" type="submit">Next</button>
                 </div>
             </div>
 
         </div>
 
-        <div class="right-section">
+        <div class="right-panal">
 
             <div class="input-group-container">
                 <div class="input-container">
@@ -177,7 +177,5 @@ if (isset($_SESSION["onboarding_completed"])) {
         </div>
     </form>
 
-    </div>
 </body>
-
 </html>
