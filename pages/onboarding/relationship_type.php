@@ -17,7 +17,7 @@ $relationship_type_error = '';
 
 function is_relationship_type_set($conn, $user_id)
 {
-    $check_query = <<< SQL
+    $check_query = <<<SQL
     SELECT 
         COUNT(*) AS count 
     FROM 
@@ -40,30 +40,32 @@ function is_relationship_type_set($conn, $user_id)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $relationship_type = $_POST["relationship_type"];
 
-    if (!empty($relationship_type)) {
-        // Update biography in the profiles table
-        try {
-            $query = <<< SQL
+    if (isset($_POST["relationship_type"])) {
+        $relationship_type = $_POST["relationship_type"];
+
+        if (!empty($relationship_type)) {
+            try {
+                $query = <<<SQL
         INSERT INTO
             user_preferences (user_id ,preference_option_id)
         VALUES (:user_id, :relationship_type);
         SQL;
 
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
-            $stmt->bindParam("relationship_type", $relationship_type, PDO::PARAM_INT);
-            $result = $stmt->execute();
+                $stmt = $conn->prepare($query);
+                $stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
+                $stmt->bindParam("relationship_type", $relationship_type, PDO::PARAM_INT);
+                $result = $stmt->execute();
 
-            if ($result) {
-                header("Location: " . BASE_URL . "/pages/onboarding/habits.php");
-                exit();
-            } else {
-                echo "Failed to update relationship type.";
+                if ($result) {
+                    header("Location: " . BASE_URL . "/pages/onboarding/habits.php");
+                    exit();
+                } else {
+                    echo "Failed to update relationship type.";
+                }
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
             }
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
         }
     } else {
         $relationship_type_error = "Relationship type cannot be empty.";
@@ -93,16 +95,15 @@ is_relationship_type_set($conn, $user_id);
 
             <div class="relationship-right-section">
                 <div class="options">
-                    <input type="radio" id="relationship_type" name="relationship_type" value="1">
-                    <label for="html">Long-Term Partner</label><br>
-                    <input type="radio" id="relationship_type" name="relationship_type" value="2">
-                    <label for="html">Short-Term Partner</label><br>
-                    <input type="radio" id="relationship_type" name="relationship_type" value="3">
-                    <label for="html">New Friends</label><br>
-                    <input type="radio" id="relationship_type" name="relationship_type" value="4">
-                    <label for="html">Still figuring it out</label><br>
+                    <input type="radio" id="long_term" name="relationship_type" value="1" required>
+                    <label for="long_term">Long-Term Partner</label><br>
+                    <input type="radio" id="short_term" name="relationship_type" value="2" required>
+                    <label for="short_term">Short-Term Partner</label><br>
+                    <input type="radio" id="new_friends" name="relationship_type" value="3" required>
+                    <label for="new_friends">New Friends</label><br>
+                    <input type="radio" id="still_figuring" name="relationship_type" value="4" required>
+                    <label for="still_figuring">Still figuring it out</label><br>
                 </div>
-
             </div>
 
             <div class="relationship-left-section">
