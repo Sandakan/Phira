@@ -279,3 +279,10 @@ option {
   font-weight: 500;
   color: var(--primary-font-color);
 }
+input[type="number"]#preferred_age {
+  width: 143px ;
+}
+
+select{
+  width: 18rem ;
+}

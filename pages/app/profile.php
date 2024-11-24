@@ -6,11 +6,31 @@ require '../../utils/authenticate.php';
 $conn = initialize_database();
 session_start();
 
-// authenticate(array("USER"));
-// if (!isset($_SESSION["onboarding_completed"])) {
-//     header("Location: " . BASE_URL . "/login.php");
-// }
+authenticate(array("USER"));
+if (!isset($_SESSION["onboarding_completed"])) {
+    header("Location: " . BASE_URL . "/login.php");
+}
 
+// Logout query
+if (isset($_GET['logout']) && $_GET['logout'] === 'true') {
+
+    try {
+        $stmt = $conn->prepare("INSERT INTO activities(user_id, activity_type,activity_timestamp) VALUES (:user_id,:activity_type ,:logout_time)");
+        $stmt->execute([
+            ':user_id' => $_SESSION['user_id'],
+            ':activity_type' => 'LOGOUT',
+            ':logout_time' => date('Y-m-d H:i:s')
+        ]);
+    } catch (PDOException $e) {
+        error_log("Database error: " . $e->getMessage());
+    }
+
+    // Clear the session and redirect
+    session_unset();
+    session_destroy();
+    header("Location:". BASE_URL . "/pages/auth /login.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,8 +63,9 @@ session_start();
                     exploring new places 🌍, trying different cuisines 🍣, and having meaningful conversations 🗣️.
                     Let's connect and make some great memories together! 💫</p>
 
-                <button class="btn btn-primary">Edit Profile</button>
-                <button class="btn btn-primary">Logout</button>
+                <button class="btn btn-primary">Edit Profile</button>              
+                <a href="?logout=true" class="btn btn-primary" >Logout</a>
+                
             </div>
         </section>
     </main>
