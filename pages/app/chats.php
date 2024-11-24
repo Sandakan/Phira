@@ -32,7 +32,6 @@ if (!isset($_SESSION["onboarding_completed"])) {
     <?php include('../../components/sidebar.php') ?>
     <main>
         <?php include('../../components/chat_list.php') ?>
-
         <section id="chat-container">
             <div class="user-chat-profile">
                 <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
@@ -41,30 +40,38 @@ if (!isset($_SESSION["onboarding_completed"])) {
                         <h1>Anjalee Nethmi</h1>
                         <p>Online</p>
                     </div>
-                    <button id="info-icon"><span class="privacy-icon material-symbols-rounded">info</span></button>
+                    <span class="privacy-icon material-symbols-rounded">info</span>
                 </div>
             </div>
-            <div class="messages-container">
-                <div class="message-container receiver-message">
-                    <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
-                    <div class="message">
-                        <p>Explorer at heart, always seeking the next adventure. Whether it's hiking up a mountain or
-                            diving
-                            into a new book, I'm all about the journey. Let's make some memories together!</p>
-                    </div>
+
+            <div class="user-bio">
+                <p>Wifey material 😙<br>
+                    <br>
+                    A lover of nature and cozy nights in. Always seeking the next adventure, whether it’s a hike
+                    through
+                    the mountains or a weekend getaway to an undiscovered café. Currently navigating life one cup of
+                    coffee at a time.
+                </p>
+            </div>
+
+            <div class="user-education">
+                <span class="material-symbols-rounded">school</span>
+                <p>Studying Psychology at ABC University</p>
+            </div>
+            <div class="user-tags">
+                <div class="tag">
+                    <p>#DogMom</p>
                 </div>
-                <div class="message-container sender-message">
-                    <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
-                    <div class="message">
-                        <p>Explorer at heart, always seeking the next adventure. Whether it's hiking up a mountain or
-                            diving
-                            into a new book, I'm all about the journey. Let's make some memories together!</p>
-                    </div>
+                <div class="tag">
+                    <p>#DogMom</p>
                 </div>
             </div>
-            <div class="message-input-container">
-                <textarea class="type-area" id="message-input" placeholder="Type a message..."></textarea>
-                <button onclick="sendMessage()"><span class="privacy-icon material-symbols-rounded">send</span></button>
+            <div class="user-actions-buttons">
+                <button class="btn btn-primary" id="dislike-btn"><span
+                        class="material-symbols-rounded">heart_broken</span>Dislike</button>
+                <button class="btn btn-primary" id="block-report-btn"><span
+                        class="material-symbols-rounded">block</span>Block &
+                    Report</button>
             </div>
         </section>
     </main>
@@ -183,6 +190,8 @@ if (!isset($_SESSION["onboarding_completed"])) {
 
 
     <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js"></script>
+
+   
 </body>
 
 </html>

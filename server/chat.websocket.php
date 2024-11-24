@@ -4,17 +4,18 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
 require_once '../vendor/autoload.php';
-require_once '../config.php';
-require_once '../utils/database.php';
+
 
 class ChatWebSocketServer implements MessageComponentInterface
 {
     protected $clients;
     protected $userConnections = [];
+    protected PDO $db;
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
         $this->clients = new \SplObjectStorage;
+        $this->db = $db;
     }
 
     public function onOpen(ConnectionInterface $conn)
@@ -50,17 +51,15 @@ class ChatWebSocketServer implements MessageComponentInterface
         $content = $data['content'];
 
         // // Save the message to the database
-        // global $db;
-        // $stmt = $db->prepare("
-        //     INSERT INTO messages (chat_id, sender_id, receiver_id, content)
-        //     VALUES (:chat_id, :sender_id, :receiver_id, :content)
-        // ");
-        // $stmt->execute([
-        //     'chat_id' => $chatId,
-        //     'sender_id' => $senderId,
-        //     'receiver_id' => $receiverId,
-        //     'content' => $content,
-        // ]);
+        $stmt = $this->db->prepare("
+            INSERT INTO messages (chat_id, sender_id, message)
+            VALUES (:chat_id, :sender_id, :content)
+        ");
+        $stmt->execute([
+            'chat_id' => $chatId,
+            'sender_id' => $senderId,
+            'content' => $content,
+        ]);
 
         // Notify relevant users
         $this->notifyUsers($chatId, $senderId, $receiverId, $content);

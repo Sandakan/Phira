@@ -353,6 +353,7 @@ function addMatchInteractionStatus($user_id, $interacted_user_id, $status, PDO $
     return $response;
 }
 
+header('Content-Type: application/json; charset=utf-8');
 
 // handle post requests
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
