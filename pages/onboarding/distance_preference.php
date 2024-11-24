@@ -98,9 +98,9 @@ is_distance_range_set($conn, $user_id);
     <form method="POST" class="container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <!-- Left Panel -->
         <div class="left-panel">
-            <h2>Your distance preference?</h2>
+            <h1>Your distance preference?</h1>
             <p>How far is too far?</p>
-            <button class="next-btn">Next</button>
+            <button class="btn btn-primary">Next</button>
         </div>
 
         <!-- Right Panel -->
@@ -110,19 +110,11 @@ is_distance_range_set($conn, $user_id);
             </div>
             <div class="slider-container">
                 <div id="change-text">
-                <label for="distance-slider" class="slider-label">Distance Preference ?</label>
-                <span id="distance-value">50 KM</span>
+                    <label for="distance-slider" class="slider-label">Distance Preference ?</label>
+                    <span id="distance-value">50 KM</span>
                 </div>
-                <input
-                    type="range"
-                    id="distance-slider"
-                    min="10"
-                    max="100"
-                    value="50"
-                    name="distance_range"
-                    step="1"
-                    oninput="updateCircleSize(this.value)"
-                />
+                <input type="range" id="distance-slider" min="10" max="100" value="50" name="distance_range" step="1"
+                    oninput="updateCircleSize(this.value)" />
             </div>
         </div>
     </form>

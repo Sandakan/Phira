@@ -16,10 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION["user_id"];
 
     $photos = array();
+    foreach ($_FILES as $file) {
+        echo $file['name'];
+        if (isset($file['name']) && !empty($file['name'])) {;
+            $photos[] = $file;
+        };
+    }
 
-    $photos[] = $_FILES['photo-1'];
-    $photos[] = $_FILES['photo-2'];
-    $photos[] = $_FILES['photo-3'];
 
     $is_error = false;
 
@@ -44,6 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
+    if (count($photos) < 3) {
+        $image_error = "Please upload at least 3 photos";
+        $is_error = true;
+    }
+
     $conn->beginTransaction();
 
     if (!$is_error) {
@@ -65,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $image_ext = '.' . pathinfo($image_file, PATHINFO_EXTENSION);
 
                     $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
-                    $statement->bindParam("photo_url", $image, PDO::PARAM_STR);
+                    $statement->bindParam("photo_url", $image_file, PDO::PARAM_STR);
                     $result = $statement->execute();
 
                     $photo_id = $conn->lastInsertId();
@@ -108,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-if (isset($_SESSION["onboarding_completed"])) {
+if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
 
@@ -124,13 +132,13 @@ if (isset($_SESSION["onboarding_completed"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gallery - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/show_off.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
-    <form class="container" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>"
-        enctype="multipart/form-data">
+    <form class="container show-off-container" method="POST"
+        action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" enctype="multipart/form-data">
 
         <div class="left-panel">
             <div class="input-container">
@@ -146,33 +154,34 @@ if (isset($_SESSION["onboarding_completed"])) {
         <div class="right-panel">
 
             <div class="input-group-container">
-                <div class="input-container">
+                <label class="image-container">
                     <input type="file" name="photo-1">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
-                <div class="input-container">
+                    <!-- <img src="../../../public/images/ProfilePic.png" alt=""> -->
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
+                <label class="image-container">
                     <input type="file" name="photo-2">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
-                <div class="input-container">
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
+                <label class="image-container">
                     <input type="file" name="photo-3">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
             </div>
 
             <div class="input-group-container">
-                <div class="input-container">
+                <label class="image-container">
                     <input type="file" name="photo-4">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
-                <div class="input-container">
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
+                <label class="image-container">
                     <input type="file" name="photo-5">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
-                <div class="input-container">
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
+                <label class="image-container">
                     <input type="file" name="photo-6">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
             </div>
         </div>
     </form>

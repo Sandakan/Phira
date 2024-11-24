@@ -82,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION["onboarding_completed"] = isset($row["onboarding_completed_at"]);
                 $_SESSION["profile_picture_url"] = $row["profile_picture_url"];
 
+                $user_id = $row["user_id"];
                 $gender = $row["gender"];
                 $distance_range = $row["distance_range"];
                 $biography = $row["biography"];
@@ -131,22 +132,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                     $query = <<<SQL
-                SELECT
-                    U.user_id,
-                    PR.preference_name,
-                    PRO.option_text
-                FROM
-                    users AS U
-                    LEFT JOIN profiles AS P ON U.user_id = P.user_id
-                    LEFT JOIN user_preferences AS UPR ON U.user_id = UPR.user_id
-                    LEFT JOIN preference_options AS PRO ON UPR.preference_option_id = PRO.preference_option_id 
-                    LEFT JOIN preferences AS PR ON PRO.preference_id = PR.preference_id
-                WHERE
-                    email = :email;
-                SQL;
+                    SELECT
+                        U.user_id,
+                        PR.preference_name,
+                        PRO.option_text
+                    FROM
+                        users AS U
+                        LEFT JOIN profiles AS P ON U.user_id = P.user_id
+                        LEFT JOIN user_preferences AS UPR ON U.user_id = UPR.user_id
+                        LEFT JOIN preference_options AS PRO ON UPR.preference_option_id = PRO.preference_option_id 
+                        LEFT JOIN preferences AS PR ON PRO.preference_id = PR.preference_id
+                    WHERE
+                        P.user_id = :user_id;
+                    SQL;
 
                     $statement = $conn->prepare($query);
-                    $statement->bindParam("email", $email, PDO::PARAM_STR);
+                    $statement->bindParam("user_id", $user_id, PDO::PARAM_STR);
                     $result = $statement->execute();
                     $data = $statement->fetchAll();
 
@@ -175,21 +176,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             }
 
                             $query = <<<SQL
-                        SELECT
-                            COUNT(P.photo_id) AS photo_count
-                        FROM
-                            users AS U
-                            INNER JOIN photos AS P ON U.user_id = P.user_id
-                        WHERE
-                            email = :email; 
-                        SQL;
+                            SELECT
+                                COUNT(P.photo_id) AS photo_count
+                            FROM
+                                users AS U
+                                INNER JOIN photos AS P ON U.user_id = P.user_id
+                            WHERE
+                                email = :email; 
+                            SQL;
 
                             $statement = $conn->prepare($query);
                             $statement->bindParam("email", $email, PDO::PARAM_STR);
                             $result = $statement->execute();
                             $data = $statement->fetch();
 
-                            if ($data) {
+                            if ($data && $data["photo_count"] >= 3) {
                                 header("Location: " . BASE_URL . "/pages/app/matches.php");
                                 exit();
                             } else {

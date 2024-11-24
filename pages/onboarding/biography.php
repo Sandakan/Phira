@@ -89,39 +89,36 @@ is_biography_set($conn, $user_id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Biography - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/biography.css">
+    <!-- <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/biography.css"> -->
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
 
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
+    <form class="container biography-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <div class="left-panel">
+            <h1>About Me</h1>
+            <p>Share a little about yourself! 📝 Highlight your passions, interests, and what makes you unique.
+                Let
+                others get to know the real you—be creative, be genuine, be you!</p>
 
-    <div class="container ">
-        <form class="biography-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-
-            <div class="left-panel">
-                <div class="input-container">
-                    <h1>About Me</h1>
-                    <p>Share a little about yourself! 📝 Highlight your passions, interests, and what makes you unique.
-                        Let
-                        others get to know the real you—be creative, be genuine, be you!</p>
-
-                    <textarea name="biography" id="biography"></textarea>
-
-                </div>
-
-                <div class="biography-form-actions-container">
-                    <button class="btn-primary form-submit-btn" type="submit">Next</button>
-                </div>
+            <div class="input-container">
+                <textarea name="biography" id="biography" placeholder="Tell us about yourself..."></textarea>
             </div>
-        </form>
-    
+
+
+            <div class="biography-form-actions-container">
+                <button class="btn-primary form-submit-btn" type="submit">Next</button>
+            </div>
+        </div>
+
 
         <div class="right-panel">
             <img src="<?php echo BASE_URL; ?>/public/images/biography/biography-reel-1.png" alt="1">
             <img src="<?php echo BASE_URL; ?>/public/images/biography/biography-reel-2.png" alt="1">
         </div>
-  </div>
+    </form>
 </body>
 
 </html>
