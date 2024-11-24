@@ -75,10 +75,12 @@ if (!isset($_SESSION["onboarding_completed"])) {
         </section>
     </main>
 
+
     <nav class="match-user-profile-container" id="match-user-profile-container">
         <div class="match-user-profile-picture">
             <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
         </div>
+
 
         <div class="match-info-container">
             <h1>Anjalee Nethmi ,22</h1>
@@ -87,6 +89,7 @@ if (!isset($_SESSION["onboarding_completed"])) {
                 <p>3 kilometers away</p>
             </div>
         </div>
+
 
         <div class="user-bio">
             <p>Wifey material 😙<br>
@@ -97,6 +100,7 @@ if (!isset($_SESSION["onboarding_completed"])) {
                 coffee at a time.
             </p>
         </div>
+
 
         <div class="user-education">
             <span class="material-symbols-rounded">school</span>
@@ -119,10 +123,13 @@ if (!isset($_SESSION["onboarding_completed"])) {
         </div>
 
 
+
+
         <div class="match-user-profile-container" id="match-user-profile-container">
             <div class="match-user-profile-picture">
                 <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
             </div>
+
 
             <div class="match-info-container">
                 <h1>Anjalee Nethmi ,22</h1>
@@ -131,6 +138,7 @@ if (!isset($_SESSION["onboarding_completed"])) {
                     <p>3 kilometers away</p>
                 </div>
             </div>
+
 
             <div class="user-bio">
                 <p>Wifey material 😙<br>
@@ -141,6 +149,7 @@ if (!isset($_SESSION["onboarding_completed"])) {
                     coffee at a time.
                 </p>
             </div>
+
 
             <div class="user-education">
                 <span class="material-symbols-rounded">school</span>
@@ -162,7 +171,11 @@ if (!isset($_SESSION["onboarding_completed"])) {
                     Report</button>
             </div>
 
+
         </div>
+
+
+
 
 
 
