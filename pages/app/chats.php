@@ -6,10 +6,10 @@ require '../../utils/authenticate.php';
 $conn = initialize_database();
 session_start();
 
-// authenticate(array("USER"));
-// if (!isset($_SESSION["onboarding_completed"])) {
-//     header("Location: " . BASE_URL . "/login.php");
-// }
+authenticate(array("USER"));
+if (!isset($_SESSION["onboarding_completed"])) {
+    header("Location: " . BASE_URL . "/login.php");
+}
 
 ?>
 
@@ -27,19 +27,14 @@ session_start();
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
-<body>
+<body id="body" class="" data-base-url="<?php echo BASE_URL; ?>" data-user-id="<?php echo $_SESSION["user_id"]; ?>">
     <?php include('../../components/sidebar.php') ?>
     <main>
         <?php include('../../components/chat_list.php') ?>
-        <section>
-            <div>
-                <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
-                <h1>Anjalee Nethmi</h1>
-                <p>Online</p>
-                <span class="material-symbols-outlined">info</span>
-            </div>
-        </section>
+        <section id="chat-container"></section>
     </main>
+
+    <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js"></script>
 </body>
 
 </html>
