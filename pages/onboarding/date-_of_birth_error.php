@@ -13,7 +13,7 @@ session_start();
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/dbe.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/date_of_birth_error.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
@@ -25,15 +25,20 @@ session_start();
     <div id="error-panel" class="error">
         <div class="error-content">
             <span class="close">&times;</span>
-
-            <span class="material-symbols-rounded">error</span>
-            <p>
-                Oops! You must be 18 or older to join. Please come back when you're
-                old enough to mingle!
-            </p>
-            <p>
-                If you have questions, we're here to <a href="#help">help!</a>
-            </p>
+            <div class="error-message-container">
+                <div class="error-message">
+                    <div class="error-message-header">
+                    <span class="privacy-icon material-symbols-rounded">error</span>
+                    <h1>
+                        Oops! You must be 18 or older to join. Please come back when you're
+                        old enough to mingle!
+                    </h1>
+                    </div>
+                    <p>
+                        If you have questions, we're here to <a href="#help">help!</a>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
