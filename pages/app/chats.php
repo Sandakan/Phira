@@ -28,9 +28,11 @@ if (!isset($_SESSION["onboarding_completed"])) {
 </head>
 
 <body id="body" class="" data-base-url="<?php echo BASE_URL; ?>" data-user-id="<?php echo $_SESSION["user_id"]; ?>">
+
     <?php include('../../components/sidebar.php') ?>
     <main>
         <?php include('../../components/chat_list.php') ?>
+
         <section id="chat-container">
             <div class="user-chat-profile">
                 <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
@@ -66,12 +68,11 @@ if (!isset($_SESSION["onboarding_completed"])) {
             </div>
         </section>
     </main>
-
     <nav class="match-user-profile-container" id="match-user-profile-container">
+        <span class="close">&times;</span>
         <div class="match-user-profile-picture">
             <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
         </div>
-
         <div class="match-info-container">
             <h1>Anjalee Nethmi ,22</h1>
             <div class="user-location">
@@ -79,7 +80,6 @@ if (!isset($_SESSION["onboarding_completed"])) {
                 <p>3 kilometers away</p>
             </div>
         </div>
-
         <div class="user-bio">
             <p>Wifey material 😙<br>
                 <br>
@@ -89,7 +89,6 @@ if (!isset($_SESSION["onboarding_completed"])) {
                 coffee at a time.
             </p>
         </div>
-
         <div class="user-education">
             <span class="material-symbols-rounded">school</span>
             <p>Studying Psychology at ABC University</p>
@@ -109,13 +108,10 @@ if (!isset($_SESSION["onboarding_completed"])) {
                     class="material-symbols-rounded">block</span>Block &
                 Report</button>
         </div>
-
-
         <div class="match-user-profile-container" id="match-user-profile-container">
             <div class="match-user-profile-picture">
                 <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
             </div>
-
             <div class="match-info-container">
                 <h1>Anjalee Nethmi ,22</h1>
                 <div class="user-location">
@@ -123,7 +119,6 @@ if (!isset($_SESSION["onboarding_completed"])) {
                     <p>3 kilometers away</p>
                 </div>
             </div>
-
             <div class="user-bio">
                 <p>Wifey material 😙<br>
                     <br>
@@ -133,7 +128,6 @@ if (!isset($_SESSION["onboarding_completed"])) {
                     coffee at a time.
                 </p>
             </div>
-
             <div class="user-education">
                 <span class="material-symbols-rounded">school</span>
                 <p>Studying Psychology at ABC University</p>
@@ -153,29 +147,42 @@ if (!isset($_SESSION["onboarding_completed"])) {
                         class="material-symbols-rounded">block</span>Block &
                     Report</button>
             </div>
-
         </div>
-
-
-
     </nav>
+    <div id="block-panel">
+        <div id="block-modal">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h1>Why Are You Block This User?</h1>
+            </div>
+            <form action="">
+                <p>We take your safety seriously. Please choose a reason for blocking this user so we can review the
+                    issue
+                    and
+                    keep our community a safe and respectful place for everyone. Your feedback helps us improve the
+                    experience
+                    for all users.</p>
+                <div class="reason-container">
+                    <input type="radio" id="reson" name="reson" value="">
+                    <label for="html">Harassment or Bullying</label><br>
+                    <input type="radio" id="reson" name="reson" value="">
+                    <label for="css">Inappropriate Language or Behavior</label><br>
+                    <input type="radio" id="reson" name="reson" value="">
+                    <label for="javascript">Fake Profile</label><br>
+                    <input type="radio" id="reson" name="reson" value="">
+                    <label for="javascript">Spamming</label><br>
+                    <input type="radio" id="reson" name="reson" value="">
+                    <label for="javascript">Offensive or Discriminatory Content</label><br>
+                    <input type="radio" id="reson" name="reson" value="">
+                    <label for="javascript">Other</label>
+                </div>
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
 
 
     <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js"></script>
-
-    <script>
-    var modal = document.getElementById("match-user-profile-container");
-    var user_profile = document.getElementById("info-icon");
-
-    user_profile.onclick = function() {
-        modal.style.display = "block";
-    }
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
-    </script>
 </body>
 
 </html>
