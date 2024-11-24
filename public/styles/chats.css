@@ -212,6 +212,7 @@ section {
 
 /* ----- Side Profile ----- */
 .match-user-profile-container {
+	background-color: var(--primary-background-color);
 	padding: 1.8rem;
 	max-width: 27.5rem;
 	height: 100%;
@@ -313,4 +314,22 @@ section {
 }
 #block-report-btn > span :hover {
 	color: var(--primary-button-hover-background-color);
+}
+
+/* ----- user profile ----- */
+
+#match-user-profile-container {
+	border-left: solid 0.0938rem var(--secondary-background-color);
+	display: none;
+	/* Hidden by default */
+	position: fixed;
+	/* Stay in place */
+	right: 0;
+	top: 0;
+	width: 100%;
+	/* Full width */
+	height: 100%;
+	/* Full height */
+	overflow: auto;
+	/* Enable scroll if needed */
 }

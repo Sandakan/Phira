@@ -53,10 +53,10 @@ p {
 /* Right Panel */
 .right-panel {
 	display: flex;
-  gap: 2.5rem;
-  overflow: hidden;
-  justify-content: center;
-  height: 100%;
+	gap: 2.5rem;
+	overflow: hidden;
+	justify-content: center;
+	height: 100%;
 }
 
 .circle {
@@ -311,248 +311,17 @@ input[type='radio']:checked + label {
 	color: var(--secondary-font-color);
 }
 
-/*------------ Gender -----------*/
-.gender-container .gender-h1 {
-	font-size: 3.4375rem;
-	font-weight: 700;
-	margin-bottom: 0rem;
-	height: 4.9375rem;
-	color: black;
-}
-.gender-container .gender-p{
-	height: 2.625rem;
-    font-size: 1.4375rem;
-    font-weight: 400;
-}
-
-
-.gender-container .gender-span{
-	width: 657px;
-	text-align:center;
-	font-size: 38px;
-	border-color:var(--primary-highlight-color) ;
-	background-color: var(--primary-background-color);
-  color: #333;
-  padding: 8px 20px;
-  border-radius: 6250rem;
-  font-size: 1.4375rem;
-  font-weight: 400;
-  transition: all 0.3s ease;
-
-}
-.gender-container .gender-span:hover{
-	background-color: var(--primary-highlight-color);
-	color: var(--secondary-font-color);
-	border-radius: 6250rem;
-}
-.gender-container :is(.photo-reel, .photo-reel1) {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 1.5rem;
-	height: 100%;
-}
-
-.gender-container :is(.photo-reel, .photo-reel1) > img {
-	height: 100%;
-}
-.gender-container .radio-option{
-	border-color: var(--primary-highlight-color);
-	border-style: solid;
-	border-radius: 6250rem;
-}
-
-/*------------ Date of birth -----------*/
-.dateOfBirth-container .dateOfBirth-h1{
-	font-size: 3.4375rem;
-	font-weight: 700;
-	margin-bottom: 0rem;
-	height: 4.9375rem;
-	color: black;
-}
-.dateOfBirth-container .dateOfBirth-p{
-	height: 2.625rem;
-    font-size: 1.4375rem;
-    font-weight: 400;
-}
-.dateOfBirth-container :is(.photo-reel, .photo-reel1) {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 1.5rem;
-	height: 100%;
-}
-
-.dateOfBirth-container :is(.photo-reel, .photo-reel1) > img {
-	height: 100%;
-}
-.dateOfBirth-container .gender-container .radio-option{
-	border-color: var(--primary-highlight-color);
-	border-style: solid;
-	border-radius: 6250rem;
-}
-.dateOfBirth-container .dateOfBirth-span{
-	width: 657px;
-	text-align:center;
-	font-size: 38px;
-	border-color:var(--primary-highlight-color) ;
-	background-color: var(--primary-background-color);
-  color: #333;
-  padding: 8px 20px;
-  border-radius: 6250rem;
-  font-size: 1.4375rem;
-  font-weight: 400;
-  transition: all 0.3s ease;
-
-}
-.dateOfBirth-container .dateOfBirth-span:hover{
-	background-color: var(--primary-highlight-color);
-	color: var(--secondary-font-color);
-	border-radius: 6250rem;
-}
-.dateOfBirth-container .radio-option{
-	border-color: var(--primary-highlight-color);
-	border-style: solid;
-	border-radius: 6250rem;
-}
-
-/* --------relationship---------- */
-
-.model-container{
+.input-container input[type='file'] {
 	display: flex;
 	justify-content: space-between;
-
-
-}
-
-
-.register-form{
-	padding: 5.875rem;
-	justify-content: space-between;
-	gap: 5.25rem;
-	display: flex;
-	margin-top: 15.875rem;;
-}
-/* --------left-section---------- */
-.relationship-left-section{
-
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	
-}
-
-.relationship-left-section h1{
-
-	font-size: 46px;
-	color: #000000;
-	margin-bottom: 20px;
-	display: flex;
 	align-items: center;
-}
-.relationship-left-section p{
-
-	font-size: 1.4375rem;
-	color: var(--primary-font-color-varient);
-}
-
-.btn-primary{
-	width: 13.6875rem;
-	height: 4.875rem;
-	border-radius: 2.75rem;
-	font-size: 2.0625rem;
-	font-weight: bold;
-	color: #ffffff;
-	background-color: #ff4d4f;
-
-}
-
-/* --------right-section---------- */
-
-.right-section{
-	width: 48.4375rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	gap: 3.125rem;
-}
-.options {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 10px;
-}
-
-label {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;  
-	width: 16.25rem; 
-	height: 9.12rem;
+	width: 16rem;
+	height: 10rem;
 	cursor: pointer;
 	font-size: 1.25rem;
-	padding: 10px;
 	background-color: #ffffff;
 	border: 1px solid #ff4d4f;
 	border-radius: 2.25rem;
-	color:black;
-	font-weight: bold;
-	
-	transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-label:hover {
-	background-color: #ff4d4f;
-	border-color: #ff4d4f;
-	color:#fbfbfb ;
-	
-}
-
-input[type="radio"] {
-	margin-left: 10px; 
-	cursor: pointer;
-	accent-color: #ff4d4f; 
-}
-
-
-/*------------ Show_off -----------*/
-.model-container{
-	padding: 5.875rem;
-	gap: 5.25rem;
-}
-.left-section {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-
-.left-section h1{
-	font-size: 36px;
-	color: #000000;
-	margin-bottom: 20px;
-	display: flex;
-	align-items: center
-}
-
-/* Right Section */
-
-.right-section{
-	
-	display:grid;
-	grid-template-columns: 1fr;
-	gap: 3.125rem;
-}
-input[type='file']{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;  
-	width: 16.25rem; 
-	height: 9.12rem;
-	cursor: pointer;
-	font-size: 1.25rem;
-	padding: 10px;
-	background-color: #ffffff;
-	border: 1px solid #ff4d4f;
-	border-radius: 2.25rem;
-	color:black;
+	color: black;
 	font-weight: bold;
 }
