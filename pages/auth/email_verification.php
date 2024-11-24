@@ -14,7 +14,7 @@ if (isset($_GET['token'])) {
     try {
         $query = <<< SQL
         SELECT
-            *
+            user_id
         FROM
             users
         WHERE
