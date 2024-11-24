@@ -77,8 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: " . BASE_URL . "/pages/onboarding/show_off.php");
             exit;
         } catch (Exception $e) {
-            // Rollback transaction on error
-            // TODO: Save preferences failed.
+          
             $conn->rollback();
             $error = "Failed to save preferences. Please try again.";
         }

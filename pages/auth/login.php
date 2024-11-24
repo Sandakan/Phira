@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $query = <<< SQL
+    $query = <<<SQL
             SELECT
                 U.user_id,
                 U.first_name,
@@ -50,12 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 P.gender,
                 P.distance_range,
                 P.biography,
-                P.profile_picture_url
+                P.profile_picture_url,
+                U.verified_at
             FROM
                 users AS U
                 LEFT JOIN profiles AS P ON U.user_id = P.user_id
             WHERE
-                email = :email 
+                email = :email AND
+                U.deleted_at IS NULL 
             LIMIT 1;
         SQL;
 
@@ -70,62 +72,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $is_password_valid = password_verify($password, $hashed_password);
 
         if ($is_password_valid) {
-            $_SESSION["user_id"] = $row["user_id"];
-            $_SESSION["first_name"] = $row["first_name"];
-            $_SESSION["last_name"] = $row["last_name"];
-            $_SESSION["role"] = $row["role"];
-            $_SESSION["onboarding_completed"] = isset($row["onboarding_completed_at"]);
-            $_SESSION["profile_picture_url"] = $row["profile_picture_url"];
+            $verified_at = $row["verified_at"];
 
-            $gender = $row["gender"];
-            $distance_range = $row["distance_range"];
-            $biography = $row["biography"];
+            if (isset($verified_at)) {
+                $_SESSION["first_name"] = $row["first_name"];
+                $_SESSION["last_name"] = $row["last_name"];
+                $_SESSION["role"] = $row["role"];
+                $_SESSION["onboarding_completed"] = isset($row["onboarding_completed_at"]);
+                $_SESSION["profile_picture_url"] = $row["profile_picture_url"];
 
-            // Login activity: When User logged in
-            try {
-                $activity_query = <<< SQL
+                $gender = $row["gender"];
+                $distance_range = $row["distance_range"];
+                $biography = $row["biography"];
+
+                // Login activity: When User logged in
+                try {
+                    $activity_query = <<<SQL
                     INSERT INTO activities (user_id, activity_type, activity_timestamp)
                     VALUES (:user_id, :activity_type, :activity_timestamp)
                 SQL;
 
-                $activity_stmt = $conn->prepare($activity_query);
-                $activity_stmt->execute([
-                    ':user_id' => $row["user_id"],
-                    ':activity_type' => 'LOGIN',
-                    ':activity_timestamp' => date('Y-m-d H:i:s')
-                ]);
-            } catch (PDOException $e) {
-                error_log("Activity log error: " . $e->getMessage());
-            }
-
-            // Redirect based on onboarding status
-            if (isset($row["onboarding_completed_at"])) {
-                if (isset($_GET['redirect'])) {
-                    $redirectUrl = urldecode($_GET['redirect']);
-                    header("Location: " . $redirectUrl);
-                } else
-                    header("Location: " . BASE_URL . "/pages/app/matches.php");
-            } else {
-
-                if (!isset($row["date_of_birth"])) {
-                    header("Location: " . BASE_URL . "/pages/onboarding/date_of_birth.php");
-                    exit();
-                }
-                if (!isset($gender)) {
-                    header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
-                    exit();
-                }
-                if (!isset($distance_range)) {
-                    header("Location: " . BASE_URL . "/pages/onboarding/distance_range.php");
-                    exit();
-                }
-                if (!isset($biography)) {
-                    header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
-                    exit();
+                    $activity_stmt = $conn->prepare($activity_query);
+                    $activity_stmt->execute([
+                        ':user_id' => $row["user_id"],
+                        ':activity_type' => 'LOGIN',
+                        ':activity_timestamp' => date('Y-m-d H:i:s')
+                    ]);
+                } catch (PDOException $e) {
+                    error_log("Activity log error: " . $e->getMessage());
                 }
 
+                // Redirect based on onboarding status
+                if (isset($row["onboarding_completed_at"])) {
+                    if (isset($_GET['redirect'])) {
+                        $redirectUrl = urldecode($_GET['redirect']);
+                        header("Location: " . $redirectUrl);
+                    } else
+                        header("Location: " . BASE_URL . "/pages/app/matches.php");
+                } else {
 
-                $query = <<< SQL
+                    if (!isset($row["date_of_birth"])) {
+                        header("Location: " . BASE_URL . "/pages/onboarding/date_of_birth.php");
+                        exit();
+                    }
+                    if (!isset($gender)) {
+                        header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
+                        exit();
+                    }
+                    if (!isset($distance_range)) {
+                        header("Location: " . BASE_URL . "/pages/onboarding/distance_range.php");
+                        exit();
+                    }
+                    if (!isset($biography)) {
+                        header("Location: " . BASE_URL . "/pages/onboarding/biography.php");
+                        exit();
+                    }
+
+
+                    $query = <<<SQL
                 SELECT
                     U.user_id,
                     PR.preference_name,
@@ -140,36 +144,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     email = :email;
                 SQL;
 
-                $statement = $conn->prepare($query);
-                $statement->bindParam("email", $email, PDO::PARAM_STR);
-                $result = $statement->execute();
-                $data = $statement->fetchAll();
+                    $statement = $conn->prepare($query);
+                    $statement->bindParam("email", $email, PDO::PARAM_STR);
+                    $result = $statement->execute();
+                    $data = $statement->fetchAll();
 
-                if ($data) {
-                    foreach ($data as $row) {
-                        $name = preg_replace('/\W/', '_', strtoupper($row["preference_name"]));
-                        $text = preg_replace('/\W/', '_', strtoupper($row["option_text"]));
+                    if ($data) {
+                        foreach ($data as $row) {
+                            $name = preg_replace('/\W/', '_', strtoupper($row["preference_name"]));
+                            $text = preg_replace('/\W/', '_', strtoupper($row["option_text"]));
 
-                        if ($name == "RELATIONSHIP_TYPE" && $text == "") {
-                            header("Location: " . BASE_URL . "/pages/onboarding/relationship_type.php");
-                            exit();
-                        }
+                            if ($name == "RELATIONSHIP_TYPE" && $text == "") {
+                                header("Location: " . BASE_URL . "/pages/onboarding/relationship_type.php");
+                                exit();
+                            }
 
-                        // drink, smoke, exercise, pets preferences are all in the 'habits' group
-                        // so checking drink preference will be enough
-                        if ($name == "DRINK" && $text == "") {
-                            header("Location: " . BASE_URL . "/pages/onboarding/habits.php");
-                            exit();
-                        }
+                            // drink, smoke, exercise, pets preferences are all in the 'habits' group
+                            // so checking drink preference will be enough
+                            if ($name == "DRINK" && $text == "") {
+                                header("Location: " . BASE_URL . "/pages/onboarding/habits.php");
+                                exit();
+                            }
 
-                        // communication style, expected love type, eductation level, sleeping habits are in the 'preferences' group
-                        // so checking communication style preference will be enough
-                        if ($name == "COMMUNICATION_STYLE" && $text == "") {
-                            header("Location: " . BASE_URL . "/pages/onboarding/preferences.php");
-                            exit();
-                        }
+                            // communication style, expected love type, eductation level, sleeping habits are in the 'preferences' group
+                            // so checking communication style preference will be enough
+                            if ($name == "COMMUNICATION_STYLE" && $text == "") {
+                                header("Location: " . BASE_URL . "/pages/onboarding/preferences.php");
+                                exit();
+                            }
 
-                        $query = <<< SQL
+                            $query = <<<SQL
                         SELECT
                             COUNT(P.photo_id) AS photo_count
                         FROM
@@ -179,22 +183,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             email = :email; 
                         SQL;
 
-                        $statement = $conn->prepare($query);
-                        $statement->bindParam("email", $email, PDO::PARAM_STR);
-                        $result = $statement->execute();
-                        $data = $statement->fetch();
+                            $statement = $conn->prepare($query);
+                            $statement->bindParam("email", $email, PDO::PARAM_STR);
+                            $result = $statement->execute();
+                            $data = $statement->fetch();
 
-                        if ($data) {
-                            header("Location: " . BASE_URL . "/pages/app/matches.php");
-                            exit();
-                        } else {
-                            header("Location: " . BASE_URL . "/pages/onboarding/show_off.php");
-                            exit();
+                            if ($data) {
+                                header("Location: " . BASE_URL . "/pages/app/matches.php");
+                                exit();
+                            } else {
+                                header("Location: " . BASE_URL . "/pages/onboarding/show_off.php");
+                                exit();
+                            }
                         }
+                    } else {
+                        $email_error = "Failed to fetch preference data";
                     }
-                } else {
-                    $email_error = "Failed to fetch preference data";
                 }
+            } else {
+                $email_error = "Please verify your email address";
             }
         } else {
             $password_error = "Invalid email or password";
@@ -202,7 +209,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $email_error = "Invalid email or password";
     }
-};
+}
+;
 
 
 ?>
