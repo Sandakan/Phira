@@ -2,7 +2,7 @@ body {
   display: flex;
   flex-direction: row;
 }
-nav {
+/* nav {
   max-width: 505px;
 }
 .nav-bar {
@@ -39,7 +39,7 @@ nav {
 .notification-time p {
   font-size: 14px;
   color: #cccccc;
-}
+} */
 
 /*------------ Birthday Notification -----------*/
 
@@ -58,6 +58,7 @@ nav {
   display: flex;
   align-items: center;
   margin-left: 50px;
+  font-weight: bold;
 }
 .notification-birthday-img {
   margin-left: 100px;

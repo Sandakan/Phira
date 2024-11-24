@@ -213,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" name="password" id="password" placeholder="Password"
                     value="<?php echo $password; ?>" required>
                 <span class="error-message"><?php echo $password_error ?></span>
-                <a href="#" class="forgot-password">I forgot my password</a>
+                <a href="<?php echo BASE_URL; ?>/pages/auth/forgot_password.php" class="forgot-password">I forgot my password</a>
                 <div id="form-actions">
                     <button type="submit">Next</button>
                     <a href="<?php echo BASE_URL; ?>/pages/auth/register.php" class="signup-link">I Don’t have an
