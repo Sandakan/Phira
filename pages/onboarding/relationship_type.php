@@ -39,8 +39,9 @@ function is_relationship_type_set($conn, $user_id)
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $relationship_type = $_POST["relationship_type"];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["relationship_type"])) {
+        $relationship_type = $_POST["relationship_type"];
 
     if (!empty($relationship_type)) {
         // Update biography in the profiles table
@@ -69,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $relationship_type_error = "Relationship type cannot be empty.";
     }
 }
+}
 
 is_relationship_type_set($conn, $user_id);
 ?>
@@ -93,14 +95,14 @@ is_relationship_type_set($conn, $user_id);
 
             <div class="relationship-right-section">
                 <div class="options">
-                    <input type="radio" id="relationship_type" name="relationship_type" value="1">
-                    <label for="html">Long-Term Partner</label><br>
-                    <input type="radio" id="relationship_type" name="relationship_type" value="2">
-                    <label for="html">Short-Term Partner</label><br>
-                    <input type="radio" id="relationship_type" name="relationship_type" value="3">
-                    <label for="html">New Friends</label><br>
-                    <input type="radio" id="relationship_type" name="relationship_type" value="4">
-                    <label for="html">Still figuring it out</label><br>
+                    <input type="radio" id="long_term" name="relationship_type" value="1" required>
+                    <label for="long_term">Long-Term Partner</label><br>
+                    <input type="radio" id="short_term" name="relationship_type" value="2" required>
+                    <label for="short_term">Short-Term Partner</label><br>
+                    <input type="radio" id="new_friends" name="relationship_type" value="3" required>
+                    <label for="new_friends">New Friends</label><br>
+                    <input type="radio" id="still_figuring" name="relationship_type" value="4" required>
+                    <label for="still_figuring">Still figuring it out</label><br>
                 </div>
 
             </div>
