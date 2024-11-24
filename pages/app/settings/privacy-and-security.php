@@ -162,6 +162,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>
+
+            <!-- ----- security ----- -->
+
+            <div class="security">
+                <div class="privacy-and-security">
+                    <h2>Security Settings</h2>
+                    <p>Keep your account secure by updating your email and changing your password anytime. Ensure
+                        your
+                        details are always up to date for better account protection.</p>
+                </div>
+                <form action="">
+
+                    <div class="privacy-card">
+                        <div class="sub-title">
+                            <div class="sub-title-container">
+                                <span class="privacy-icon material-symbols-rounded">lock</span>
+                                <h3>Change Password</h3>
+                            </div>
+                            <p>Update your password to keep your account secure. Choose a strong, unique password to
+                                protect
+                                your profile from unauthorized access.</p>
+                        </div>
+                        <button class="change-password">Change password</button>
+                    </div>
+                </form>
+            </div>
         </section>
     </main>
 
