@@ -30,9 +30,9 @@ CREATE TABLE profiles (
     -- URL for profile picture
     distance_range INT,
     -- Distance preference in km
-    preferred_age_min INT,
+    preferred_age_min INT DEFAULT 18,
     -- Minimum preferred age
-    preferred_age_max INT,
+    preferred_age_max INT DEFAULT 30,
     -- Maximum preferred age
     show_birthday BOOLEAN DEFAULT TRUE,
     show_age BOOLEAN DEFAULT TRUE,

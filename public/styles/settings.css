@@ -39,7 +39,7 @@ section > .title-container > h1 {
 
 /* Card Styles */
 .settings-navbar > .settings-cards > .settings-card {
-  background-color: var(--secondary-background-color);
+  background-color:var(--sidebar-nav-button-background-color);
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 20px;
@@ -48,8 +48,14 @@ section > .title-container > h1 {
 .settings-card:hover {
   padding: 0.4rem;
   border-radius: 0.6rem;
-  background-color: var();
+  background-color: var(--sidebar-nav-button-hover-background-color)!important;
 }
+
+.settings-card.active {
+  background-color: var(	--sidebar-nav-button-background-color)!important; 
+  border: 2px solid black; 
+}
+
 
 .settings-card h2 {
   font-size: 1.2rem;
@@ -65,7 +71,9 @@ section > .title-container > h1 {
   font-weight: 300;
   line-height: 1.5;
 }
-
+.settings-btn {
+  text-decoration: none; 
+}
 /* ----- profile ----- */
 
 .title-container {
@@ -278,4 +286,11 @@ option {
   font-size: 1.375rem;
   font-weight: 500;
   color: var(--primary-font-color);
+}
+input[type="number"]#preferred_age {
+  width: 143px ;
+}
+
+select{
+  width: 18rem ;
 }
