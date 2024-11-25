@@ -146,6 +146,11 @@ section > .title-container > h1 {
 	object-fit: cover;
 	border-radius: 1.25rem;
 }
+
+.image-container > img[src=''] {
+	display: none;
+}
+
 .media {
 	padding: 6.25rem 4.5rem 0rem 4.5rem;
 }

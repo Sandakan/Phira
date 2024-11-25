@@ -174,37 +174,43 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
 
             <div class="input-group-container">
                 <label class="image-container">
-                    <input type="file" name="photo-1">
-                    <!-- <img src="../../../public/images/ProfilePic.png" alt=""> -->
+                    <img src="" id="img-1" alt="">
+                    <input type="file" name="photo-1" id="photo-1" onchange="updateImage('photo-1','img-1')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
                 <label class="image-container">
-                    <input type="file" name="photo-2">
+                    <img src="" id="img-2" alt="">
+                    <input type="file" name="photo-2" id="photo-2" onchange="updateImage('photo-2','img-2')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
                 <label class="image-container">
-                    <input type="file" name="photo-3">
+                    <img src="" id="img-3" alt="">
+                    <input type="file" name="photo-3" id="photo-3" onchange="updateImage('photo-3','img-3')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
             </div>
 
             <div class="input-group-container">
                 <label class="image-container">
-                    <input type="file" name="photo-4">
+                    <img src="" id="img-4" alt="">
+                    <input type="file" name="photo-4" id="photo-4" onchange="updateImage('photo-4','img-4')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
                 <label class="image-container">
-                    <input type="file" name="photo-5">
+                    <img src="" id="img-5" alt="">
+                    <input type="file" name="photo-5" id="photo-5" onchange="updateImage('photo-5','img-5')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
                 <label class="image-container">
-                    <input type="file" name="photo-6">
+                    <img src="" id="img-6" alt="">
+                    <input type="file" name="photo-6" id="photo-6" onchange="updateImage('photo-6','img-6')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
             </div>
         </div>
     </form>
 
+    <script src="<?php echo BASE_URL; ?>/public/scripts/updateInputImage.js"></script>
 </body>
 
 </html>
