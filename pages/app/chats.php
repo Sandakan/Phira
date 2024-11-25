@@ -34,6 +34,88 @@ if (!isset($_SESSION["onboarding_completed"])) {
         <section id="chat-container"></section>
     </main>
 
+
+    <aside class="match-user-profile-container" id="match-user-profile-container">
+        <div class="match-user-profile-picture">
+            <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
+        </div>
+
+
+        <div class="match-info-container">
+            <h1>Anjalee Nethmi, 22</h1>
+            <div class="user-location">
+                <span class="material-symbols-rounded">location_on</span>
+                <p>3 kilometers away</p>
+            </div>
+        </div>
+
+
+        <div class="user-bio">
+            <p>Wifey material 😙<br>
+                <br>
+                A lover of nature and cozy nights in. Always seeking the next adventure, whether it’s a hike
+                through
+                the mountains or a weekend getaway to an undiscovered café. Currently navigating life one cup of
+                coffee at a time.
+            </p>
+        </div>
+
+        <div class="user-education">
+            <span class="material-symbols-rounded">school</span>
+            <p>Studying Psychology at ABC University</p>
+        </div>
+
+        <div class="user-tags">
+            <div class="tag">
+                <p>#DogMom</p>
+            </div>
+            <div class="tag">
+                <p>#DogMom</p>
+            </div>
+        </div>
+
+        <div class="user-actions-buttons">
+            <button class="btn btn-primary" id="dislike-btn">
+                <span class="material-symbols-rounded">heart_broken</span>
+                Dislike
+            </button>
+            <button class="btn btn-primary" id="block-report-btn">
+                <span class="material-symbols-rounded">block</span>
+                Block & Report
+            </button>
+        </div>
+    </aside>
+
+    <dialog id="block-panel">
+        <div id="block-modal">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h1>Why Are You Block This User?</h1>
+            </div>
+            <form action="">
+                <p>
+                    We take your safety seriously. Please choose a reason for blocking this user so we can review the
+                    issue and keep our community a safe and respectful place for everyone. Your feedback helps us
+                    improve the experience for all users.
+                </p>
+                <div class="reason-container">
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="html">Harassment or Bullying</label><br>
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="css">Inappropriate Language or Behavior</label><br>
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="javascript">Fake Profile</label><br>
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="javascript">Spamming</label><br>
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="javascript">Offensive or Discriminatory Content</label><br>
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="javascript">Other</label>
+                </div>
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </form>
+        </div>
+    </dialog>
     <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js"></script>
 </body>
 

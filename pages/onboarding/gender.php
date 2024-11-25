@@ -125,17 +125,15 @@ is_gender_set($conn, $user_id);
                         <span class="gender-span">Other</span>
                     </label>
                 </div>
-                <div >
-                    <button class="next-btn" type="submit">Next</button>
-                </div>
+                <button class="btn btn-primary" type="submit">Next</button>
             </form>
         </div>
         <div class="right-panel">
-            
-               <img src="<?php echo BASE_URL; ?>/public/images/gender/gender-reel-1.png" alt="1">
-               <img src="<?php echo BASE_URL; ?>/public/images/gender/gender-reel-2.png" alt="2">
-              
-            
+
+            <img src="<?php echo BASE_URL; ?>/public/images/gender/gender-reel-1.png" alt="1">
+            <img src="<?php echo BASE_URL; ?>/public/images/gender/gender-reel-2.png" alt="2">
+
+
         </div>
     </div>
 

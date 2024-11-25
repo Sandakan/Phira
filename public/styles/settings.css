@@ -39,7 +39,7 @@ section > .title-container > h1 {
 
 /* Card Styles */
 .settings-navbar > .settings-cards > .settings-card {
-  background-color: var(--secondary-background-color);
+  background-color: var(--sidebar-nav-button-background-color);
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 20px;
@@ -48,7 +48,12 @@ section > .title-container > h1 {
 .settings-card:hover {
   padding: 0.4rem;
   border-radius: 0.6rem;
-  background-color: var();
+  background-color: var(--sidebar-nav-button-hover-background-color) !important;
+}
+
+.settings-card.active {
+  background-color: var(--sidebar-nav-button-background-color) !important;
+  border: 2px solid black;
 }
 
 .settings-card h2 {
@@ -65,7 +70,9 @@ section > .title-container > h1 {
   font-weight: 300;
   line-height: 1.5;
 }
-
+.settings-btn {
+  text-decoration: none !important;
+}
 /* ----- profile ----- */
 
 .title-container {
@@ -271,7 +278,7 @@ input:checked + .slider:before {
   width: 15.9375rem;
   height: 3.25rem;
   border-radius: 0.9375rem;
-  border: solid .0625rem var(--secondary-background-color);
+  border: solid 0.0625rem var(--secondary-background-color);
   background-color: var(--primary-background-color);
 }
 option {
@@ -280,9 +287,9 @@ option {
   color: var(--primary-font-color);
 }
 input[type="number"]#preferred_age {
-  width: 143px ;
+  width: 143px;
 }
 
-select{
-  width: 18rem ;
+select {
+  width: 18rem;
 }

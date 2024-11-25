@@ -5,41 +5,7 @@ require '../../vendor/autoload.php';
 require '../../config.php';
 require '../../utils/database.php';
 require '../../utils/generate_random_string.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
-
-function sendEmail($sendEmail, $first_name, $subject, $message)
-{
-    try {
-        $mail = new PHPMailer(true);
-
-        $mail->isSMTP(); // using SMTP protocol                                     
-        $mail->Host = MAIL_HOST; // SMTP host as gmail 
-        $mail->SMTPAuth = true;  // enable smtp authentication                             
-        $mail->Username = MAIL_USERNAME;  // sender gmail host              
-        $mail->Password = MAIL_PASSWORD; // sender gmail host password                          
-        $mail->SMTPSecure = MAIL_ENCRYPTION;  // for encrypted connection                           
-        $mail->Port = intval(MAIL_PORT);   // port for SMTP     
-
-        $mail->isHTML(true);
-        $mail->setFrom("info@phira.com", "Phira"); // sender's email and name
-        $mail->addAddress($sendEmail, $first_name);  // receiver's email and name
-
-        $mail->Subject = $subject;
-        $mail->Body    = $message;
-
-        $mail->send();
-
-
-        echo 'Message has been sent';
-    } catch (Exception $e) { // handle error.
-        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
-    }
-}
-
+require '../../utils/mailer.php';
 
 $conn = initialize_database();
 session_start();
@@ -151,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     :email, 
                     :password, 
                     :token, 
-                    NOW() + INTERVAL 1 DAY);
+                    NOW() + INTERVAL 15 DAY);
             SQL;
 
             sendEmail($email, $first_name, "Welcome to Phira - Verify your account", $message);

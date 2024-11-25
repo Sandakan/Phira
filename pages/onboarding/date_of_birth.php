@@ -114,17 +114,16 @@ is_birthday_set($conn, $user_id);
         <div class="left-panel">
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
-
                 <h1 class="dateOfBirth-h1">Your b-day?</h1>
                 <p class="dateOfBirth-p">Enter your date of birth to find better matches.</p>
-                <label class="radio-option">
-                    <input class="dateOfBirth-span" type="date" name="birth_day" id="birth_day" placeholder="2000-01-01"
-                        required />
-                    <span class="error-message"><?php echo $birth_day_error;?></span>
-                </label>
+
+                <div class="input-container">
+                    <input type="date" name="birth_day" id="birth_day" placeholder="2000-01-01" required />
+                    <span class="error-message"><?php echo $birth_day_error; ?></span>
+                </div>
 
                 <div>
-                    <button class="next-btn" type="submit">Next</button>
+                    <button class="btn btn-primary" type="submit">Next</button>
                 </div>
             </form>
 
