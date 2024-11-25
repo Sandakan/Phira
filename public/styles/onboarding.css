@@ -390,3 +390,34 @@ body > form {
 	right: 1rem;
 	font-size: 2rem;
 }
+
+.onboarding-progress-container {
+	display: flex;
+	gap: 15px;
+	align-items: center;
+}
+.onboarding-progress-container-text h2 {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin: 0rem;
+}
+.onboarding-progress-container-text p {
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: #ff5252;
+	margin-bottom: 0rem;
+}
+
+.onboarding-progress-container span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+}
+.display-icon {
+	font-size: 26px;
+	color: #ff5252;
+	background-color: #ffe1dc;
+	border-radius: 62.5rem;
+}

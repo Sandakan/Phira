@@ -96,7 +96,15 @@ is_distance_range_set($conn, $user_id);
 <body>
 
     <form method="POST" class="container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+
         <!-- Left Panel -->
+        <div class="onboarding-progress-container">
+            <span class="display-icon material-symbols-rounded">location_on</span>
+            <div class="onboarding-progress-container-text">
+                <p>step 3/8</p>
+                <h2>Birthday</h2>
+            </div>
+        </div>
         <div class="left-panel">
             <h1>Your distance preference?</h1>
             <p>How far is too far?</p>

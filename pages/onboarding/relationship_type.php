@@ -95,6 +95,13 @@ is_relationship_type_set($conn, $user_id);
     <form class="container" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
         <div class="left-panel">
+            <div class="onboarding-progress-container">
+                <span class="display-icon material-symbols-rounded">partner_exchange</span>
+                <div class="onboarding-progress-container-text">
+                    <p>step 5/8</p>
+                    <h2>Relationship</h2>
+                </div>
+            </div>
             <h1>What are you looking for?</h1>
             <p>What's your goal?</p>
             <button class="btn-primary form-submit-btn" type="submit">Next</button>

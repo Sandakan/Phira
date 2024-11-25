@@ -118,6 +118,13 @@ is_habits_set($conn, $user_id);
         action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <!-- Left Section -->
         <div class="left-section">
+            <div class="onboarding-progress-container">
+                <span class="display-icon material-symbols-rounded">nightlife</span>
+                <div class="onboarding-progress-container-text">
+                    <p>step 6/8</p>
+                    <h2>Lifestyle</h2>
+                </div>
+            </div>
             <h2>Let’s dive into lifestyle choices, <?php echo $name; ?>.</h2>
             <p>Do their habits align with yours?</p>
             <button type="submit" class="next-btn btn-primary">Next</button>

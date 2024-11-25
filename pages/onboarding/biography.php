@@ -97,7 +97,16 @@ is_biography_set($conn, $user_id);
 
 <body>
     <form class="container biography-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+
+
         <div class="left-panel">
+            <div class="onboarding-progress-container">
+                <span class="display-icon material-symbols-rounded">person_book</span>
+                <div class="onboarding-progress-container-text">
+                    <p>step 4/8</p>
+                    <h2>Bio</h2>
+                </div>
+            </div>
             <h1>About Me</h1>
             <p>Share a little about yourself! 📝 Highlight your passions, interests, and what makes you unique.
                 Let

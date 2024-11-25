@@ -108,6 +108,13 @@ is_gender_set($conn, $user_id);
         <div class="left-panel">
 
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <div class="onboarding-progress-container">
+                    <span class="display-icon material-symbols-rounded">transgender</span>
+                    <div class="onboarding-progress-container-text">
+                        <p>step 2/8</p>
+                        <h2>Gender</h2>
+                    </div>
+                </div>
 
                 <h1 class="gender-h1">What’s your gender?</h1>
                 <p class="gender-p">How do you roll?</p>

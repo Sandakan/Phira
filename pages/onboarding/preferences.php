@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: " . BASE_URL . "/pages/onboarding/show_off.php");
             exit;
         } catch (Exception $e) {
-          
+
             $conn->rollback();
             $error = "Failed to save preferences. Please try again.";
         }
@@ -189,6 +189,13 @@ is_preferences_set($conn, $user_id);
 
             <!-- Right Section -->
             <div class="preferences-right-section">
+                <div class="onboarding-progress-container">
+                    <span class="display-icon material-symbols-rounded">psychology_alt</span>
+                    <div class="onboarding-progress-container-text">
+                        <p>step 7/8</p>
+                        <h2>Preference</h2>
+                    </div>
+                </div>
                 <h1>What makes you uniquely you?</h1>
                 <p>Be real. The right match will love the real you.</p>
                 <span class="error-message"> <?php echo $error; ?> </span>
