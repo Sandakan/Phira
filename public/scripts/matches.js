@@ -86,7 +86,7 @@ function generateMatchElement(user_id, match, BASE_URL) {
 		.find((preference) => preference.preference_name === 'Relationship Type')
 		?.option_text?.toLowerCase();
 
-	matchElement = `
+	const matchElement = `
 			<div class="match" data-user-id="${match_user_id}">
                 <div class="match-banner">
                     <img src="${profile_picture_url}" alt="${first_name} ${last_name} profile picture">

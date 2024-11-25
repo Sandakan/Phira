@@ -88,6 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $result = $statement->execute();
 
           if ($result) {
+            session_unset();
+            session_destroy();
             echo <<<JS
                     <script>
                             const baseUrl = "http://localhost:80/Phira";
@@ -96,7 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </script>
                     JS;
             exit();
-
           } else {
             echo <<<JS
                     <script>
@@ -118,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           exit();
         }
       }
-    }else{
+    } else {
       $password_error = "Password must be at least 8 characters";
     }
   }
@@ -152,8 +153,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>">
 
         <label class="radio-option">
-          <input type="password" name="password" id="password" placeholder="Password" value="<?php echo $password; ?>"
-            required />
+          <input type="password" name="password" id="password" placeholder="Password"
+            value="<?php echo $password; ?>" required />
           <span class="error-message"><?php echo $password_error; ?></span><br>
 
           <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password"

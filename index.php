@@ -34,10 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		</div>
 
 		<ul class="nav-bar">
-			<li><a href="">Help</a></li>
-			<li><a href="">About</a></li>
-			<li><a href="">Contact</a></li>
-			<li><a href="">Privacy Policy</a></li>
+			<li><a href="./pages/help.php">Help</a></li>
+			<li><a href="./pages/about_us.php">About</a></li>
+			<li><a href="./pages/contact_us.php">Contact</a></li>
+			<li><a href="./pages/privacy_policy.php">Privacy Policy</a></li>
 		</ul>
 		<a href="<?php echo BASE_URL; ?>/pages/auth/login.php" id="get">Get started</a>
 	</header>

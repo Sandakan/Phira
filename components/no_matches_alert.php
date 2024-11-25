@@ -7,6 +7,7 @@
 
     <div class="buttons-container">
         <button class="btn btn-primary" id="reload-page-btn" onclick="reload()">Reload</button>
-        <button class="btn btn-primary" id="increase-distance-btn" onclick="">Increase Distance</button>
+        <a href="<? echo BASE_URL . '/pages/app/settings/account_management.php'; ?>" class="btn btn-primary"
+            id="increase-distance-btn" onclick="">Increase Distance</a>
     </div>
 </section>

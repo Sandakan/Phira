@@ -112,8 +112,7 @@ $profile_data = $stmt->fetch(PDO::FETCH_ASSOC);
             <?php endif; ?>
 
             <div class="profile-card">
-                <img src="<?php echo BASE_URL . '/private/media/user_photos/' . $profile_picture_url; ?>"
-                    alt="Profile Picture">
+                <img src="<?php echo $profile_picture_url; ?>" alt="Profile Picture">
                 <h2><?php echo htmlspecialchars($profile_data['first_name']); ?>,
                     <?php echo htmlspecialchars($profile_data['age']); ?></h2>
 
@@ -122,8 +121,11 @@ $profile_data = $stmt->fetch(PDO::FETCH_ASSOC);
                     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                         <textarea name="biography" rows="5"
                             required><?php echo htmlspecialchars($profile_data['biography']); ?></textarea>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="btn btn-secondary">Cancel</a>
+                        <div class="buttons-container">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a href="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+                                class="btn btn-secondary">Cancel</a>
+                        </div>
                     </form>
                 <?php else: ?>
                     <p><?php echo htmlspecialchars($profile_data['biography']); ?></p>

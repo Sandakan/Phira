@@ -11,6 +11,8 @@ if (!isset($_SESSION["onboarding_completed"])) {
     header("Location: " . BASE_URL . "/login.php");
 }
 
+$userId = $_SESSION["user_id"];
+
 ?>
 
 <!DOCTYPE html>
@@ -27,14 +29,15 @@ if (!isset($_SESSION["onboarding_completed"])) {
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
-<body>
+<body id="body" class="" data-base-url="<?php echo BASE_URL; ?>" data-user-id="<?php echo $userId; ?>">
     <?php include('../../components/sidebar.php') ?>
     <main>
-        <?php include('../../components/notification.php') ?>
-        <section>
-
-        </section>
+        <?php include('../../components/notification_category_list.php') ?>
+        <section class="notifications-in-category-container" id="notifications-in-category-container"></section>
     </main>
+
+    <script src="<?php echo BASE_URL; ?>/public/scripts/notifications.js" type="module"></script>
+    <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js" type="module"></script>
 </body>
 
 </html>

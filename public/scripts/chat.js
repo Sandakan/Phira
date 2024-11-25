@@ -1,3 +1,6 @@
+import getActivePageClass from './getActivePageClass.js';
+import getTimeDifference from './getTimeDifference.js';
+
 let chatWebSocket;
 let chatList = [];
 let chatMessages = [];
@@ -5,7 +8,6 @@ let chatMessages = [];
 const body = document.body;
 const BASE_URL = body.dataset.baseUrl;
 const userId = body.dataset.userId;
-const chatListContainer = document.getElementById('chat-list');
 const chatContainer = document.getElementById('chat-container');
 const queryParams = new URLSearchParams(window.location.search);
 const chatId = queryParams.get('chat_id');
@@ -15,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 	if (userId) {
 		initializeChatWebSocket(userId);
-		displayUserChatList(userId).then((userChatList) => {
+		fetchUserChatList(userId).then((userChatList) => {
 			if (userChatList && chatId) {
 				const chat_data = userChatList.find((c) => c.chat_id == chatId);
 				if (chat_data) {
@@ -26,6 +28,29 @@ document.addEventListener('DOMContentLoaded', async () => {
 		});
 	}
 });
+
+function sendMessageNotification(sender_name, message_content) {
+	const isEligible = !document.hasFocus() || document.dataset?.isChat !== 'true';
+
+	if (!('Notification' in window) && isEligible) {
+		// Check if the browser supports notifications
+		alert('This browser does not support desktop notification');
+	} else if (Notification.permission === 'granted') {
+		// Check whether notification permissions have already been granted;
+		// if so, create a notification
+		const notification = new Notification(`New message from ${sender_name}`, { body: message_content });
+		// …
+	} else if (Notification.permission !== 'denied') {
+		// We need to ask the user for permission
+		Notification.requestPermission().then((permission) => {
+			// If the user accepts, let's create a notification
+			if (permission === 'granted') {
+				const notification = new Notification(`New message from ${sender_name}`, { body: message_content });
+				// …
+			}
+		});
+	}
+}
 
 function initializeChatWebSocket(userId) {
 	chatWebSocket = new WebSocket(`ws://localhost:8080/chats?user_id=${userId}`);
@@ -39,18 +64,38 @@ function initializeChatWebSocket(userId) {
 		console.log(`New message in chat ${message.chat_id} from ${message.sender_id}: ${message.content}`);
 
 		if (message.sender_id == userId) return;
-		insertMessage({
+
+		const parsedMessage = {
 			chat_id: message.chat_id,
 			sender_id: message.sender_id,
 			receiver_id: message.receiver_id,
 			message: message.content,
+			content: message.content,
 			updated_at: new Date().toISOString(),
-		});
+		};
+		insertMessage(parsedMessage);
+		updateChatListWithNewLastMessage(parsedMessage);
+
+		const interacted_user_first_name = chatContainer?.dataset.interactedUserFirstName ?? 'Phira';
+		sendMessageNotification(interacted_user_first_name, message?.content);
 	};
 
 	chatWebSocket.onerror = () => {
 		alert('WebSocket connection failed. Try again by reloading the page.');
 	};
+}
+
+function updateChatListWithNewLastMessage(last_message) {
+	const existingChat = chatList.find((c) => c.chat_id === last_message.chat_id);
+	if (existingChat) {
+		existingChat.last_message = last_message.content;
+		existingChat.updated_at = last_message.updated_at;
+	} else {
+		chatList.push(last_message);
+	}
+
+	chatList.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+	displayChatList(chatList);
 }
 
 // Sending a message
@@ -63,40 +108,23 @@ function sendMessage(receiver_id) {
 	const messageInput = document.getElementById('message-input');
 	if (!messageInput) return alert('Message input not found.');
 
-	const msg = JSON.stringify({
-		chat_id: parseInt(chatId),
-		sender_id: parseInt(userId),
-		receiver_id,
-		content: messageInput.value,
-	});
-	chatWebSocket?.send(msg);
+	const message = messageInput.value.trim();
+	if (!message) return alert('Please enter a message.');
 
-	insertMessage({
+	const msg = {
 		chat_id: parseInt(chatId),
 		sender_id: parseInt(userId),
 		receiver_id,
-		message: messageInput.value,
+		message,
+		content: message,
 		updated_at: new Date().toISOString(),
-	});
-}
+	};
+	chatWebSocket?.send(JSON.stringify(msg));
 
-function getActivePageClass(url) {
-	const currentUrl = window.location.href.replace(window.location.origin, '');
-	const matchingUrl = new URL(url);
-	const strippedMatchingUrl = matchingUrl.href.replace(matchingUrl.origin, '');
+	insertMessage(msg);
+	updateChatListWithNewLastMessage(msg);
 
-	return currentUrl.includes(strippedMatchingUrl) ? 'active' : 'not-active';
-}
-
-function getTimeDifference(timestamp) {
-	if (!timestamp) return '';
-
-	const timeDifference = Date.now() - new Date(timestamp).getTime();
-	const oneDay = 24 * 60 * 60 * 1000;
-	const time =
-		timeDifference < oneDay ? new Date(timestamp).toLocaleTimeString() : new Date(timestamp).toLocaleDateString();
-
-	return time;
+	messageInput.value = '';
 }
 
 function generateUserChat(chat_data) {
@@ -132,28 +160,32 @@ function generateUserChat(chat_data) {
 	return chatElement;
 }
 
-async function displayUserChatList(user_id) {
+function displayChatList(chatList) {
+	const chatListContainer = document.getElementById('chat-list');
+
 	if (chatListContainer) {
-		return fetch(`${BASE_URL}/server/chat.server.php?reason=get_user_chat_list&user_id=${user_id}`)
-			.then((response) => response.json())
-			.then((data) => {
-				console.log(data);
-				const { userChatList, success } = data;
-
-				chatList = userChatList;
-
-				if (success) {
-					chatListContainer.innerHTML = '';
-					userChatList.forEach((chat_data) => {
-						const chatElement = generateUserChat(chat_data);
-						chatListContainer.insertAdjacentHTML('beforeend', chatElement);
-					});
-				}
-
-				return userChatList;
-			})
-			.catch((error) => console.error(error));
+		chatListContainer.innerHTML = '';
+		chatList.forEach((chat_data) => {
+			const chatElement = generateUserChat(chat_data);
+			chatListContainer.insertAdjacentHTML('beforeend', chatElement);
+		});
 	}
+}
+
+async function fetchUserChatList(user_id) {
+	return fetch(`${BASE_URL}/server/chat.server.php?reason=get_user_chat_list&user_id=${user_id}`)
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			const { userChatList, success } = data;
+
+			chatList = userChatList;
+
+			if (success) displayChatList(userChatList);
+
+			return userChatList;
+		})
+		.catch((error) => console.error(error));
 }
 
 function displayChatContainer(chat_data, chat_messages = '') {
@@ -161,48 +193,68 @@ function displayChatContainer(chat_data, chat_messages = '') {
 		chat_data;
 
 	const chatElement = `
-            <div class="user-chat-profile">
+            <div class="user-chat-header">
                 <img src="${BASE_URL}/private/media/user_photos/${interacted_user_profile_picture}" alt="">
                 <div class="user-info-container">
                     <div class="user-info">
                         <h1>${interacted_user_first_name} ${interacted_user_last_name}</h1>
                         <p>Online</p>
                     </div>
-                    <span class="privacy-icon material-symbols-rounded">info</span>
+                    <button onclick="toggleSideProfile()" class="btn btn-primary info-btn">
+						<span class="privacy-icon material-symbols-rounded">info</span>
+					</button>
                 </div>
             </div>
             <div class="messages-container" id="chat-messages-container">${chat_messages}</div>
             <div class="message-input-container">
                 <textarea class="type-area" id="message-input" placeholder="Type a message..."></textarea>
-                <button onclick="sendMessage(${interacted_user_id})"><span class="privacy-icon material-symbols-rounded">send</span></button>
+                <button class="btn btn-primary send-message-button" onclick="sendMessage(${interacted_user_id})"><span class="privacy-icon material-symbols-rounded">send</span></button>
             </div>
-        </div>
     `;
 
 	if (chatContainer) {
+		chatContainer.dataset.interactedUserProfilePicture = interacted_user_profile_picture;
+		chatContainer.dataset.interactedUserFirstName = interacted_user_first_name;
+		chatContainer.dataset.interactedUserLastName = interacted_user_last_name;
+		chatContainer.dataset.interactedUserId = interacted_user_id;
 		chatContainer.innerHTML = chatElement;
+
+		const messageInput = document.getElementById('message-input');
+		messageInput.addEventListener('keydown', (event) => {
+			if (event.key === 'Enter') {
+				sendMessage(interacted_user_id);
+			}
+		});
 	}
 }
 
 function generateMessage(message_data) {
 	const { chat_id, sender_id, message, message_media_url, message_type, seen_at, updated_at } = message_data;
 
-	const profile_picture_url = `${BASE_URL}/private/media/user_photos/${sender_id}`;
-	const message_timestamp = updated_at ? new Date(updated_at).toLocaleString() : '';
-
 	const isSender = sender_id === parseInt(userId);
 
-	const messageElement = `
-    <div class="message-container ${
+	if (chatContainer) {
+		const interacted_user_profile_picture = chatContainer.dataset.interactedUserProfilePicture;
+		const user_profile_picture = body.dataset.userProfilePicture;
+
+		const profile_picture_url = isSender
+			? `${BASE_URL}/private/media/user_photos/${user_profile_picture}`
+			: `${BASE_URL}/private/media/user_photos/${interacted_user_profile_picture}`;
+		const message_timestamp = updated_at ? new Date(updated_at).toLocaleString() : '';
+
+		const messageElement = `
+		<div class="message-container ${
 			isSender ? 'sender-message' : 'receiver-message'
 		}" data-message-timestamp="${message_timestamp}" data-message-id="${message_data.message_id}">
-        <img src="${profile_picture_url}" alt="">
-        <div class="message">
-            <p>${message}</p>
-        </div>
-    </div>`;
+			<img src="${profile_picture_url}" alt="">
+			<div class="message">
+				<p class="message-content">${message}</p>
+				<span class="message-timestamp" title="${message_timestamp}">${getTimeDifference(message_timestamp)}</span>
+			</div>
+		</div>`;
 
-	return messageElement;
+		return messageElement;
+	}
 }
 
 function insertMessage(message_data) {
@@ -235,35 +287,25 @@ async function displayChatMessages(chat_id) {
 
 // ----- side panel -----
 
-var modal = document.getElementById('match-user-profile-container');
-var user_profile = document.getElementById('info-icon');
-var span = document.getElementsByClassName('close')[0];
+function toggleSideProfile() {
+	const modal = document.getElementById('match-user-profile-container');
 
-user_profile.onclick = function () {
-	modal.style.display = 'block';
-};
-span.onclick = function () {
-	modal.style.display = 'none';
-};
-window.onclick = function (event) {
-	if (event.target == modal) {
-		modal.style.display = 'none';
-	}
-};
+	modal?.classList.toggle('hidden');
+}
 
-var block_button = document.getElementById('block-report-btn');
-var block_panel = document.getElementById('block-panel');
-var close_button = document.getElementsByClassName('close')[1];
+// const block_button = document.getElementById('block-report-btn');
+// const block_panel = document.getElementById('block-panel');
+// const close_button = document.getElementsByClassName('close')[1];
 
-block_button.onclick = function () {
-	block_panel.style.display = 'block';
-};
+// block_button.onclick = function () {
+// 	block_panel.style.display = 'block';
+// };
 
-close_button.onclick = function () {
-	block_panel.style.display = 'none';
-};
-window.onclick = function (event) {
-	if (event.target == modal) {
-		block_panel.style.display = 'none';
-	}
-};
+// close_button.onclick = function () {
+// 	block_panel.style.display = 'none';
+// };
+// window.onclick = function (event) {
+// 	if (event.target == modal) {
+// 		block_panel.style.display = 'none';
+// 	}
+// };

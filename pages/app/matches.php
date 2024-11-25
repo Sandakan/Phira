@@ -40,7 +40,9 @@ if (!isset($_SESSION["onboarding_completed"])) {
         <?php include('../../components/match_found_alert.php') ?>
     </main>
 
-    <script src="<?php echo BASE_URL; ?>/public/scripts/matches.js"></script>
+    <script src="<?php echo BASE_URL; ?>/public/scripts/matches.js" type="module"></script>
+    <script src="<?php echo BASE_URL; ?>/public/scripts/notifications.js" type="module"></script>
+    <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js" type="module"></script>
 </body>
 
 </html>

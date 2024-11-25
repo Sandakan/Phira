@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $photos = array();
     foreach ($_FILES as $file) {
-        echo $file['name'];
+        // echo $file['name'];
         if (isset($file['name']) && !empty($file['name'])) {;
             $photos[] = $file;
         };
@@ -158,12 +158,19 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
 
         <div class="left-panel">
             <div class="input-container">
+                <div class="onboarding-progress-container">
+                    <span class="display-icon material-symbols-rounded">add_photo_alternate</span>
+                    <div class="onboarding-progress-container-text">
+                        <p>step 8/8</p>
+                        <h2>Pictures</h2>
+                    </div>
+                </div>
                 <h1>Show off the latest <br>you!</h1>
                 <p> Add your recent photos. Your first image will be your profile picture.</p>
 
                 <span class="error-message"><?php echo $image_error; ?></span>
 
-                <div class="register-form-actions-container">
+                <div class="onboarding-progress-container">
                     <button class="btn btn-primary" type="submit">Next</button>
                 </div>
             </div>
@@ -174,37 +181,43 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
 
             <div class="input-group-container">
                 <label class="image-container">
-                    <input type="file" name="photo-1">
-                    <!-- <img src="../../../public/images/ProfilePic.png" alt=""> -->
+                    <img src="" id="img-1" alt="">
+                    <input type="file" name="photo-1" id="photo-1" onchange="updateImage('photo-1','img-1')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
                 <label class="image-container">
-                    <input type="file" name="photo-2">
+                    <img src="" id="img-2" alt="">
+                    <input type="file" name="photo-2" id="photo-2" onchange="updateImage('photo-2','img-2')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
                 <label class="image-container">
-                    <input type="file" name="photo-3">
+                    <img src="" id="img-3" alt="">
+                    <input type="file" name="photo-3" id="photo-3" onchange="updateImage('photo-3','img-3')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
             </div>
 
             <div class="input-group-container">
                 <label class="image-container">
-                    <input type="file" name="photo-4">
+                    <img src="" id="img-4" alt="">
+                    <input type="file" name="photo-4" id="photo-4" onchange="updateImage('photo-4','img-4')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
                 <label class="image-container">
-                    <input type="file" name="photo-5">
+                    <img src="" id="img-5" alt="">
+                    <input type="file" name="photo-5" id="photo-5" onchange="updateImage('photo-5','img-5')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
                 <label class="image-container">
-                    <input type="file" name="photo-6">
+                    <img src="" id="img-6" alt="">
+                    <input type="file" name="photo-6" id="photo-6" onchange="updateImage('photo-6','img-6')">
                     <span class="add-icon material-symbols-rounded">add_circle</span>
                 </label>
             </div>
         </div>
     </form>
 
+    <script src="<?php echo BASE_URL; ?>/public/scripts/updateInputImage.js"></script>
 </body>
 
 </html>

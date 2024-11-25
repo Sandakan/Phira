@@ -360,3 +360,64 @@ body > form {
 .container.show-off-container > .right-panel input[type='file'] {
 	display: none;
 }
+
+.input-group-container > .image-container {
+	border: 2px dashed var(--primary-highlight-color);
+	border-radius: 1rem;
+	width: 10rem;
+	height: 15rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+}
+
+.input-group-container > .image-container > img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+.input-group-container > .image-container > img[src=''] {
+	display: none;
+}
+
+.input-group-container > .image-container > .add-icon {
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
+	font-size: 2rem;
+}
+
+.onboarding-progress-container {
+	display: flex;
+	gap: 15px;
+	align-items: center;
+}
+.onboarding-progress-container-text h2 {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin: 0rem;
+}
+.onboarding-progress-container-text p {
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: #ff5252;
+	margin-bottom: 0rem;
+}
+
+.onboarding-progress-container span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+}
+.display-icon {
+	font-size: 26px;
+	color: #ff5252;
+	background-color: #ffe1dc;
+	border-radius: 62.5rem;
+}
