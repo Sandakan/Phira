@@ -76,10 +76,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $statement->bindParam("photo_url", $image_file, PDO::PARAM_STR);
                     $result = $statement->execute();
 
-                    $photo_id = $conn->lastInsertId();
+                    $photo_id = intval($conn->lastInsertId());
 
                     $image_new_filename = $photo_id .  $image_ext;
                     $image_save_path = $image_target_dir . $image_new_filename;
+
+                    $image = $image_new_filename;
+
+                    $update_query = "UPDATE photos SET photo_url = :photo_url WHERE photo_id = :photo_id";
+                    $update_stmt = $conn->prepare($update_query);
+                    $update_stmt->bindParam("photo_url", $image_new_filename, PDO::PARAM_STR);
+                    $update_stmt->bindParam("photo_id", $photo_id, PDO::PARAM_INT);
+                    $update_result = $update_stmt->execute();
 
                     if (!move_uploaded_file(
                         $photo['tmp_name'],
@@ -87,14 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     )) {
                         throw new RuntimeException('Failed to move uploaded file.');
                     }
-
-                    $image = $image_new_filename;
-
-                    $update_query = "UPDATE photos SET photo_url = :photo_url WHERE photo_id = :photo_id";
-                    $update_stmt = $conn->prepare($query);
-                    $update_stmt->bindParam("photo_url", $image_new_filename, PDO::PARAM_STR);
-                    $update_stmt->bindParam("photo_id", $photo_id, PDO::PARAM_INT);
-                    $update_result = $update_stmt->execute();
                 }
             }
 
@@ -144,6 +144,9 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
             <div class="input-container">
                 <h1>Show off the latest <br>you!</h1>
                 <p> Add your recent photos </p>
+
+                <span class="error-message"><?php echo $image_error; ?></span>
+
                 <div class="register-form-actions-container">
                     <button class="btn btn-primary" type="submit">Next</button>
                 </div>
