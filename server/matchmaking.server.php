@@ -100,6 +100,8 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
     $result = $statement->execute();
     $potentialMatches = $statement->fetchAll();
 
+    $matches = [];
+
     // Filter matches based on common preferences
     foreach ($potentialMatches as $match) {
         $matchPreferences = explode(',', $match['match_preferences']);
