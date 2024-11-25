@@ -1,5 +1,4 @@
 <?php
-
 if (!isset($_SESSION["profile_picture_url"])) die("Profile picture URL not set");
 $profile_picture_url = BASE_URL . "/private/media/user_photos/" . $_SESSION["profile_picture_url"];
 ?>

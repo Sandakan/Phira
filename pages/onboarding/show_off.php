@@ -56,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!$is_error) {
         try {
+            $profile_picture_name = null;
             // Insert into database
             $query = <<< SQL
             INSERT INTO
@@ -76,10 +77,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $statement->bindParam("photo_url", $image_file, PDO::PARAM_STR);
                     $result = $statement->execute();
 
-                    $photo_id = $conn->lastInsertId();
+                    $photo_id = intval($conn->lastInsertId());
 
                     $image_new_filename = $photo_id .  $image_ext;
                     $image_save_path = $image_target_dir . $image_new_filename;
+
+                    $image = $image_new_filename;
+
+                    $update_query = "UPDATE photos SET photo_url = :photo_url WHERE photo_id = :photo_id";
+                    $update_stmt = $conn->prepare($update_query);
+                    $update_stmt->bindParam("photo_url", $image_new_filename, PDO::PARAM_STR);
+                    $update_stmt->bindParam("photo_id", $photo_id, PDO::PARAM_INT);
+                    $update_result = $update_stmt->execute();
 
                     if (!move_uploaded_file(
                         $photo['tmp_name'],
@@ -87,27 +96,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     )) {
                         throw new RuntimeException('Failed to move uploaded file.');
                     }
+                }
 
-                    $image = $image_new_filename;
-
-                    $update_query = "UPDATE photos SET photo_url = :photo_url WHERE photo_id = :photo_id";
-                    $update_stmt = $conn->prepare($query);
-                    $update_stmt->bindParam("photo_url", $image_new_filename, PDO::PARAM_STR);
-                    $update_stmt->bindParam("photo_id", $photo_id, PDO::PARAM_INT);
-                    $update_result = $update_stmt->execute();
+                if ($index == 0) {
+                    $profile_picture_name = $image_new_filename;
                 }
             }
 
-            $query = "UPDATE users SET onboarding_completed_at = NOW() WHERE user_id = :user_id";
-            $statement = $conn->prepare($query);
-            $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
-            $result = $statement->execute();
+            if (isset($profile_picture_name)) {
+                $_SESSION["profile_picture_url"] = $profile_picture_name;
 
-            $conn->commit();
-            echo 'Photos uploaded successfully.';
-            $_SESSION["onboarding_completed"] = true;
+                $query = "UPDATE users SET onboarding_completed_at = NOW() WHERE user_id = :user_id";
+                $statement = $conn->prepare($query);
+                $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+                $result = $statement->execute();
 
-            header("Location: " . BASE_URL . "/pages/app/matches.php");
+                $query = "UPDATE profiles SET profile_picture_url = :profile_picture_url WHERE user_id = :user_id";
+                $statement = $conn->prepare($query);
+                $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+                $statement->bindParam("profile_picture_url", $profile_picture_name, PDO::PARAM_STR);
+                $result = $statement->execute();
+
+                $conn->commit();
+                echo 'Photos uploaded successfully.';
+                $_SESSION["onboarding_completed"] = true;
+
+                header("Location: " . BASE_URL . "/pages/app/matches.php");
+            } else throw new Exception("No first image found.");
+
             exit();
         } catch (\Throwable $e) {
             $conn->rollback();
@@ -132,7 +148,7 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gallery - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/show_off.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
@@ -143,7 +159,10 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
         <div class="left-panel">
             <div class="input-container">
                 <h1>Show off the latest <br>you!</h1>
-                <p> Add your recent photos </p>
+                <p> Add your recent photos. Your first image will be your profile picture.</p>
+
+                <span class="error-message"><?php echo $image_error; ?></span>
+
                 <div class="register-form-actions-container">
                     <button class="btn btn-primary" type="submit">Next</button>
                 </div>
@@ -187,4 +206,5 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
     </form>
 
 </body>
+
 </html>

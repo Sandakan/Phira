@@ -76,23 +76,19 @@ if (isset($_GET['token'])) {
     <div class="container">
 
         <div class="left-panel">
-            <div class="input-container">
-                <h1><label for="verification"><?php echo $title; ?></label></h1>
-                <p><?php echo $description; ?></p>
+            <h1><?php echo $title; ?></h1>
+            <p><?php echo $description; ?></p>
 
-            </div>
-
-            <div class="verification-form-actions-container">
-                <a href="<?php echo BASE_URL; ?>/pages/auth/login.php" class="btn btn-primary form-submit-btn">Back to
-                    login</a>
-            </div>
+            <a href="<?php echo BASE_URL; ?>/pages/auth/login.php" class="btn btn-primary form-submit-btn">
+                Back to login
+            </a>
         </div>
-        <div class="email-right-panel">
-            <div>
-                <img src="<?php echo BASE_URL; ?>/public/images/email-varification/Left-side.png" alt="1">
+        <div class="right-panel">
+            <div class="photo-reel">
+                <img src="<?php echo BASE_URL; ?>/public/images/email-verification/Left-side.png" alt="1">
             </div>
-            <div>
-                <img src="<?php echo BASE_URL; ?>/public/images/email-varification/Right-side.png" alt="1">
+            <div class="photo-reel1">
+                <img src="<?php echo BASE_URL; ?>/public/images/email-verification/Right-side.png" alt="1">
             </div>
         </div>
 

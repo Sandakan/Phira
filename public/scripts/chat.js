@@ -155,3 +155,115 @@ async function displayUserChatList(user_id) {
 			.catch((error) => console.error(error));
 	}
 }
+
+function displayChatContainer(chat_data, chat_messages = '') {
+	const { interacted_user_id, interacted_user_first_name, interacted_user_last_name, interacted_user_profile_picture } =
+		chat_data;
+
+	const chatElement = `
+            <div class="user-chat-profile">
+                <img src="${BASE_URL}/private/media/user_photos/${interacted_user_profile_picture}" alt="">
+                <div class="user-info-container">
+                    <div class="user-info">
+                        <h1>${interacted_user_first_name} ${interacted_user_last_name}</h1>
+                        <p>Online</p>
+                    </div>
+                    <span class="privacy-icon material-symbols-rounded">info</span>
+                </div>
+            </div>
+            <div class="messages-container" id="chat-messages-container">${chat_messages}</div>
+            <div class="message-input-container">
+                <textarea class="type-area" id="message-input" placeholder="Type a message..."></textarea>
+                <button onclick="sendMessage(${interacted_user_id})"><span class="privacy-icon material-symbols-rounded">send</span></button>
+            </div>
+        </div>
+    `;
+
+	if (chatContainer) {
+		chatContainer.innerHTML = chatElement;
+	}
+}
+
+function generateMessage(message_data) {
+	const { chat_id, sender_id, message, message_media_url, message_type, seen_at, updated_at } = message_data;
+
+	const profile_picture_url = `${BASE_URL}/private/media/user_photos/${sender_id}`;
+	const message_timestamp = updated_at ? new Date(updated_at).toLocaleString() : '';
+
+	const isSender = sender_id === parseInt(userId);
+
+	const messageElement = `
+    <div class="message-container ${
+			isSender ? 'sender-message' : 'receiver-message'
+		}" data-message-timestamp="${message_timestamp}" data-message-id="${message_data.message_id}">
+        <img src="${profile_picture_url}" alt="">
+        <div class="message">
+            <p>${message}</p>
+        </div>
+    </div>`;
+
+	return messageElement;
+}
+
+function insertMessage(message_data) {
+	const messageElement = generateMessage(message_data);
+
+	const chatMessagesContainer = document.getElementById('chat-messages-container');
+	if (chatMessagesContainer) {
+		chatMessagesContainer.insertAdjacentHTML('beforeend', messageElement);
+	}
+}
+
+async function displayChatMessages(chat_id) {
+	fetch(`${BASE_URL}/server/chat.server.php?reason=get_chat_messages&chat_id=${chat_id}`)
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			const { messages, success } = data;
+
+			chatMessages = messages;
+			const chatMessagesContainer = document.getElementById('chat-messages-container');
+
+			if (success && chatMessagesContainer) {
+				chatMessagesContainer.innerHTML = '';
+
+				chatMessages.forEach((message_data) => insertMessage(message_data));
+			}
+		})
+		.catch((error) => console.error(error));
+}
+
+// ----- side panel -----
+
+var modal = document.getElementById('match-user-profile-container');
+var user_profile = document.getElementById('info-icon');
+var span = document.getElementsByClassName('close')[0];
+
+user_profile.onclick = function () {
+	modal.style.display = 'block';
+};
+span.onclick = function () {
+	modal.style.display = 'none';
+};
+window.onclick = function (event) {
+	if (event.target == modal) {
+		modal.style.display = 'none';
+	}
+};
+
+var block_button = document.getElementById('block-report-btn');
+var block_panel = document.getElementById('block-panel');
+var close_button = document.getElementsByClassName('close')[1];
+
+block_button.onclick = function () {
+	block_panel.style.display = 'block';
+};
+
+close_button.onclick = function () {
+	block_panel.style.display = 'none';
+};
+window.onclick = function (event) {
+	if (event.target == modal) {
+		block_panel.style.display = 'none';
+	}
+};

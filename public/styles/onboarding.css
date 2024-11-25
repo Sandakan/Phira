@@ -357,6 +357,6 @@ body > form {
 	flex-wrap: wrap;
 }
 
-.container.show-off-container > .right-panel input {
+.container.show-off-container > .right-panel input[type='file'] {
 	display: none;
 }

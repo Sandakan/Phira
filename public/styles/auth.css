@@ -97,24 +97,13 @@ button:hover {
 }
 
 /* new */
-
 .left-panel {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	padding: 5rem;
 }
-.left-panel h1 {
-	font-size: 4.4375rem;
-	font-weight: bold;
-	text-align: left;
-}
-.left-panel p {
-	font-size: 1.4375rem;
-	font-weight: 700;
-	text-align: left;
-	color: var(--primary-font-color-variant);
-}
+
 #form-actions {
 	display: inline;
 	width: 45.8125rem;
@@ -180,9 +169,7 @@ button:hover {
 	background-color: #ff5252;
 	color: white;
 }
-.input-container h1 {
-	font-weight: bold;
-}
+
 .btn btn-primary form-submit-btn {
 	background-color: var(--primary-highlight-color-varient);
 }
@@ -204,10 +191,7 @@ button:hover {
 	background-color: var(--primary-highlight-color);
 	color: var(--secondary-font-color);
 }
-.input-container h1 {
-	font-size: 4.375rem;
-	font-weight: bold;
-}
+
 /* ----- Forgot Password ----- */
 
 .forgotPassword-container :is(.photo-reel, .photo-reel1) {

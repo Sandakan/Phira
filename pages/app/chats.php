@@ -31,145 +31,18 @@ if (!isset($_SESSION["onboarding_completed"])) {
     <?php include('../../components/sidebar.php') ?>
     <main>
         <?php include('../../components/chat_list.php') ?>
-        <section id="chat-container">
-            <div class="user-chat-profile">
-                <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
-                <div class="user-info-container">
-                    <div class="user-info">
-                        <h1>Anjalee Nethmi</h1>
-                        <p>Online</p>
-                    </div>
-<<<<<<< HEAD
-                    <span class="privacy-icon material-symbols-rounded">info</span>
-=======
-                    <button id="info-icon"><span class="privacy-icon material-symbols-rounded">info</span></button>
-                </div>
-            </div>
-            <div class="messages-container">
-                <div class="message-container receiver-message">
-                    <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
-                    <div class="message">
-                        <p>Explorer at heart, always seeking the next adventure. Whether it's hiking up a mountain or
-                            diving
-                            into a new book, I'm all about the journey. Let's make some memories together!</p>
-                    </div>
-                </div>
-                <div class="message-container sender-message">
-                    <img src="<?php echo BASE_URL; ?>/public/images/feedbackUser.png" alt="">
-                    <div class="message">
-                        <p>Explorer at heart, always seeking the next adventure. Whether it's hiking up a mountain or
-                            diving
-                            into a new book, I'm all about the journey. Let's make some memories together!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="message-input-container">
-                <textarea class="type-area" id="message-input" placeholder="Type a message..."></textarea>
-                <button onclick="sendMessage()"><span class="privacy-icon material-symbols-rounded">send</span></button>
-            </div>
-        </section>
-    </main>
-
-    <nav class="match-user-profile-container" id="match-user-profile-container">
-        <div class="match-user-profile-picture">
-            <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
-        </div>
-
-        <div class="match-info-container">
-            <h1>Anjalee Nethmi ,22</h1>
-            <div class="user-location">
-                <span class="material-symbols-rounded">location_on</span>
-                <p>3 kilometers away</p>
-            </div>
-        </div>
-
-        <div class="user-bio">
-            <p>Wifey material 😙<br>
-                <br>
-                A lover of nature and cozy nights in. Always seeking the next adventure, whether it’s a hike
-                through
-                the mountains or a weekend getaway to an undiscovered café. Currently navigating life one cup of
-                coffee at a time.
-            </p>
-        </div>
-
-        <div class="user-education">
-            <span class="material-symbols-rounded">school</span>
-            <p>Studying Psychology at ABC University</p>
-        </div>
-        <div class="user-tags">
-            <div class="tag">
-                <p>#DogMom</p>
-            </div>
-            <div class="tag">
-                <p>#DogMom</p>
-            </div>
-        </div>
-        <div class="user-actions-buttons">
-            <button class="btn btn-primary" id="dislike-btn"><span
-                    class="material-symbols-rounded">heart_broken</span>Dislike</button>
-            <button class="btn btn-primary" id="block-report-btn"><span
-                    class="material-symbols-rounded">block</span>Block &
-                Report</button>
-        </div>
-
-
-        <div class="match-user-profile-container" id="match-user-profile-container">
-            <div class="match-user-profile-picture">
-                <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
-            </div>
-
-            <div class="match-info-container">
-                <h1>Anjalee Nethmi ,22</h1>
-                <div class="user-location">
-                    <span class="material-symbols-rounded">location_on</span>
-                    <p>3 kilometers away</p>
->>>>>>> parent of 82ac8ea (popup block panel)
-                </div>
-            </div>
-
-            <div class="user-bio">
-                <p>Wifey material 😙<br>
-                    <br>
-                    A lover of nature and cozy nights in. Always seeking the next adventure, whether it’s a hike
-                    through
-                    the mountains or a weekend getaway to an undiscovered café. Currently navigating life one cup of
-                    coffee at a time.
-                </p>
-            </div>
-
-            <div class="user-education">
-                <span class="material-symbols-rounded">school</span>
-                <p>Studying Psychology at ABC University</p>
-            </div>
-            <div class="user-tags">
-                <div class="tag">
-                    <p>#DogMom</p>
-                </div>
-                <div class="tag">
-                    <p>#DogMom</p>
-                </div>
-            </div>
-            <div class="user-actions-buttons">
-                <button class="btn btn-primary" id="dislike-btn"><span
-                        class="material-symbols-rounded">heart_broken</span>Dislike</button>
-                <button class="btn btn-primary" id="block-report-btn"><span
-                        class="material-symbols-rounded">block</span>Block &
-                    Report</button>
-            </div>
-<<<<<<< HEAD
-        </section>
+        <section id="chat-container"></section>
     </main>
 
 
-    <nav class="match-user-profile-container" id="match-user-profile-container">
+    <aside class="match-user-profile-container" id="match-user-profile-container">
         <div class="match-user-profile-picture">
             <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
         </div>
 
 
         <div class="match-info-container">
-            <h1>Anjalee Nethmi ,22</h1>
+            <h1>Anjalee Nethmi, 22</h1>
             <div class="user-location">
                 <span class="material-symbols-rounded">location_on</span>
                 <p>3 kilometers away</p>
@@ -187,11 +60,11 @@ if (!isset($_SESSION["onboarding_completed"])) {
             </p>
         </div>
 
-
         <div class="user-education">
             <span class="material-symbols-rounded">school</span>
             <p>Studying Psychology at ABC University</p>
         </div>
+
         <div class="user-tags">
             <div class="tag">
                 <p>#DogMom</p>
@@ -200,100 +73,50 @@ if (!isset($_SESSION["onboarding_completed"])) {
                 <p>#DogMom</p>
             </div>
         </div>
+
         <div class="user-actions-buttons">
-            <button class="btn btn-primary" id="dislike-btn"><span
-                    class="material-symbols-rounded">heart_broken</span>Dislike</button>
-            <button class="btn btn-primary" id="block-report-btn"><span
-                    class="material-symbols-rounded">block</span>Block &
-                Report</button>
+            <button class="btn btn-primary" id="dislike-btn">
+                <span class="material-symbols-rounded">heart_broken</span>
+                Dislike
+            </button>
+            <button class="btn btn-primary" id="block-report-btn">
+                <span class="material-symbols-rounded">block</span>
+                Block & Report
+            </button>
         </div>
+    </aside>
 
-
-
-
-        <div class="match-user-profile-container" id="match-user-profile-container">
-            <div class="match-user-profile-picture">
-                <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
+    <dialog id="block-panel">
+        <div id="block-modal">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h1>Why Are You Block This User?</h1>
             </div>
-
-
-            <div class="match-info-container">
-                <h1>Anjalee Nethmi ,22</h1>
-                <div class="user-location">
-                    <span class="material-symbols-rounded">location_on</span>
-                    <p>3 kilometers away</p>
-                </div>
-            </div>
-
-
-            <div class="user-bio">
-                <p>Wifey material 😙<br>
-                    <br>
-                    A lover of nature and cozy nights in. Always seeking the next adventure, whether it’s a hike
-                    through
-                    the mountains or a weekend getaway to an undiscovered café. Currently navigating life one cup of
-                    coffee at a time.
+            <form action="">
+                <p>
+                    We take your safety seriously. Please choose a reason for blocking this user so we can review the
+                    issue and keep our community a safe and respectful place for everyone. Your feedback helps us
+                    improve the experience for all users.
                 </p>
-            </div>
-
-
-            <div class="user-education">
-                <span class="material-symbols-rounded">school</span>
-                <p>Studying Psychology at ABC University</p>
-            </div>
-            <div class="user-tags">
-                <div class="tag">
-                    <p>#DogMom</p>
+                <div class="reason-container">
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="html">Harassment or Bullying</label><br>
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="css">Inappropriate Language or Behavior</label><br>
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="javascript">Fake Profile</label><br>
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="javascript">Spamming</label><br>
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="javascript">Offensive or Discriminatory Content</label><br>
+                    <input type="radio" id="reason" name="reason" value="">
+                    <label for="javascript">Other</label>
                 </div>
-                <div class="tag">
-                    <p>#DogMom</p>
-                </div>
-            </div>
-            <div class="user-actions-buttons">
-                <button class="btn btn-primary" id="dislike-btn"><span
-                        class="material-symbols-rounded">heart_broken</span>Dislike</button>
-                <button class="btn btn-primary" id="block-report-btn"><span
-                        class="material-symbols-rounded">block</span>Block &
-                    Report</button>
-            </div>
-
-
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </form>
         </div>
-
-
-
-
-
-=======
-
-        </div>
-
-
->>>>>>> parent of 82ac8ea (popup block panel)
-
-    </nav>
-
-
+    </dialog>
     <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js"></script>
-
-    <script>
-    var modal = document.getElementById("match-user-profile-container");
-    var user_profile = document.getElementById("info-icon");
-
-    user_profile.onclick = function() {
-        modal.style.display = "block";
-    }
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
-    </script>
-<<<<<<< HEAD
-
-   
-=======
->>>>>>> parent of 82ac8ea (popup block panel)
 </body>
 
 </html>
