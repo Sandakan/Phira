@@ -27,64 +27,50 @@ if (!isset($_SESSION["onboarding_completed"])) {
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
-<body id="body" class="" data-base-url="<?php echo BASE_URL; ?>" data-user-id="<?php echo $_SESSION["user_id"]; ?>">
+<body id="body" class="" data-base-url="<?php echo BASE_URL; ?>" data-user-id="<?php echo $_SESSION["user_id"]; ?>"
+    data-user-profile-picture="<?php echo $_SESSION["profile_picture_url"]; ?>">
     <?php include('../../components/sidebar.php') ?>
     <main>
         <?php include('../../components/chat_list.php') ?>
         <section id="chat-container"></section>
+
+        <aside class="match-user-profile-container hidden" id="match-user-profile-container">
+            <div class="match-user-profile-picture">
+                <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
+            </div>
+
+
+            <div class="match-info-container">
+                <h1>Anjalee Nethmi, 22</h1>
+                <div class="user-location">
+                    <span class="material-symbols-rounded">location_on</span>
+                    <p>3 kilometers away</p>
+                </div>
+            </div>
+
+
+            <div class="user-bio">
+                <p>Wifey material 😙<br>
+                    <br>
+                    A lover of nature and cozy nights in. Always seeking the next adventure, whether it’s a hike
+                    through
+                    the mountains or a weekend getaway to an undiscovered café. Currently navigating life one cup of
+                    coffee at a time.
+                </p>
+            </div>
+
+            <div class="user-actions-buttons">
+                <button class="btn btn-primary" id="dislike-btn">
+                    <span class="material-symbols-rounded-filled">heart_broken</span>
+                    Dislike
+                </button>
+                <button class="btn btn-primary" id="block-report-btn">
+                    <span class="material-symbols-rounded">block</span>
+                    Block & Report
+                </button>
+            </div>
+        </aside>
     </main>
-
-
-    <aside class="match-user-profile-container" id="match-user-profile-container">
-        <div class="match-user-profile-picture">
-            <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic2.png" alt="">
-        </div>
-
-
-        <div class="match-info-container">
-            <h1>Anjalee Nethmi, 22</h1>
-            <div class="user-location">
-                <span class="material-symbols-rounded">location_on</span>
-                <p>3 kilometers away</p>
-            </div>
-        </div>
-
-
-        <div class="user-bio">
-            <p>Wifey material 😙<br>
-                <br>
-                A lover of nature and cozy nights in. Always seeking the next adventure, whether it’s a hike
-                through
-                the mountains or a weekend getaway to an undiscovered café. Currently navigating life one cup of
-                coffee at a time.
-            </p>
-        </div>
-
-        <div class="user-education">
-            <span class="material-symbols-rounded">school</span>
-            <p>Studying Psychology at ABC University</p>
-        </div>
-
-        <div class="user-tags">
-            <div class="tag">
-                <p>#DogMom</p>
-            </div>
-            <div class="tag">
-                <p>#DogMom</p>
-            </div>
-        </div>
-
-        <div class="user-actions-buttons">
-            <button class="btn btn-primary" id="dislike-btn">
-                <span class="material-symbols-rounded">heart_broken</span>
-                Dislike
-            </button>
-            <button class="btn btn-primary" id="block-report-btn">
-                <span class="material-symbols-rounded">block</span>
-                Block & Report
-            </button>
-        </div>
-    </aside>
 
     <dialog id="block-panel">
         <div id="block-modal">

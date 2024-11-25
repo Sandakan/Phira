@@ -30,10 +30,8 @@ if (!isset($_SESSION["onboarding_completed"])) {
 <body>
     <?php include('../../components/sidebar.php') ?>
     <main>
-        <?php include('../../components/notification.php') ?>
-        <section>
-
-        </section>
+        <?php include('../../components/notification_category_list.php') ?>
+        <section class="notifications-in-category-container"></section>
     </main>
 </body>
 

@@ -42,7 +42,7 @@ a.btn-primary {
 	transition: all 0.25s ease-in-out;
 	outline: none;
 	text-align: center;
-	border: 3px solid var(--primary-button-background-color);
+	/* border: 3px solid var(--primary-button-background-color); */
 	display: flex;
 	justify-content: center;
 	align-items: center;

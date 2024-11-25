@@ -68,6 +68,7 @@ class ChatWebSocketServer implements MessageComponentInterface
     public function notifyUsers($chatId, $senderId, $receiverId, $content)
     {
         $message = json_encode([
+            'type' => 'NEW_MESSAGE',
             'chat_id' => $chatId,
             'sender_id' => $senderId,
             'content' => $content,
