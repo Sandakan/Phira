@@ -3,38 +3,7 @@ require '../../vendor/autoload.php';
 require '../../config.php';
 require '../../utils/database.php';
 require '../../utils/generate_random_string.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-function sendEmail($sendEmail, $first_name, $subject, $message)
-{
-  try {
-    $mail = new PHPMailer(true);
-
-    $mail->isSMTP(); // using SMTP protocol                                     
-    $mail->Host = MAIL_HOST; // SMTP host as gmail 
-    $mail->SMTPAuth = true;  // enable smtp authentication                             
-    $mail->Username = MAIL_USERNAME;  // sender gmail host              
-    $mail->Password = MAIL_PASSWORD; // sender gmail host password                          
-    $mail->SMTPSecure = MAIL_ENCRYPTION;  // for encrypted connection                           
-    $mail->Port = intval(MAIL_PORT);   // port for SMTP     
-
-    $mail->isHTML(true);
-    $mail->setFrom("info@phira.com", "Phira"); // sender's email and name
-    $mail->addAddress($sendEmail, $first_name);  // receiver's email and name
-
-    $mail->Subject = $subject;
-    $mail->Body = $message;
-
-    $mail->send();
-
-
-    echo 'Message has been sent';
-  } catch (Exception $e) { // handle error.
-    echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
-  }
-}
+require '../../utils/mailer.php';
 
 $conn = initialize_database();
 $email = $first_name = '';
@@ -45,10 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
 
     $sqlGetUserDetails = <<<SQL
-      SELECT first_name 
-      FROM users
-      WHERE email = :email;
-SQL;
+      SELECT
+        first_name 
+      FROM
+        users
+      WHERE
+        email = :email;
+      SQL;
 
     $preparedStatement = $conn->prepare($sqlGetUserDetails);
     $preparedStatement->bindParam(":email", $email, PDO::PARAM_STR);
@@ -62,30 +34,30 @@ SQL;
         $random = generateRandomString(25);
 
         $message = <<<EOT
-                  <html>
-                      <body>
-                          <h4>Welcome to Phira</h4>
+            <html>
+                <body>
+                    <h4>Welcome to Phira</h4>
 
-                          <h3>Hi, $first_name</h3>
+                    <h3>Hi, $first_name</h3>
 
-                          <h2>Reset your password</h2>
+                    <h2>Reset your password</h2>
 
-                          <p>Click the link below to verify your account.</p>
-                          <a href="$BASE_URL/pages/auth/reset_password.php?token=$random">Verify your account</a>
-                      </body>
-                  </html>
-              EOT;
-
-        $query = <<<SQL
-              UPDATE users
-              SET 
-                  verification_token = :token,
-                  token_expiry = NOW() + INTERVAL 1 HOUR
-              WHERE 
-                  email = :email;
-              SQL;
+                    <p>Click the link below to verify your account.</p>
+                    <a href="$BASE_URL/pages/auth/reset_password.php?token=$random">Verify your account</a>
+                </body>
+            </html>
+        EOT;
 
         sendEmail($email, $first_name, "Welcome to Phira - Reset your password", $message);
+
+        $query = <<<SQL
+          UPDATE users
+          SET 
+              verification_token = :token,
+              token_expiry = NOW() + INTERVAL 1 HOUR
+          WHERE 
+              email = :email;
+          SQL;
 
         $statement = $conn->prepare($query);
         $statement->bindParam(":token", $random, PDO::PARAM_STR);
@@ -94,15 +66,14 @@ SQL;
 
         if ($result) {
           echo <<<JS
-                    <script>
-                        const baseUrl = "http://localhost:80/Phira";
-                        alert('Verification link has been sent to your email. Please check your inbox.');
-                        window.location.href = baseUrl + '/pages/auth/reset_password.php';
-                    </script>
-                    JS;
-                    exit();
+            <script>
+                const baseUrl = "http://localhost:80/Phira";
+                alert('Verification link has been sent to your email. Please check your inbox.');
+                window.location.href = baseUrl + '/pages/auth/reset_password.php';
+            </script>
+            JS;
+          exit();
         }
-
       } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
       }
