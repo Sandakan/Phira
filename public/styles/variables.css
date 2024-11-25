@@ -22,6 +22,8 @@
 	--sidebar-nav-button-font-color: var(--primary-font-color);
 	--sidebar-nav-button-background-color: hsl(0, 0%, 80%, 0.25);
 	--sidebar-nav-button-hover-background-color: hsl(0, 0%, 80%, 0.75);
+
+	--setting-nav-active-background-color: hsla(0, 0%, 0%, 0.8);
 	/* LINKS */
 	--primary-link-font-color: var(--primary-font-color);
 	--primary-link-hover-font-color: hsl(0, 0%, 0%);
