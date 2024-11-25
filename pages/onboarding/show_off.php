@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!$is_error) {
         try {
-            $profile_picture_url = null;
+            $profile_picture_name = null;
             // Insert into database
             $query = <<< SQL
             INSERT INTO
@@ -99,17 +99,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
 
                 if ($index == 0) {
-                    $profile_picture_url = BASE_URL . "/private/media/user_photos/" . $image_new_filename;
+                    $profile_picture_name = $image_new_filename;
                 }
             }
 
-            if (isset($profile_picture_url)) {
-                $_SESSION["profile_picture_url"] = $profile_picture_url;
+            if (isset($profile_picture_name)) {
+                $_SESSION["profile_picture_url"] = $profile_picture_name;
 
-                $query = "UPDATE users SET onboarding_completed_at = NOW(), profile_picture_url = :profile_picture_url WHERE user_id = :user_id";
+                $query = "UPDATE users SET onboarding_completed_at = NOW() WHERE user_id = :user_id";
                 $statement = $conn->prepare($query);
                 $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
-                $statement->bindParam("profile_picture_url", $profile_picture_url, PDO::PARAM_STR);
+                $result = $statement->execute();
+
+                $query = "UPDATE profiles SET profile_picture_url = :profile_picture_url WHERE user_id = :user_id";
+                $statement = $conn->prepare($query);
+                $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+                $statement->bindParam("profile_picture_url", $profile_picture_name, PDO::PARAM_STR);
                 $result = $statement->execute();
 
                 $conn->commit();
@@ -117,8 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION["onboarding_completed"] = true;
 
                 header("Location: " . BASE_URL . "/pages/app/matches.php");
-            }
-            throw new Exception("No first image found.");
+            } else throw new Exception("No first image found.");
 
             exit();
         } catch (\Throwable $e) {

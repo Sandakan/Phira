@@ -13,6 +13,8 @@ if (!isset($_SESSION["onboarding_completed"])) {
     exit();
 }
 
+$profile_picture_url = BASE_URL . '/private/media/user_photos/' . $_SESSION['profile_picture_url'];
+
 // Logout query
 if (isset($_GET['logout']) && $_GET['logout'] === 'true') {
     try {
@@ -110,7 +112,8 @@ $profile_data = $stmt->fetch(PDO::FETCH_ASSOC);
             <?php endif; ?>
 
             <div class="profile-card">
-                <img src="<?php echo BASE_URL; ?>/public/images/ProfilePic.png" alt="Profile Picture">
+                <img src="<?php echo BASE_URL . '/private/media/user_photos/' . $profile_picture_url; ?>"
+                    alt="Profile Picture">
                 <h2><?php echo htmlspecialchars($profile_data['first_name']); ?>,
                     <?php echo htmlspecialchars($profile_data['age']); ?></h2>
 
