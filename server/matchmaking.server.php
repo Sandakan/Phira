@@ -77,7 +77,7 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
             INNER JOIN user_preferences up ON p.user_id = up.user_id
             WHERE 
                 p.user_id != :user_id
-                AND p.gender != ':user_gender'
+                AND p.gender != :user_gender
                 AND YEAR(CURDATE()) - YEAR(p.date_of_birth) BETWEEN :preferred_age_min AND :preferred_age_max
                 AND NOT EXISTS (
                     SELECT 1
@@ -99,6 +99,8 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
     $statement->bindParam("preferred_age_max", $preferred_age_max, PDO::PARAM_INT);
     $result = $statement->execute();
     $potentialMatches = $statement->fetchAll();
+
+    $matches = [];
 
     // Filter matches based on common preferences
     foreach ($potentialMatches as $match) {
