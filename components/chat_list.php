@@ -3,8 +3,8 @@
         <h1>Chats</h1>
 
         <label class="search-bar">
-            <span class="icons material-symbols-rounded">search</span>
-            <input type="search" placeholder="search">
+            <span class="search-icon material-symbols-rounded">search</span>
+            <input type="search" placeholder="Search for chats...">
         </label>
 
         <div class="chats-list" id="chat-list"></div>

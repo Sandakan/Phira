@@ -32,7 +32,9 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
         FROM profiles AS P
         LEFT JOIN user_preferences AS UP ON P.user_id = UP.user_id
         WHERE P.user_id = :user_id
-        GROUP BY P.user_id;
+        GROUP BY 
+            P.user_id, P.gender, P.preferred_age_min, P.preferred_age_max, 
+            P.date_of_birth, P.distance_range, ST_X(P.location), ST_Y(P.location);
     SQL;
 
     $statement = $conn->prepare($query);
@@ -55,38 +57,43 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
 
     // Find potential matches
     $query = <<<SQL
-        SELECT 
-            *  
-        FROM (
-            SELECT  
-                p.user_id AS match_user_id,
-                p.gender AS match_gender,
-                p.date_of_birth,
-                p.biography,
-                ST_X(p.location) AS match_latitude,
-                ST_Y(p.location) AS match_longitude,
-                (
-                    6371 * ACOS(
-                        COS(RADIANS(:user_latitude)) * COS(RADIANS(ST_X(p.location))) *
-                        COS(RADIANS(ST_Y(p.location)) - RADIANS(:user_longitude)) +
-                        SIN(RADIANS(:user_latitude)) * SIN(RADIANS(ST_X(p.location)))
-                    )
-                ) AS distance_km,
-                GROUP_CONCAT(up.preference_option_id) AS match_preferences
-            FROM profiles p
-            INNER JOIN user_preferences up ON p.user_id = up.user_id
-            WHERE 
-                p.user_id != :user_id
-                AND p.gender != :user_gender
-                AND YEAR(CURDATE()) - YEAR(p.date_of_birth) BETWEEN :preferred_age_min AND :preferred_age_max
-                AND NOT EXISTS (
-                    SELECT 1
-                    FROM interactions i
-                    WHERE i.user_id = :user_id AND i.interacted_user_id = p.user_id
+    SELECT 
+        *  
+    FROM (
+        SELECT  
+            p.user_id AS match_user_id,
+            p.gender AS match_gender,
+            p.date_of_birth,
+            p.biography,
+            ST_X(p.location) AS match_latitude,
+            ST_Y(p.location) AS match_longitude,
+            (
+                6371 * ACOS(
+                    COS(RADIANS(:user_latitude)) * COS(RADIANS(ST_X(p.location))) *
+                    COS(RADIANS(ST_Y(p.location)) - RADIANS(:user_longitude)) +
+                    SIN(RADIANS(:user_latitude)) * SIN(RADIANS(ST_X(p.location)))
                 )
-            GROUP BY p.user_id
-        ) AS filtered_matches
-        WHERE distance_km <= :distance_range;
+            ) AS distance_km,
+            GROUP_CONCAT(up.preference_option_id) AS match_preferences
+        FROM profiles p
+        INNER JOIN user_preferences up ON p.user_id = up.user_id
+        WHERE 
+            p.user_id != :user_id
+            AND p.gender != :user_gender
+            AND YEAR(CURDATE()) - YEAR(p.date_of_birth) BETWEEN :preferred_age_min AND :preferred_age_max
+            AND NOT EXISTS (
+                SELECT 1
+                FROM interactions i
+                WHERE i.user_id = :user_id AND i.interacted_user_id = p.user_id
+            )
+        GROUP BY 
+            p.user_id, 
+            p.gender, 
+            p.date_of_birth, 
+            p.biography, 
+            p.location
+    ) AS filtered_matches
+    WHERE distance_km <= :distance_range;
     SQL;
 
     $statement = $conn->prepare($query);

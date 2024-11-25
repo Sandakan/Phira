@@ -1,7 +1,7 @@
 <?php
 
-require '../vendor/autoload.php';
-require '../config.php';
+require_once '../vendor/autoload.php';
+require_once '../config.php';
 
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
@@ -101,9 +101,7 @@ class NotificationsWebSocketServer implements MessageComponentInterface
             $notifications = $stmt->fetchAll();
 
             foreach ($notifications as $notification) {
-                foreach ($notifications as $notification) {
-                    $this->sendNotification($notification);
-                }
+                $this->sendNotification($notification);
 
                 // Mark notification as read
                 // $updateQuery = "UPDATE notifications SET is_read = TRUE WHERE notification_id = :notification_id";
@@ -122,9 +120,10 @@ class NotificationsWebSocketServer implements MessageComponentInterface
     {
         $userId = $notification['user_id'];
 
-        // Broadcast the notification only to the connected client for the user
-        if (isset($this->clients[$userId])) {
-            $this->clients[$userId]->send(json_encode($notification));
+        // Check if the user is connected
+        if (isset($this->userConnections[$userId])) {
+            $connection = $this->userConnections[$userId];
+            $connection->send(json_encode($notification));
         }
     }
 }

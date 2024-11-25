@@ -112,8 +112,7 @@ $profile_data = $stmt->fetch(PDO::FETCH_ASSOC);
             <?php endif; ?>
 
             <div class="profile-card">
-                <img src="<?php echo BASE_URL . '/private/media/user_photos/' . $profile_picture_url; ?>"
-                    alt="Profile Picture">
+                <img src="<?php echo $profile_picture_url; ?>" alt="Profile Picture">
                 <h2><?php echo htmlspecialchars($profile_data['first_name']); ?>,
                     <?php echo htmlspecialchars($profile_data['age']); ?></h2>
 

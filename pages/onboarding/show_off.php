@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $photos = array();
     foreach ($_FILES as $file) {
-        echo $file['name'];
+        // echo $file['name'];
         if (isset($file['name']) && !empty($file['name'])) {;
             $photos[] = $file;
         };
