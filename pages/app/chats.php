@@ -102,7 +102,7 @@ if (!isset($_SESSION["onboarding_completed"])) {
             </form>
         </div>
     </dialog>
-    <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js"></script>
+    <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js" type="module"></script>
 </body>
 
 </html>

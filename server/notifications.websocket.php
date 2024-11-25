@@ -122,8 +122,9 @@ class NotificationsWebSocketServer implements MessageComponentInterface
 
         // Check if the user is connected
         if (isset($this->userConnections[$userId])) {
-            $connection = $this->userConnections[$userId];
-            $connection->send(json_encode($notification));
+            foreach ($this->userConnections[$userId] as $conn) {
+                $conn->send(json_encode($notification));
+            }
         }
     }
 }

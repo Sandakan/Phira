@@ -113,15 +113,15 @@ is_gender_set($conn, $user_id);
                 <p class="gender-p">How do you roll?</p>
                 <div class="gender-options">
                     <label class="radio-option">
-                        <input type="radio" name="gender" value="Female">
+                        <input type="radio" name="gender" value="Female" required>
                         <span class="gender-span">Woman</span>
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="gender" value="Male">
+                        <input type="radio" name="gender" value="Male" required>
                         <span class="gender-span">Man</span>
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="gender" value="Other">
+                        <input type="radio" name="gender" value="Other" required>
                         <span class="gender-span">Other</span>
                     </label>
                 </div>

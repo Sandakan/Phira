@@ -275,7 +275,7 @@ section#chat-container {
 }
 .message > .message-timestamp {
 	font-size: 0.75rem;
-	color: var(--sidebar-nav-button-hover-background-color);
+	color: hsla(0,0%,0%,0.5);
 }
 
 .sender-message {
