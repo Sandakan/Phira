@@ -119,7 +119,7 @@ $profile_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 <?php if (isset($_GET['edit']) && $_GET['edit'] == "true"): ?>
                     <!-- Edit Biography -->
-                    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <form class="edit-biography" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                         <textarea name="biography" rows="5"
                             required><?php echo htmlspecialchars($profile_data['biography']); ?></textarea>
                         <div class="buttons-container">
