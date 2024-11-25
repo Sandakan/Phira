@@ -96,13 +96,21 @@ is_distance_range_set($conn, $user_id);
 <body>
 
     <form method="POST" class="container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        
         <!-- Left Panel -->
+        <div class="register-form-actions-container">
+            <span class="display-icon material-symbols-rounded">location_on</span>
+            <div class="register-form-actions-container-text">
+                <p>step 3/8</p>
+                <h2>Birthday</h2>
+            </div>
+        </div>
         <div class="left-panel">
             <h1>Your distance preference?</h1>
             <p>How far is too far?</p>
             <button class="btn btn-primary">Next</button>
         </div>
-
+        
         <!-- Right Panel -->
         <div class="distance-preference-right-section">
             <div class="circle-container">
@@ -120,17 +128,17 @@ is_distance_range_set($conn, $user_id);
     </form>
 
     <script>
-        // Function to update the circle size dynamically
-        function updateCircleSize(value) {
-            const circle = document.getElementById("dynamic-circle");
-            const distanceValue = document.getElementById("distance-value");
+    // Function to update the circle size dynamically
+    function updateCircleSize(value) {
+        const circle = document.getElementById("dynamic-circle");
+        const distanceValue = document.getElementById("distance-value");
 
-            const size = parseInt(value) + 200;
-            circle.style.width = `${size}px`;
-            circle.style.height = `${size}px`;
+        const size = parseInt(value) + 200;
+        circle.style.width = `${size}px`;
+        circle.style.height = `${size}px`;
 
-            distanceValue.textContent = `${value} KM`;
-        }
+        distanceValue.textContent = `${value} KM`;
+    }
     </script>
 </body>
 

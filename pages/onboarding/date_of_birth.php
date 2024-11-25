@@ -114,6 +114,13 @@ is_birthday_set($conn, $user_id);
         <div class="left-panel">
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
+                <div class="register-form-actions-container">
+                    <span class="display-icon material-symbols-rounded">cake</span>
+                    <div class="register-form-actions-container-text">
+                        <p>step 1/8</p>
+                        <h2>Birthday</h2>
+                    </div>
+                </div>
                 <h1 class="dateOfBirth-h1">Your b-day?</h1>
                 <p class="dateOfBirth-p">Enter your date of birth to find better matches.</p>
 

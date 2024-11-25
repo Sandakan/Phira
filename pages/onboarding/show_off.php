@@ -158,6 +158,13 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
 
         <div class="left-panel">
             <div class="input-container">
+            <div class="register-form-actions-container">
+                    <span class="display-icon material-symbols-rounded">add_photo_alternate</span>
+                    <div class="register-form-actions-container-text">
+                        <p>step 8/8</p>
+                        <h2>Pictures</h2>
+                    </div>
+                </div>
                 <h1>Show off the latest <br>you!</h1>
                 <p> Add your recent photos. Your first image will be your profile picture.</p>
 

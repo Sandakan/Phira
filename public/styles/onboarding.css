@@ -360,3 +360,34 @@ body > form {
 .container.show-off-container > .right-panel input[type='file'] {
 	display: none;
 }
+
+.register-form-actions-container{
+	display: flex;
+	gap: 15px;
+	align-items: center;
+}
+.register-form-actions-container-text h2{
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin: 0rem;
+}
+.register-form-actions-container-text p{
+	font-size: .875rem;
+	font-weight: 600;
+	color: #FF5252;
+	margin-bottom: 0rem;
+}
+
+.register-form-actions-container span{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+}
+.display-icon{
+	font-size: 26px;
+	color: #FF5252;
+	background-color: #FFE1DC;
+	border-radius: 62.5rem;
+}
