@@ -132,7 +132,7 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gallery - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/show_off.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
@@ -187,4 +187,5 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
     </form>
 
 </body>
+
 </html>
