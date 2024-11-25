@@ -151,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     :email, 
                     :password, 
                     :token, 
-                    NOW() + INTERVAL 1 DAY);
+                    NOW() + INTERVAL 15 DAY);
             SQL;
 
             sendEmail($email, $first_name, "Welcome to Phira - Verify your account", $message);

@@ -56,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!$is_error) {
         try {
+            $profile_picture_url = null;
             // Insert into database
             $query = <<< SQL
             INSERT INTO
@@ -96,18 +97,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         throw new RuntimeException('Failed to move uploaded file.');
                     }
                 }
+
+                if ($index == 0) {
+                    $profile_picture_url = BASE_URL . "/private/media/user_photos/" . $image_new_filename;
+                }
             }
 
-            $query = "UPDATE users SET onboarding_completed_at = NOW() WHERE user_id = :user_id";
-            $statement = $conn->prepare($query);
-            $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
-            $result = $statement->execute();
+            if (isset($profile_picture_url)) {
+                $_SESSION["profile_picture_url"] = $profile_picture_url;
 
-            $conn->commit();
-            echo 'Photos uploaded successfully.';
-            $_SESSION["onboarding_completed"] = true;
+                $query = "UPDATE users SET onboarding_completed_at = NOW(), profile_picture_url = :profile_picture_url WHERE user_id = :user_id";
+                $statement = $conn->prepare($query);
+                $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+                $statement->bindParam("profile_picture_url", $profile_picture_url, PDO::PARAM_STR);
+                $result = $statement->execute();
 
-            header("Location: " . BASE_URL . "/pages/app/matches.php");
+                $conn->commit();
+                echo 'Photos uploaded successfully.';
+                $_SESSION["onboarding_completed"] = true;
+
+                header("Location: " . BASE_URL . "/pages/app/matches.php");
+            }
+            throw new Exception("No first image found.");
+
             exit();
         } catch (\Throwable $e) {
             $conn->rollback();
@@ -143,7 +155,7 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
         <div class="left-panel">
             <div class="input-container">
                 <h1>Show off the latest <br>you!</h1>
-                <p> Add your recent photos </p>
+                <p> Add your recent photos. Your first image will be your profile picture.</p>
 
                 <span class="error-message"><?php echo $image_error; ?></span>
 
