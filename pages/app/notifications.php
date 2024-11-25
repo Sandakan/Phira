@@ -37,6 +37,7 @@ $userId = $_SESSION["user_id"];
     </main>
 
     <script src="<?php echo BASE_URL; ?>/public/scripts/notifications.js" type="module"></script>
+    <script src="<?php echo BASE_URL; ?>/public/scripts/chat.js" type="module"></script>
 </body>
 
 </html>

@@ -27,7 +27,8 @@ if (!isset($_SESSION["onboarding_completed"])) {
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
-<body id="body" class="" data-base-url="<?php echo BASE_URL; ?>" data-user-id="<?php echo $_SESSION["user_id"]; ?>"
+<body id="body" class="" data-is-chat="true" data-base-url="<?php echo BASE_URL; ?>"
+    data-user-id="<?php echo $_SESSION["user_id"]; ?>"
     data-user-profile-picture="<?php echo $_SESSION["profile_picture_url"]; ?>">
     <?php include('../../components/sidebar.php') ?>
     <main>

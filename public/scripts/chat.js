@@ -8,7 +8,6 @@ let chatMessages = [];
 const body = document.body;
 const BASE_URL = body.dataset.baseUrl;
 const userId = body.dataset.userId;
-const chatListContainer = document.getElementById('chat-list');
 const chatContainer = document.getElementById('chat-container');
 const queryParams = new URLSearchParams(window.location.search);
 const chatId = queryParams.get('chat_id');
@@ -31,7 +30,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function sendMessageNotification(sender_name, message_content) {
-	if (!('Notification' in window) && !document.hasFocus()) {
+	const isEligible = !document.hasFocus() || document.dataset?.isChat !== 'true';
+
+	if (!('Notification' in window) && isEligible) {
 		// Check if the browser supports notifications
 		alert('This browser does not support desktop notification');
 	} else if (Notification.permission === 'granted') {
@@ -75,7 +76,7 @@ function initializeChatWebSocket(userId) {
 		insertMessage(parsedMessage);
 		updateChatListWithNewLastMessage(parsedMessage);
 
-		const interacted_user_first_name = chatContainer.dataset.interactedUserFirstName ?? 'Phira';
+		const interacted_user_first_name = chatContainer?.dataset.interactedUserFirstName ?? 'Phira';
 		sendMessageNotification(interacted_user_first_name, message?.content);
 	};
 
@@ -160,29 +161,31 @@ function generateUserChat(chat_data) {
 }
 
 function displayChatList(chatList) {
-	chatListContainer.innerHTML = '';
-	chatList.forEach((chat_data) => {
-		const chatElement = generateUserChat(chat_data);
-		chatListContainer.insertAdjacentHTML('beforeend', chatElement);
-	});
+	const chatListContainer = document.getElementById('chat-list');
+
+	if (chatListContainer) {
+		chatListContainer.innerHTML = '';
+		chatList.forEach((chat_data) => {
+			const chatElement = generateUserChat(chat_data);
+			chatListContainer.insertAdjacentHTML('beforeend', chatElement);
+		});
+	}
 }
 
 async function fetchUserChatList(user_id) {
-	if (chatListContainer) {
-		return fetch(`${BASE_URL}/server/chat.server.php?reason=get_user_chat_list&user_id=${user_id}`)
-			.then((response) => response.json())
-			.then((data) => {
-				console.log(data);
-				const { userChatList, success } = data;
+	return fetch(`${BASE_URL}/server/chat.server.php?reason=get_user_chat_list&user_id=${user_id}`)
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			const { userChatList, success } = data;
 
-				chatList = userChatList;
+			chatList = userChatList;
 
-				if (success) displayChatList(userChatList);
+			if (success) displayChatList(userChatList);
 
-				return userChatList;
-			})
-			.catch((error) => console.error(error));
-	}
+			return userChatList;
+		})
+		.catch((error) => console.error(error));
 }
 
 function displayChatContainer(chat_data, chat_messages = '') {
@@ -230,26 +233,28 @@ function generateMessage(message_data) {
 
 	const isSender = sender_id === parseInt(userId);
 
-	const interacted_user_profile_picture = chatContainer.dataset.interactedUserProfilePicture;
-	const user_profile_picture = body.dataset.userProfilePicture;
+	if (chatContainer) {
+		const interacted_user_profile_picture = chatContainer.dataset.interactedUserProfilePicture;
+		const user_profile_picture = body.dataset.userProfilePicture;
 
-	const profile_picture_url = isSender
-		? `${BASE_URL}/private/media/user_photos/${user_profile_picture}`
-		: `${BASE_URL}/private/media/user_photos/${interacted_user_profile_picture}`;
-	const message_timestamp = updated_at ? new Date(updated_at).toLocaleString() : '';
+		const profile_picture_url = isSender
+			? `${BASE_URL}/private/media/user_photos/${user_profile_picture}`
+			: `${BASE_URL}/private/media/user_photos/${interacted_user_profile_picture}`;
+		const message_timestamp = updated_at ? new Date(updated_at).toLocaleString() : '';
 
-	const messageElement = `
-    <div class="message-container ${
+		const messageElement = `
+		<div class="message-container ${
 			isSender ? 'sender-message' : 'receiver-message'
 		}" data-message-timestamp="${message_timestamp}" data-message-id="${message_data.message_id}">
-        <img src="${profile_picture_url}" alt="">
-        <div class="message">
-            <p class="message-content">${message}</p>
-			<span class="message-timestamp" title="${message_timestamp}">${getTimeDifference(message_timestamp)}</span>
-        </div>
-    </div>`;
+			<img src="${profile_picture_url}" alt="">
+			<div class="message">
+				<p class="message-content">${message}</p>
+				<span class="message-timestamp" title="${message_timestamp}">${getTimeDifference(message_timestamp)}</span>
+			</div>
+		</div>`;
 
-	return messageElement;
+		return messageElement;
+	}
 }
 
 function insertMessage(message_data) {
