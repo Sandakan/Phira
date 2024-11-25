@@ -19,22 +19,27 @@ function is_habits_set($conn, $user_id)
 {
     try {
         $check_query = <<< SQL
-        SELECT 
+        SELECT
             COUNT(*) AS count 
-        FROM 
+        FROM
             user_preferences 
-        WHERE 
+        WHERE
             user_id = :user_id AND
             preference_option_id IN (
-                SELECT preference_option_id FROM preference_options WHERE preference_id = 2 
-                OR preference_id = 3 
-                OR preference_id = 4 
-                OR preference_id = 5
+                SELECT
+                    preference_option_id
+                FROM
+                    preference_options
+                WHERE
+                    (preference_id = 2 OR
+                    preference_id = 3 OR
+                    preference_id = 4 OR
+                    preference_id = 5)
             )
-    SQL;
+        SQL;
         $statement = $conn->prepare($check_query);
-        $result = $statement->execute();
         $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+        $result = $statement->execute();
         $check_row = $statement->fetch();
 
         if ($result && $check_row['count'] > 0) {

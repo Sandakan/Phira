@@ -48,42 +48,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 	<section class="feedbacks">
 		<div id="feedback">
-			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading
+				her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super
+				babe for life.’ After talking for about a week we went out on our first date and I knew there was
+				something special about her!</p>
 			<div id="user">
 				<img src="./public/images/FeedbackUser" alt="">
 				<p id="userName">Aurara</p>
 			</div>
 		</div>
 		<div id="feedback">
-			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading
+				her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super
+				babe for life.’ After talking for about a week we went out on our first date and I knew there was
+				something special about her!</p>
 			<div id="user">
 				<img src="./public/images/FeedbackUser" alt="">
 				<p id="userName">Aurara</p>
 			</div>
 		</div>
 		<div id="feedback">
-			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading
+				her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super
+				babe for life.’ After talking for about a week we went out on our first date and I knew there was
+				something special about her!</p>
 			<div id="user">
 				<img src="./public/images/FeedbackUser" alt="">
 				<p id="userName">Aurara</p>
 			</div>
 		</div>
 		<div id="feedback">
-			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading
+				her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super
+				babe for life.’ After talking for about a week we went out on our first date and I knew there was
+				something special about her!</p>
 			<div id="user">
 				<img src="./public/images/FeedbackUser" alt="">
 				<p id="userName">Aurara</p>
 			</div>
 		</div>
 		<div id="feedback">
-			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading
+				her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super
+				babe for life.’ After talking for about a week we went out on our first date and I knew there was
+				something special about her!</p>
 			<div id="user">
 				<img src="./public/images/FeedbackUser" alt="">
 				<p id="userName">Aurara</p>
 			</div>
 		</div>
 		<div id="feedback">
-			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super babe for life.’ After talking for about a week we went out on our first date and I knew there was something special about her!</p>
+			<p id="comment">After going on a few dates and having a few fun nights I came across Miranda. After reading
+				her profile I couldn’t resist swiping right after reading her final sentence... ‘Looking for my super
+				babe for life.’ After talking for about a week we went out on our first date and I knew there was
+				something special about her!</p>
 			<div id="user">
 				<img src="./public/images/FeedbackUser" alt="">
 				<p id="userName">Aurara</p>
@@ -93,9 +111,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 	<section class="info">
 		<p id="info-title">Looking for Love? Let’s Make it Happen!</p>
-		<p id="info-description">Single and ready to mingle? Whether you’re looking for a meaningful relationship, a fun date, or just exploring what’s out there, Phira is here for you! We’ve helped countless singles find their match, and now it’s your turn.<br><br>
+		<p id="info-description">Single and ready to mingle? Whether you’re looking for a meaningful relationship, a fun
+			date, or just exploring what’s out there, Phira is here for you! We’ve helped countless singles find their
+			match, and now it’s your turn.<br><br>
 
-			The dating scene has evolved, with more people meeting online than ever before. With Phira, you’ll have access to thousands of singles ready to connect. Swipe, chat, and discover your perfect match—all in one place.<br><br>
+			The dating scene has evolved, with more people meeting online than ever before. With Phira, you’ll have
+			access to thousands of singles ready to connect. Swipe, chat, and discover your perfect match—all in one
+			place.<br><br>
 
 			Ready to find your someone special? Let’s get started!</p>
 	</section>

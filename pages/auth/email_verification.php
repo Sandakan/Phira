@@ -92,7 +92,7 @@ if (isset($_GET['token'])) {
                 <img src="<?php echo BASE_URL; ?>/public/images/email-varification/Left-side.png" alt="1">
             </div>
             <div>
-            <img src="<?php echo BASE_URL; ?>/public/images/email-varification/Right-side.png" alt="1">
+                <img src="<?php echo BASE_URL; ?>/public/images/email-varification/Right-side.png" alt="1">
             </div>
         </div>
 

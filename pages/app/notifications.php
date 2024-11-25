@@ -21,15 +21,20 @@ if (!isset($_SESSION["onboarding_completed"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notifications - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/app.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/sidebar.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/notifications.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
     <?php include('../../components/sidebar.php') ?>
-    <div>
+    <main>
+        <?php include('../../components/notification.php') ?>
+        <section>
 
-    </div>
+        </section>
+    </main>
 </body>
 
 </html>

@@ -16,10 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION["user_id"];
 
     $photos = array();
+    foreach ($_FILES as $file) {
+        echo $file['name'];
+        if (isset($file['name']) && !empty($file['name'])) {;
+            $photos[] = $file;
+        };
+    }
 
-    $photos[] = $_FILES['photo-1'];
-    $photos[] = $_FILES['photo-2'];
-    $photos[] = $_FILES['photo-3'];
 
     $is_error = false;
 
@@ -44,10 +47,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
+    if (count($photos) < 3) {
+        $image_error = "Please upload at least 3 photos";
+        $is_error = true;
+    }
+
     $conn->beginTransaction();
 
     if (!$is_error) {
         try {
+            $profile_picture_url = null;
             // Insert into database
             $query = <<< SQL
             INSERT INTO
@@ -65,13 +74,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $image_ext = '.' . pathinfo($image_file, PATHINFO_EXTENSION);
 
                     $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
-                    $statement->bindParam("photo_url", $image, PDO::PARAM_STR);
+                    $statement->bindParam("photo_url", $image_file, PDO::PARAM_STR);
                     $result = $statement->execute();
 
-                    $photo_id = $conn->lastInsertId();
+                    $photo_id = intval($conn->lastInsertId());
 
                     $image_new_filename = $photo_id .  $image_ext;
                     $image_save_path = $image_target_dir . $image_new_filename;
+
+                    $image = $image_new_filename;
+
+                    $update_query = "UPDATE photos SET photo_url = :photo_url WHERE photo_id = :photo_id";
+                    $update_stmt = $conn->prepare($update_query);
+                    $update_stmt->bindParam("photo_url", $image_new_filename, PDO::PARAM_STR);
+                    $update_stmt->bindParam("photo_id", $photo_id, PDO::PARAM_INT);
+                    $update_result = $update_stmt->execute();
 
                     if (!move_uploaded_file(
                         $photo['tmp_name'],
@@ -79,27 +96,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     )) {
                         throw new RuntimeException('Failed to move uploaded file.');
                     }
+                }
 
-                    $image = $image_new_filename;
-
-                    $update_query = "UPDATE photos SET photo_url = :photo_url WHERE photo_id = :photo_id";
-                    $update_stmt = $conn->prepare($query);
-                    $update_stmt->bindParam("photo_url", $image_new_filename, PDO::PARAM_STR);
-                    $update_stmt->bindParam("photo_id", $photo_id, PDO::PARAM_INT);
-                    $update_result = $update_stmt->execute();
+                if ($index == 0) {
+                    $profile_picture_url = BASE_URL . "/private/media/user_photos/" . $image_new_filename;
                 }
             }
 
-            $query = "UPDATE users SET onboarding_completed_at = NOW() WHERE user_id = :user_id";
-            $statement = $conn->prepare($query);
-            $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
-            $result = $statement->execute();
+            if (isset($profile_picture_url)) {
+                $_SESSION["profile_picture_url"] = $profile_picture_url;
 
-            $conn->commit();
-            echo 'Photos uploaded successfully.';
-            $_SESSION["onboarding_completed"] = true;
+                $query = "UPDATE users SET onboarding_completed_at = NOW(), profile_picture_url = :profile_picture_url WHERE user_id = :user_id";
+                $statement = $conn->prepare($query);
+                $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+                $statement->bindParam("profile_picture_url", $profile_picture_url, PDO::PARAM_STR);
+                $result = $statement->execute();
 
-            header("Location: " . BASE_URL . "/pages/app/matches.php");
+                $conn->commit();
+                echo 'Photos uploaded successfully.';
+                $_SESSION["onboarding_completed"] = true;
+
+                header("Location: " . BASE_URL . "/pages/app/matches.php");
+            }
+            throw new Exception("No first image found.");
+
             exit();
         } catch (\Throwable $e) {
             $conn->rollback();
@@ -108,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-if (isset($_SESSION["onboarding_completed"])) {
+if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"]) {
     header("Location: " . BASE_URL . "/pages/app/matches.php");
 }
 
@@ -129,55 +149,58 @@ if (isset($_SESSION["onboarding_completed"])) {
 </head>
 
 <body>
+    <form class="container show-off-container" method="POST"
+        action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" enctype="multipart/form-data">
 
-    <form class="container" method="POST" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>"
-        enctype="multipart/form-data">
-        <div class="left-section">
+        <div class="left-panel">
             <div class="input-container">
-                <h1>Show off the latest you!</h1>
-                <p> Add your recent photos </p>
+                <h1>Show off the latest <br>you!</h1>
+                <p> Add your recent photos. Your first image will be your profile picture.</p>
+
+                <span class="error-message"><?php echo $image_error; ?></span>
+
                 <div class="register-form-actions-container">
-                    <button class="btn-primary form-submit-btn" type="submit">Next</button>
+                    <button class="btn btn-primary" type="submit">Next</button>
                 </div>
             </div>
 
         </div>
 
-        <div class="right-section">
+        <div class="right-panel">
 
             <div class="input-group-container">
-                <div class="input-container">
+                <label class="image-container">
                     <input type="file" name="photo-1">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
-                <div class="input-container">
+                    <!-- <img src="../../../public/images/ProfilePic.png" alt=""> -->
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
+                <label class="image-container">
                     <input type="file" name="photo-2">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
-                <div class="input-container">
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
+                <label class="image-container">
                     <input type="file" name="photo-3">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
             </div>
 
             <div class="input-group-container">
-                <div class="input-container">
+                <label class="image-container">
                     <input type="file" name="photo-4">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
-                <div class="input-container">
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
+                <label class="image-container">
                     <input type="file" name="photo-5">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
-                <div class="input-container">
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
+                <label class="image-container">
                     <input type="file" name="photo-6">
-                    <span class="error-message"><?php echo $image_error ?></span>
-                </div>
+                    <span class="add-icon material-symbols-rounded">add_circle</span>
+                </label>
             </div>
         </div>
     </form>
 
-    </div>
 </body>
 
 </html>

@@ -24,7 +24,7 @@
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
-	max-width: 40rem;
+	max-width: 50%;
 	flex: 1;
 }
 
@@ -251,16 +251,20 @@
 }
 
 .match-found-alert .close-btn,
-.match-found-alert > .buttons-container > button {
+.match-found-alert > .buttons-container > .btn {
 	background-color: hsla(0, 0%, 100%, 0.5);
 	color: var(--primary-font-color);
 }
 
-.match-found-alert > .buttons-container > button > .material-symbols-rounded {
+.match-found-alert > .buttons-container > .btn > .material-symbols-rounded {
 	font-size: 1.5rem;
 }
 
 .match-found-alert .close-btn:hover,
-.match-found-alert > .buttons-container > button:hover {
+.match-found-alert > .buttons-container > .btn:hover {
 	background-color: hsla(0, 0%, 100%, 0.75);
+}
+
+body:has(> main > section.match-found-alert:not(.hidden)) {
+	background: linear-gradient(45deg, hsl(22, 100%, 70%), hsl(43, 90%, 70%));
 }

@@ -39,36 +39,38 @@ function is_relationship_type_set($conn, $user_id)
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["relationship_type"])) {
-        $relationship_type = $_POST["relationship_type"];
 
-        if (!empty($relationship_type)) {
-            try {
-                $query = <<<SQL
+        if (isset($_POST["relationship_type"])) {
+            $relationship_type = $_POST["relationship_type"];
+
+            if (!empty($relationship_type)) {
+                try {
+                    $query = <<<SQL
         INSERT INTO
             user_preferences (user_id ,preference_option_id)
         VALUES (:user_id, :relationship_type);
         SQL;
 
-                $stmt = $conn->prepare($query);
-                $stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
-                $stmt->bindParam("relationship_type", $relationship_type, PDO::PARAM_INT);
-                $result = $stmt->execute();
+                    $stmt = $conn->prepare($query);
+                    $stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
+                    $stmt->bindParam("relationship_type", $relationship_type, PDO::PARAM_INT);
+                    $result = $stmt->execute();
 
-                if ($result) {
-                    header("Location: " . BASE_URL . "/pages/onboarding/habits.php");
-                    exit();
-                } else {
-                    echo "Failed to update relationship type.";
+                    if ($result) {
+                        header("Location: " . BASE_URL . "/pages/onboarding/habits.php");
+                        exit();
+                    } else {
+                        echo "Failed to update relationship type.";
+                    }
+                } catch (Exception $e) {
+                    echo "Error: " . $e->getMessage();
                 }
-            } catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
             }
+        } else {
+            $relationship_type_error = "Relationship type cannot be empty.";
         }
-    } else {
-        $relationship_type_error = "Relationship type cannot be empty.";
     }
 }
 
@@ -85,35 +87,43 @@ is_relationship_type_set($conn, $user_id);
     <title>Relationship type - Phira</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/styles.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/onboarding.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/public/styles/relationship.css">
     <link rel="shortcut icon" href="<?php echo BASE_URL; ?>/public/images/logo.webp" type="image/x-icon">
 </head>
 
 <body>
+    <form class="container" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
-    <div class="model-container register-model-container">
-        <form class="register-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-
-            <div class="relationship-right-section">
-                <div class="options">
-                    <input type="radio" id="long_term" name="relationship_type" value="1" required>
-                    <label for="long_term">Long-Term Partner</label><br>
-                    <input type="radio" id="short_term" name="relationship_type" value="2" required>
-                    <label for="short_term">Short-Term Partner</label><br>
-                    <input type="radio" id="new_friends" name="relationship_type" value="3" required>
-                    <label for="new_friends">New Friends</label><br>
-                    <input type="radio" id="still_figuring" name="relationship_type" value="4" required>
-                    <label for="still_figuring">Still figuring it out</label><br>
-                </div>
+        <div class="left-panel">
+            <h1>What are you looking for?</h1>
+            <p>What's your goal?</p>
+            <button class="btn-primary form-submit-btn" type="submit">Next</button>
+        </div>
+        <div class="right-panel">
+            <div class="relationship-type-options">
+                <label class="radio-option relationship-type-option">
+                    <input type="radio" id="relationship_type" name="relationship_type" value="1" required>
+                    Long-Term Partner
+                </label>
+                <label class="radio-option relationship-type-option">
+                    <input type="radio" id="relationship_type" name="relationship_type" value="2" required>
+                    Short-Term Partner
+                </label>
+                <label class="radio-option relationship-type-option">
+                    <input type="radio" id="relationship_type" name="relationship_type" value="3" required>
+                    New Friends
+                </label>
+                <label class="radio-option relationship-type-option">
+                    <input type="radio" id="relationship_type" name="relationship_type" value="4" required>
+                    Still figuring it out
+                </label>
+                <label class="radio-option relationship-type-option">
+                    <input type="radio" id="relationship_type" name="relationship_type" value="4" required>
+                    Just a Fling
+                </label>
             </div>
-
-            <div class="relationship-left-section">
-                <h1>What are you looking for?</h1>
-                <p>What's your goal?</p>
-                <button class="btn-primary form-submit-btn" type="submit">Next</button>
-            </div>
-        </form>
-
-    </div>
+        </div>
+    </form>
 </body>
 
 </html>

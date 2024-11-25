@@ -120,11 +120,11 @@ is_birthday_set($conn, $user_id);
                 <label class="radio-option">
                     <input class="dateOfBirth-span" type="date" name="birth_day" id="birth_day" placeholder="2000-01-01"
                         required />
-                    <span class="error-message"><?php echo $birth_day_error;?></span>
+                    <span class="error-message"><?php echo $birth_day_error; ?></span>
                 </label>
 
                 <div>
-                    <button class="next-btn" type="submit">Next</button>
+                    <button class="btn btn-primary" type="submit">Next</button>
                 </div>
             </form>
 

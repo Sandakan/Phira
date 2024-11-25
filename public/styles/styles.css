@@ -104,6 +104,11 @@ form {
 	margin-bottom: 0.5rem;
 }
 
+.input-container > textarea {
+	font-size: 1rem;
+	border-radius: 1.5rem !important;
+}
+
 .input-container > :is(input, select, textarea) {
 	border-radius: 3rem;
 	padding: 1rem 1.25rem;
@@ -112,7 +117,7 @@ form {
 	backdrop-filter: blur(1px);
 	transition: border-color 0.2s ease-in-out;
 	outline: none;
-	font-size: 1.25rem;
+	/* font-size: 1.25rem; */
 	font-weight: 300;
 }
 
