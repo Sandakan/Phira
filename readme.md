@@ -68,6 +68,7 @@ To run the Phira Dating App, ensure the following requirements are met:
 
    - Run the [database.sql](database.sql) file to create the database schema.
    - Run the [seeds.database.sql](seeds.database.sql) file to insert sample data into the database.
+     - User seed password: `12345678`
 
 6. Create the following folders in the Phira project root to save the private data.
 
