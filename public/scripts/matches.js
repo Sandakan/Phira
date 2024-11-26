@@ -146,9 +146,9 @@ function generateMatchElement(user_id, match, BASE_URL) {
 	return { match_id: match_user_id, element: matchElement };
 }
 
-function reload() {
+window.reload = function reload() {
 	window.location.reload();
-}
+};
 
 function roundTo(value, decimalPlaces = 1) {
 	if (decimalPlaces === 0) return value;
