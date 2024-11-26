@@ -179,7 +179,7 @@ async function setMatchInteractionStatus(user_id, match_user_id, status, BASE_UR
 	return await res.json();
 }
 
-function likeMatch(user_id, match_id, BASE_URL) {
+window.likeMatch = function likeMatch(user_id, match_id, BASE_URL) {
 	setMatchInteractionStatus(user_id, match_id, 'LIKED', BASE_URL)
 		.then((res) => {
 			if (!res.success) return alert('Failed to like match.' + res.error);
@@ -206,9 +206,9 @@ function likeMatch(user_id, match_id, BASE_URL) {
 			alert('Failed to like match.');
 			console.warn(err);
 		});
-}
+};
 
-function dislikeMatch(user_id, match_id, BASE_URL) {
+window.dislikeMatch = function dislikeMatch(user_id, match_id, BASE_URL) {
 	setMatchInteractionStatus(user_id, match_id, 'REJECTED', BASE_URL)
 		.then((res) => {
 			if (!res.success) return alert('Failed to dislike match.');
@@ -221,7 +221,7 @@ function dislikeMatch(user_id, match_id, BASE_URL) {
 			alert('Failed to dislike match.');
 			console.warn(err);
 		});
-}
+};
 
 function hideMatchFoundAlert() {
 	matchFoundAlert.classList.add('hidden');
