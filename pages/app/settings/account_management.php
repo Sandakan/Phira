@@ -15,7 +15,7 @@ if (!isset($_SESSION["onboarding_completed"])) {
 // Fetch relationship type options
 $relationship_types = [];
 try {
-    $stmt = $conn->prepare("SELECT option_text FROM preference_options WHERE preference_id = 1");
+    $stmt = $conn->prepare("SELECT preference_option_id, option_text FROM preference_options WHERE preference_id = 1");
     $stmt->execute();
     $relationship_types = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -24,9 +24,9 @@ try {
 // Fetch gender preferences from profiles
 $gender_options = [];
 try {
-    $stmt = $conn->prepare("SELECT option_text FROM preference_options WHERE preference_id = 10");
+    $stmt = $conn->prepare("SELECT preference_option_id, option_text FROM preference_options WHERE preference_id = 10");
     $stmt->execute();
-    $gender_options = $stmt->fetchAll(PDO::FETCH_COLUMN); // This will return an array of gender values
+    $gender_options = $stmt->fetchAll(PDO::FETCH_ASSOC); // This will return an array of gender values
 } catch (PDOException $e) {
     error_log("Error fetching gender options: " . $e->getMessage());
 }
@@ -53,11 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_id = $_SESSION['user_id'];
 
         // Retrieve form inputs
-        $relationship_type = $_POST['relationship_type'] ?? null;
-        $distance_range = $_POST['distance_range'] ?? null;
-        $preferred_age_min = $_POST['preferred_age_min'] ?? null;
-        $preferred_age_max = $_POST['preferred_age_max'] ?? null;
-        $gender = $_POST['gender'] ?? null;
+        $relationship_type = $_POST['relationship_type'];
+        $distance_range = $_POST['distance_range'];
+        $preferred_age_min = $_POST['preferred_age_min'];
+        $preferred_age_max = $_POST['preferred_age_max'];
+        $gender = $_POST['gender'];
 
         // Update relationship type in user_preferences
         if (!empty($relationship_type)) {
@@ -77,38 +77,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Update user profile preferences
-        $stmt = $conn->prepare("
+        if (!empty($distance_range) || !empty($preferred_age_min) || !empty($preferred_age_max)) {
+            $stmt = $conn->prepare("
             UPDATE profiles 
             SET distance_range = :distance_range,
                 preferred_age_min = :preferred_age_min,
                 preferred_age_max = :preferred_age_max
             WHERE user_id = :user_id
         ");
-        $stmt->bindParam(':distance_range', $distance_range, PDO::PARAM_INT);
-        $stmt->bindParam(':preferred_age_min', $preferred_age_min, PDO::PARAM_INT);
-        $stmt->bindParam(':preferred_age_max', $preferred_age_max, PDO::PARAM_INT);
-        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $stmt->execute();
-
-        // Update gender preferences
-        if (!empty($gender)) {
-            $stmt = $conn->prepare("
-                UPDATE user_preferences
-                SET preference_option_id = (
-                    SELECT preference_option_id 
-                    FROM preference_options 
-                    WHERE option_text = :gender 
-                      AND preference_id = 10
-                )
-                WHERE user_id = :user_id
-            ");
-            $stmt->bindParam(':gender', $gender, PDO::PARAM_STR);
+            $stmt->bindParam(':distance_range', $distance_range, PDO::PARAM_INT);
+            $stmt->bindParam(':preferred_age_min', $preferred_age_min, PDO::PARAM_INT);
+            $stmt->bindParam(':preferred_age_max', $preferred_age_max, PDO::PARAM_INT);
             $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $stmt->execute();
         }
 
+        if (!empty($gender[0])) {
+            $stmt = $conn->prepare("
+                INSERT INTO user_preferences
+                 (user_id, preference_option_id)
+                VALUES (:user_id, :gender_preference)              
+            ");
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindParam(':gender_preference', $gender[0], PDO::PARAM_INT);
+        }
+        // Update gender preferences
+        // Check if gender preference exists for the user
+        $stmt = $conn->prepare("
+                            SELECT COUNT(*) 
+                            FROM user_preferences 
+                            WHERE user_id = :user_id 
+                            AND preference_option_id IN (
+                              SELECT preference_option_id 
+                              FROM preference_options 
+                              WHERE preference_id = 10)
+");
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $recordExists = $stmt->fetchColumn();
 
-        header("Location: " . BASE_URL . "/pages/app/settings/account_management.php?success=1");
+        if ($recordExists) {
+            // Update existing gender preference
+            $stmt = $conn->prepare("
+    UPDATE user_preferences
+    SET preference_option_id = :gender_preference
+    WHERE user_id = :user_id
+      AND preference_option_id IN (
+          SELECT preference_option_id 
+          FROM preference_options 
+          WHERE preference_id = 10
+      )
+");
+        } else {
+            // Insert new gender preference
+            $stmt = $conn->prepare("
+    INSERT INTO user_preferences (user_id, preference_option_id)
+    VALUES (:user_id, :gender_preference)
+");
+        }
+
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':gender_preference', $gender[0], PDO::PARAM_INT);
+        $stmt->execute();
+
+
+        header("Location: " . $_SERVER["REQUEST_URI"]);
         exit();
     } catch (PDOException $e) {
         error_log("Error updating preferences: " . $e->getMessage());
@@ -187,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p>Set your preferred age range to find matches that suit you best. Customize the minimum
                                 and maximum age to connect with people who fit your ideal match!</p>
                         </div>
-                        
+
                         <div>
                             <input type="number" id="preferred_age" name="preferred_age_min" placeholder="Minimum Age"
                                 value="<?= htmlspecialchars($user_preferences['preferred_age_min'] ?? '') ?>"
@@ -209,9 +242,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 preference. Update your settings anytime!</p>
                         </div>
                         <select name="gender" style="font-size: 20px; font-weight: 500; padding: 10px 15px;">
-                            <?php foreach ($gender_options as $gender): ?>
-                                <option value="<?= htmlspecialchars($gender) ?>" <?= isset($user_preferences['gender']) && $user_preferences['gender'] == $gender ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($gender) ?>
+                            <?php foreach ($gender_options as $option): ?>
+                                <option value="<?= htmlspecialchars($option['preference_option_id']) ?>"
+                                    <?= isset($user_preferences['gender']) && $user_preferences['gender'] == $option['preference_option_id'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($option['option_text']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -228,7 +262,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 pets you have. Let others know what fits your daily vibe!</p>
 
                         </div>
-                        <a href="#" class="btn btn-primary ">Click to change</a>
+                        <a href="#" class="btn btn-secondary ">Click to change</a>
                     </div>
 
                     <div class="account-management-card">
@@ -241,7 +275,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 education, or sleeping habits. Let your matches discover what makes you, you!</p>
 
                         </div>
-                        <a href="#" class="btn btn-primary ">Click to change</a>
+                        <a href="#" class="btn btn-secondary ">Click to change</a>
                     </div>
 
                     <button class="btn btn-primary" type="submit">Save</button>
@@ -251,5 +285,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </section>
     </main>
 </body>
-                                
+
 </html>

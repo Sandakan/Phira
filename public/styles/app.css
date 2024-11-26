@@ -16,3 +16,15 @@ body > main > * {
 body > main > nav {
 	padding: 2rem;
 }
+
+.edit-biography{
+	display: flex;
+	flex-direction:column ;
+	align-items: center;
+}
+.edit-biography > textarea {
+	font-size: 1rem;
+	border-radius: 1.5rem ;
+	padding: 0.5rem;
+	width: 30rem ;
+}
