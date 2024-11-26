@@ -100,7 +100,7 @@ function updateChatListWithNewLastMessage(last_message) {
 }
 
 // Sending a message
-function sendMessage(receiver_id) {
+window.sendMessage = function sendMessage(receiver_id) {
 	if (!chatWebSocket) {
 		console.error('WebSocket is not initialized.');
 		return;
@@ -126,7 +126,7 @@ function sendMessage(receiver_id) {
 	updateChatListWithNewLastMessage(msg);
 
 	messageInput.value = '';
-}
+};
 
 function generateUserChat(chat_data) {
 	const {
