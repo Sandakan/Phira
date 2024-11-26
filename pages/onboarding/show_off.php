@@ -165,7 +165,7 @@ if (isset($_SESSION["onboarding_completed"]) && $_SESSION["onboarding_completed"
                         <h2>Pictures</h2>
                     </div>
                 </div>
-                <h1>Show off the latest <br>you!</h1>
+                <h1>Show off the latest you!</h1>
                 <p> Add your recent photos. Your first image will be your profile picture.</p>
 
                 <span class="error-message"><?php echo $image_error; ?></span>
