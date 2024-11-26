@@ -7,9 +7,11 @@ $conn = initialize_database();
 session_start();
 $error_message = '';
 
+// Authenticate the user and check onboarding status
 authenticate(array("USER"));
 if (!isset($_SESSION["onboarding_completed"])) {
     header("Location: " . BASE_URL . "/login.php");
+    exit();
 }
 
 // Fetch relationship type options
@@ -21,15 +23,7 @@ try {
 } catch (PDOException $e) {
     error_log("Error fetching relationship types: " . $e->getMessage());
 }
-// Fetch gender preferences from profiles
-$gender_options = [];
-try {
-    $stmt = $conn->prepare("SELECT preference_option_id, option_text FROM preference_options WHERE preference_id = 10");
-    $stmt->execute();
-    $gender_options = $stmt->fetchAll(PDO::FETCH_ASSOC); // This will return an array of gender values
-} catch (PDOException $e) {
-    error_log("Error fetching gender options: " . $e->getMessage());
-}
+
 // Fetch user preferences from profiles
 $user_preferences = [];
 try {
@@ -48,108 +42,129 @@ try {
     error_log("Error fetching user preferences: " . $e->getMessage());
 }
 
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $user_id = $_SESSION['user_id'];
 
-        // Retrieve form inputs
-        $relationship_type = $_POST['relationship_type'];
-        $distance_range = $_POST['distance_range'];
-        $preferred_age_min = $_POST['preferred_age_min'];
-        $preferred_age_max = $_POST['preferred_age_max'];
-        $gender = $_POST['gender'];
+        // Retrieve and validate form inputs
+        $relationship_type = !empty($_POST['relationship_type']) ? $_POST['relationship_type'] : null;
+        $distance_range = !empty($_POST['distance_range']) ? (int) $_POST['distance_range'] : null;
+        $preferred_age_min = !empty($_POST['preferred_age_min']) ? (int) $_POST['preferred_age_min'] : null;
+        $preferred_age_max = !empty($_POST['preferred_age_max']) ? (int) $_POST['preferred_age_max'] : null;
+        $preferred_gender = !empty($_POST['gender']) ? (int) $_POST['gender'] : null;
+
+        // Ensure the user has a user_preferences record
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM user_preferences WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $user_preferences_exists = $stmt->fetchColumn() > 0;
+
+        if (!$user_preferences_exists) {
+            throw new Exception("Preferences record not found. Please contact support.");
+        }
 
         // Update relationship type in user_preferences
-        if (!empty($relationship_type)) {
+        try {
             $stmt = $conn->prepare("
-                UPDATE user_preferences
+                UPDATE user_preferences 
                 SET preference_option_id = (
                     SELECT preference_option_id 
                     FROM preference_options 
-                    WHERE option_text = :relationship_type 
-                      AND preference_id = 1
+                    WHERE preference_id = :preference_id AND option_text = :option_text
                 )
-                WHERE user_id = :user_id
+                WHERE user_id = :user_id AND preference_option_id IN (
+                    SELECT preference_option_id 
+                    FROM preference_options 
+                    WHERE preference_id = :preference_id
+                )
             ");
-            $stmt->bindParam(':relationship_type', $relationship_type, PDO::PARAM_STR);
+        
+            $stmt->bindParam(':preference_id', $preference_id, PDO::PARAM_INT);
+            $stmt->bindParam(':option_text', $option_text, PDO::PARAM_STR);
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        
+            $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error updating preference: " . $e->getMessage());
+        }
+
+        try {
+            // Update user profile preferences
+            if ($distance_range !== null || $preferred_age_min !== null || $preferred_age_max !== null) {
+                $stmt = $conn->prepare("
+                    UPDATE profiles 
+                    SET 
+                        distance_range = :distance_range,
+                        preferred_age_min = :preferred_age_min,
+                        preferred_age_max = :preferred_age_max
+                    WHERE user_id = :user_id
+                ");
+                
+                $stmt->bindParam(':distance_range', $distance_range, PDO::PARAM_INT);
+                $stmt->bindParam(':preferred_age_min', $preferred_age_min, PDO::PARAM_INT);
+                $stmt->bindParam(':preferred_age_max', $preferred_age_max, PDO::PARAM_INT);
+                $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+        } catch (PDOException $e) {
+            // Log the error and optionally display a user-friendly message
+            error_log("Error updating user profile preferences: " . $e->getMessage());
+            echo "An error occurred while updating your profile preferences. Please try again later.";
+        }
+
+        try {
+            // Check if a record exists for the user's preferred gender
+            $stmt = $conn->prepare("
+                SELECT COUNT(*) 
+                FROM user_preferences 
+                WHERE user_id = :user_id AND preference_option_id IN (42, 43, 44)
+            ");
             $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $stmt->execute();
-        }
-
-        // Update user profile preferences
-        if (!empty($distance_range) || !empty($preferred_age_min) || !empty($preferred_age_max)) {
-            $stmt = $conn->prepare("
-            UPDATE profiles 
-            SET distance_range = :distance_range,
-                preferred_age_min = :preferred_age_min,
-                preferred_age_max = :preferred_age_max
-            WHERE user_id = :user_id
-        ");
-            $stmt->bindParam(':distance_range', $distance_range, PDO::PARAM_INT);
-            $stmt->bindParam(':preferred_age_min', $preferred_age_min, PDO::PARAM_INT);
-            $stmt->bindParam(':preferred_age_max', $preferred_age_max, PDO::PARAM_INT);
+            $recordExists = $stmt->fetchColumn();
+        
+            if ($recordExists > 0) {
+                // Update the existing record
+                $stmt = $conn->prepare("
+                    UPDATE user_preferences 
+                    SET preference_option_id = :preference_option_id, updated_at = CURRENT_TIMESTAMP 
+                    WHERE user_id = :user_id AND preference_option_id IN (42, 43, 44)
+                ");
+            } else {
+                // Insert a new record
+                $stmt = $conn->prepare("
+                    INSERT INTO user_preferences (user_id, preference_option_id, created_at, updated_at) 
+                    VALUES (:user_id, :preference_option_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                ");
+            }
+        
+            // Bind parameters
             $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindParam(':preference_option_id', $preferred_gender, PDO::PARAM_INT);
+        
+            // Execute query
             $stmt->execute();
+        
+            echo "Preferred gender has been successfully updated!";
+        } catch (PDOException $e) {
+            // Log the error and display a friendly message
+            error_log("Error updating preferred gender: " . $e->getMessage());
+            echo "An error occurred while updating your preferred gender. Please try again later.";
         }
-
-        if (!empty($gender[0])) {
-            $stmt = $conn->prepare("
-                INSERT INTO user_preferences
-                 (user_id, preference_option_id)
-                VALUES (:user_id, :gender_preference)              
-            ");
-            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-            $stmt->bindParam(':gender_preference', $gender[0], PDO::PARAM_INT);
-        }
-        // Update gender preferences
-        // Check if gender preference exists for the user
-        $stmt = $conn->prepare("
-                            SELECT COUNT(*) 
-                            FROM user_preferences 
-                            WHERE user_id = :user_id 
-                            AND preference_option_id IN (
-                              SELECT preference_option_id 
-                              FROM preference_options 
-                              WHERE preference_id = 10)
-");
-        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $stmt->execute();
-        $recordExists = $stmt->fetchColumn();
-
-        if ($recordExists) {
-            // Update existing gender preference
-            $stmt = $conn->prepare("
-    UPDATE user_preferences
-    SET preference_option_id = :gender_preference
-    WHERE user_id = :user_id
-      AND preference_option_id IN (
-          SELECT preference_option_id 
-          FROM preference_options 
-          WHERE preference_id = 10
-      )
-");
-        } else {
-            // Insert new gender preference
-            $stmt = $conn->prepare("
-    INSERT INTO user_preferences (user_id, preference_option_id)
-    VALUES (:user_id, :gender_preference)
-");
-        }
-
-        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $stmt->bindParam(':gender_preference', $gender[0], PDO::PARAM_INT);
-        $stmt->execute();
-
-
+        
+        
+        // Reload the page to reflect updates
         header("Location: " . $_SERVER["REQUEST_URI"]);
         exit();
     } catch (PDOException $e) {
         error_log("Error updating preferences: " . $e->getMessage());
         $error_message = "Failed to save your preferences. Please try again.";
-    }
-}
 
+    } 
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -186,12 +201,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 connection, new friendships, or something else. Adjust your preferences anytime!</p>
                         </div>
                         <select name="relationship_type" style="font-size: 20px; font-weight: 500; padding: 10px 15px;">
-                            <?php foreach ($relationship_types as $type): ?>
-                                <option value="<?= htmlspecialchars($type['option_text']) ?>"
-                                    <?= isset($user_preferences['relationship_type']) && $user_preferences['relationship_type'] == $type['option_text'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($type['option_text']) ?>
-                                </option>
-                            <?php endforeach; ?>
+
+                            <option name="relationship_type" value="1">
+                                Long-Term Partner
+                            </option>
+                            <option name="relationship_type" value="2">
+                                Short-Term Partner
+                            </option>
+                            <option name="relationship_type" value="3">
+                                New Friend
+                            </option>
+                            <option name="relationship_type" value="4">
+                                Still Figuring It Out
+                            </option>
+
                         </select>
                     </div>
 
@@ -242,12 +265,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 preference. Update your settings anytime!</p>
                         </div>
                         <select name="gender" style="font-size: 20px; font-weight: 500; padding: 10px 15px;">
-                            <?php foreach ($gender_options as $option): ?>
-                                <option value="<?= htmlspecialchars($option['preference_option_id']) ?>"
-                                    <?= isset($user_preferences['gender']) && $user_preferences['gender'] == $option['preference_option_id'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($option['option_text']) ?>
-                                </option>
-                            <?php endforeach; ?>
+                            
+                                <option name = "gender" value="42">Man</option>        
+                                <option name = "gender" value="43">Woman</option>
+                                <option name = "gender" value="44">Other</option>
                         </select>
 
                     </div>
