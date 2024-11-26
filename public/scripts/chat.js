@@ -11,6 +11,7 @@ const userId = body.dataset.userId;
 const chatContainer = document.getElementById('chat-container');
 const queryParams = new URLSearchParams(window.location.search);
 const chatId = queryParams.get('chat_id');
+const isInChat = document.dataset?.isChat !== 'true';
 
 document.addEventListener('DOMContentLoaded', async () => {
 	console.log(userId);
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function sendMessageNotification(sender_name, message_content) {
-	const isEligible = !document.hasFocus() || document.dataset?.isChat !== 'true';
+	const isEligible = !document.hasFocus() || isInChat;
 
 	if (!('Notification' in window) && isEligible) {
 		// Check if the browser supports notifications
@@ -81,7 +82,7 @@ function initializeChatWebSocket(userId) {
 	};
 
 	chatWebSocket.onerror = () => {
-		alert('WebSocket connection failed. Try again by reloading the page.');
+		if (!isInChat) alert('WebSocket connection failed. Try again by reloading the page.');
 	};
 }
 
@@ -287,12 +288,80 @@ async function displayChatMessages(chat_id) {
 
 // ----- side panel -----
 
-function toggleSideProfile() {
-	const modal = document.getElementById('match-user-profile-container');
+function generateSideProfile(user) {
+	const userProfileContainer = document.getElementById('match-user-profile-container');
 
-	modal?.classList.toggle('hidden');
+	const { profile_picture_url, first_name, last_name, age, biography, all_photos } = user;
+	const profile_picture = `${BASE_URL}/private/media/user_photos/${profile_picture_url}`;
+	userProfileContainer.innerHTML = `
+		<div class="match-user-profile-picture">
+			<img src="${profile_picture}" alt="">
+		</div>
+
+
+		<div class="match-info-container">
+			<h1>${first_name} ${last_name}, ${age}</h1>
+			<div class="user-location">
+				<span class="material-symbols-rounded">location_on</span>
+				<p>3 kilometers away</p>
+			</div>
+		</div>
+
+
+		<div class="user-bio">
+			<p>${biography}</p>
+		</div>
+
+		<div class="user-photos">
+			${all_photos
+				.map((photo) => {
+					return `
+					<img src="${BASE_URL}/private/media/user_photos/${photo}" alt="">
+				`;
+				})
+				.join('\n')}
+		</div>
+
+		<div class="user-actions-buttons">
+			<button class="btn btn-primary" id="dislike-btn">
+				<span class="material-symbols-rounded-filled">heart_broken</span>
+				Dislike
+			</button>
+			<button class="btn btn-primary" id="block-report-btn" onclick="toggleBlockPanel()">
+				<span class="material-symbols-rounded">block</span>
+				Block & Report
+			</button>
+		</div>
+	`;
 }
 
+window.toggleSideProfile = function toggleSideProfile() {
+	const userProfileContainer = document.getElementById('match-user-profile-container');
+	const matchUserId = chatContainer?.dataset.interactedUserId;
+
+	if (matchUserId) {
+		if (userProfileContainer?.classList.contains('hidden')) {
+			fetch(`${BASE_URL}/server/users.server.php?reason=get_user_data&user_id=${matchUserId}`)
+				.then((response) => response.json())
+				.then((data) => {
+					console.log(data);
+					const { success, user } = data;
+					if (success) generateSideProfile(user);
+				});
+		}
+
+		userProfileContainer?.classList.toggle('hidden');
+	}
+};
+
+// window.toggleBlockPanel = function toggleBlockPanel() {
+// 	const modal = document.getElementById('block-panel');
+
+// 	if (modal) {
+// 		if (modal.open) modal.close();
+// 		else modal.showModal();
+// 	}
+// };
 // const block_button = document.getElementById('block-report-btn');
 // const block_panel = document.getElementById('block-panel');
 // const close_button = document.getElementsByClassName('close')[1];

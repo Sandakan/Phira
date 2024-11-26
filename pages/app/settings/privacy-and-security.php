@@ -184,8 +184,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 protect
                                 your profile from unauthorized access.</p>
                         </div>
-                        <a href="<?php echo BASE_URL; ?>/pages/auth/reset_password.php">
-                            <button type="button" class="change-password">Change password</button>
+                        <a class="btn btn-secondary" href="<?php echo BASE_URL; ?>/pages/auth/reset_password.php">
+                            Change password
                         </a>
                     </div>
                 </form>

@@ -137,23 +137,23 @@ is_habits_set($conn, $user_id);
                 <p>How often do you drink?</p>
                 <div class="options">
                     <label>
-                        <input type="radio" name="drink" value="5">
+                        <input type="radio" name="drink" value="5" required>
                         <span>Newly teetotal</span>
                     </label>
                     <label>
-                        <input type="radio" name="drink" value="6">
+                        <input type="radio" name="drink" value="6" required>
                         <span class="danger">Not for me</span>
                     </label>
                     <label>
-                        <input type="radio" name="drink" value="7">
+                        <input type="radio" name="drink" value="7" required>
                         <span>On special occasions</span>
                     </label>
                     <label>
-                        <input type="radio" name="drink" value="8">
+                        <input type="radio" name="drink" value="8" required>
                         <span>At the weekends</span>
                     </label>
                     <label>
-                        <input type="radio" name="drink" value="9">
+                        <input type="radio" name="drink" value="9" required>
                         <span>Most nights</span>
                     </label>
                 </div>
@@ -163,23 +163,23 @@ is_habits_set($conn, $user_id);
                 <p>How often do you smoke?</p>
                 <div class="options">
                     <label>
-                        <input type="radio" name="smoke" value="10">
+                        <input type="radio" name="smoke" value="10" required>
                         <span>Newly teetotal</span>
                     </label>
                     <label>
-                        <input type="radio" name="smoke" value="11">
+                        <input type="radio" name="smoke" value="11" required>
                         <span class="danger">Not for me</span>
                     </label>
                     <label>
-                        <input type="radio" name="smoke" value="12">
+                        <input type="radio" name="smoke" value="12" required>
                         <span>On special occasions</span>
                     </label>
                     <label>
-                        <input type="radio" name="smoke" value="13">
+                        <input type="radio" name="smoke" value="13" required>
                         <span>At the weekends</span>
                     </label>
                     <label>
-                        <input type="radio" name="smoke" value="14">
+                        <input type="radio" name="smoke" value="14" required>
                         <span>Most nights</span>
                     </label>
                 </div>

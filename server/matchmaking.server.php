@@ -163,7 +163,7 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
             ) AS distance_km,
             pr.preference_name,
             po.option_text,
-            ph.photo_url AS profile_picture,
+            p.profile_picture_url,
             GROUP_CONCAT(DISTINCT ph.photo_url ORDER BY ph.photo_id) AS all_photos 
         FROM
             users u
@@ -210,7 +210,7 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
                     'latitude' => $row['latitude'],
                     'longitude' => $row['longitude']
                 ],
-                'profile_picture_url' => $row['profile_picture'] ?? null,
+                'profile_picture_url' => $row['profile_picture_url'] ?? null,
                 'all_photos' => $row['all_photos'] ? explode(',', $row['all_photos']) : [],
                 'preferences' => []
             ];
@@ -366,7 +366,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 // handle post requests
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    if ($_GET['reason'] == 'get_matches') {
+    if ($_GET['reason'] == 'get_matches' && isset($_GET['user_id']) && isset($_GET['latitude']) && isset($_GET['longitude'])) {
         $user_id = $_GET['user_id'];
         $latitude = $_GET['latitude'];
         $longitude = $_GET['longitude'];

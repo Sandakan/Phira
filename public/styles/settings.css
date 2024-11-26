@@ -52,12 +52,15 @@ section > .title-container > h1 {
 }
 
 .settings-card.active {
-	background-color: var(--sidebar-nav-button-background-color) !important;
-	border: 2px solid black;
+	background-color: var(--setting-nav-active-background-color) !important;
+}
+.settings-card.active h2,
+.settings-card.active p {
+	color: white !important;
 }
 
 .settings-card h2 {
-	font-size: 1.2rem;
+	font-size: 1.4rem;
 	margin: 0 0 10px;
 	color: #333;
 	display: flex;
@@ -152,7 +155,6 @@ section > .title-container > h1 {
 }
 
 .media {
-	padding: 6.25rem 4.5rem 0rem 4.5rem;
 }
 
 /* ----- Privacy and Security ----- */
