@@ -199,7 +199,7 @@ window.likeMatch = function likeMatch(user_id, match_id, BASE_URL) {
 				matchFoundAlert.querySelector('#matched-user-name').textContent = match_user_data.first_name;
 				matchFoundAlert
 					.querySelector('#matched-user-profile-picture')
-					.setAttribute('src', BASE_URL + match_user_data.profile_picture_url);
+					.setAttribute('src', `${BASE_URL}/private/media/user_photos/${match_user_data.profile_picture_url}`);
 			} else showNextAvailableMatch();
 		})
 		.catch((err) => {
