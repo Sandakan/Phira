@@ -22,8 +22,8 @@
 }
 
 .btn-primary:is(:hover, :focus, :active, :focus-within) {
-	color: var(--primary-font-color);
-	background-color: var(--primary-highlight-color);
+	/* color: var(--primary-font-color); */
+	background-color: var(--primary-button-hover-background-color);
 }
 
 a.btn-primary {
