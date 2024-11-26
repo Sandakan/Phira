@@ -1584,6 +1584,9 @@ VALUES (1, '1.jpg', 'Profile Picture'),
     (59, '18.jpg', 'Traveling Abroad'),
     (60, '19.jpg', 'Profile Picture'),
     (60, '20.jpg', 'Outdoor Adventure');
-
-INSERT INTO preferences (preference_name) VALUES ('Preferred Gender');
-INSERT INTO preference_options (preference_id, option_text) VALUES (10,'Men'), (10,'Women'),(10, 'Other');
+INSERT INTO preferences (preference_name)
+VALUES ('Preferred Gender');
+INSERT INTO preference_options (preference_id, option_text)
+VALUES (10, 'Man'),
+    (10, 'Woman'),
+(10, 'Other');

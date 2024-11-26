@@ -2,7 +2,6 @@
 	--primary-font-color: hsl(0, 0%, 12%);
 	--secondary-font-color: hsl(0, 0%, 100%);
 	--primary-font-color-varient: hsl(0, 0%, 30%);
-
 	--primary-background-color: hsl(0, 0%, 100%);
 	--secondary-background-color: hsla(0, 0%, 80%, 0.75);
 	--primary-highlight-color: hsl(0, 100%, 66%);
@@ -13,8 +12,7 @@
 	/* BUTTONS */
 	--primary-button-font-color: var(--primary-highlight-color);
 	--primary-button-background-color: hsl(0, 100%, 66%, 0.25);
-	--primary-button-hover-background-color: hsl(0, 0%, 0%);
-
+	--primary-button-hover-background-color: hsl(0, 100%, 75%, 0.5);
 	--secondary-button-font-color: hsl(0, 0%, 0%, 0.8);
 	--secondary-button-background-color: hsl(0, 0%, 75%, 0.25);
 	--secondary-button-hover-background-color: hsl(0, 0%, 75%, 0.75);
@@ -22,11 +20,9 @@
 	/* SIDEBAR */
 	--sidebar-nav-button-active-font-color: var(--primary-highlight-color);
 	--sidebar-nav-button-active-background-color: hsl(0, 100%, 66%, 0.25);
-
 	--sidebar-nav-button-font-color: var(--primary-font-color);
 	--sidebar-nav-button-background-color: hsl(0, 0%, 80%, 0.25);
 	--sidebar-nav-button-hover-background-color: hsl(0, 0%, 80%, 0.75);
-
 	--setting-nav-active-background-color: hsla(0, 0%, 0%, 0.8);
 	/* LINKS */
 	--primary-link-font-color: var(--primary-font-color);
