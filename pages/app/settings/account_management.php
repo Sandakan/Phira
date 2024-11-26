@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 Long-Term Partner
                             </option>
                             <option name="relationship_type" value="2">
-                                Short-Term Partner
+                               Short-Term Partner
                             </option>
                             <option name="relationship_type" value="3">
                                 New Friend
