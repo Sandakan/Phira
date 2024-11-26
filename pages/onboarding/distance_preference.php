@@ -98,31 +98,35 @@ is_distance_range_set($conn, $user_id);
     <form method="POST" class="container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
         <!-- Left Panel -->
-        <div class="onboarding-progress-container">
-            <span class="display-icon material-symbols-rounded">location_on</span>
-            <div class="onboarding-progress-container-text">
-                <p>step 3/8</p>
-                <h2>Birthday</h2>
-            </div>
-        </div>
         <div class="left-panel">
-            <h1>Your distance preference?</h1>
-            <p>How far is too far?</p>
-            <button class="btn btn-primary">Next</button>
+            <div class="onboarding-progress-container">
+                <span class="display-icon material-symbols-rounded">location_on</span>
+                <div class="onboarding-progress-container-text">
+                    <p>step 3/8</p>
+                    <h2>Distance Range</h2>
+                </div>
+            </div>
+            <div >
+                <h1>Your distance preference?</h1>
+                <p>How far is too far?</p>
+                <button class="btn btn-primary">Next</button>
+            </div>
         </div>
 
         <!-- Right Panel -->
-        <div class="distance-preference-right-section">
-            <div class="circle-container">
-                <div id="dynamic-circle"></div>
-            </div>
-            <div class="slider-container">
-                <div id="change-text">
-                    <label for="distance-slider" class="slider-label">Distance Preference ?</label>
-                    <span id="distance-value">50 KM</span>
+        <div class="right-panel">
+            <div class="distance-preference-right-section">
+                <div class="circle-container">
+                    <div id="dynamic-circle"></div>
                 </div>
-                <input type="range" id="distance-slider" min="10" max="100" value="50" name="distance_range" step="1"
-                    oninput="updateCircleSize(this.value)" />
+                <div class="slider-container">
+                    <div id="change-text">
+                        <label for="distance-slider" class="slider-label">Distance Preference ?</label>
+                        <span id="distance-value">50 KM</span>
+                    </div>
+                    <input type="range" id="distance-slider" min="10" max="100" value="50" name="distance_range" step="1"
+                        oninput="updateCircleSize(this.value)" />
+                </div>
             </div>
         </div>
     </form>
