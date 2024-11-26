@@ -153,7 +153,7 @@ function generateUserChat(chat_data) {
                     <h2>${interacted_user_first_name} ${interacted_user_last_name}</h2>
                     <p>${last_message ?? ''}</p>
                 </div>
-                <p title="${message_timestamp}">${getTimeDifference(last_message_time) ?? ''}</p>
+                <p title="${message_timestamp}">${message_timestamp ? getTimeDifference(last_message_time) : ''}</p>
             </div>
         </a>
     `;
