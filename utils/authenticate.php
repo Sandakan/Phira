@@ -1,6 +1,6 @@
 <?php
 
-function authenticate($roles = array('ADMIN', 'CUSTOMER', 'STAFF'))
+function authenticate($roles = array('ADMIN', 'USER', 'MODERATOR'))
 {
     if (!isset($_SESSION['user_id'])) {
         header('Location: ' . BASE_URL . '/pages/auth/login.php?redirect=' . urlencode($_SERVER['REQUEST_URI']));

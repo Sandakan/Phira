@@ -1,0 +1,270 @@
+@import url('./app.css');
+
+.matches {
+	width: 100%;
+	height: 100%;
+	flex: 1;
+	flex-wrap: wrap;
+	display: flex;
+	flex-direction: row;
+	gap: 4rem;
+	overflow-x: auto;
+}
+.match {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	gap: 4rem;
+	overflow: hidden;
+}
+
+.match-banner {
+	position: relative;
+	border-radius: 2rem;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	max-width: 50%;
+	flex: 1;
+}
+
+.match > .match-banner > img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+
+.match > .match-banner > .match-banner-data {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	bottom: 0;
+	padding: 6rem 3rem 2.5rem 3rem;
+	width: 100%;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9));
+}
+
+.match-banner-data > .primary-data {
+	display: flex;
+	align-items: end;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.match-banner-data > .primary-data > .match-name {
+	font-size: 7.5rem;
+	line-height: 7.5rem;
+	font-weight: 600;
+	color: hsl(0, 0%, 100%, 0.75);
+	margin: 0;
+}
+
+.match-banner-data > .primary-data > .match-age {
+	font-size: 3.5rem;
+	line-height: 4.5rem;
+	font-weight: 600;
+	color: hsl(0, 0%, 100%, 0.5);
+}
+
+.match-banner-data > .secondary-data {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	color: hsl(0, 0%, 100%, 0.75);
+}
+
+.match-banner-data > .secondary-data > .match-location > .material-symbols-rounded,
+.match-preference > .match-preference-icon-container > .material-symbols-rounded {
+	font-size: 1.5rem;
+	font-weight: 300;
+	padding: 0.5rem;
+	background-color: hsl(0, 0%, 0%, 0.25);
+	line-height: 1;
+	border-radius: 10rem;
+}
+
+.match-banner-data > .secondary-data > .match-distance {
+	font-weight: 500;
+}
+
+.match-info {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	padding: 2rem 2rem 2rem 0;
+	overflow-y: auto;
+}
+
+.match-info > .other-photos {
+	display: flex;
+	gap: 1rem;
+	max-height: 10rem;
+	width: 100%;
+	overflow-x: auto;
+}
+
+.match-info > .other-photos > .photo {
+	height: 100%;
+	border-radius: 0.5rem;
+}
+
+.match-info > .match-bio {
+	font-size: 1.125rem;
+}
+
+.match-preferences {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	/* flex: 1; */
+}
+
+.match-preference {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+
+.match-preference > .match-preference-icon-container > .material-symbols-rounded {
+	background-color: hsl(0, 0%, 75%, 0.25);
+}
+
+.match-preference > .match-preference-text > b {
+	font-weight: 500;
+}
+
+.match-actions-container {
+	display: flex;
+	gap: 2rem;
+	margin-top: 2.5rem;
+	margin-right: 2.5rem;
+	max-width: 40rem;
+}
+
+.match-actions-container > button {
+	flex: 1;
+	border: none;
+	font-size: 2rem;
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
+	padding-top: 1.25rem;
+	padding-bottom: 1.25rem;
+}
+
+.match-actions-container > button.dislike-btn {
+	background-color: hsl(0, 0%, 75%, 0.25);
+	color: hsl(0, 0%, 0%, 0.8);
+}
+
+.match-actions-container > button.dislike-btn:hover {
+	background-color: hsl(0, 0%, 75%, 0.75);
+}
+
+.match-actions-container > button.like-btn:hover {
+	color: hsl(0, 100%, 25%);
+}
+
+/* NO PERMISSIONS ALERT */
+
+.no-location-permissions-alert,
+.no-matches-alert,
+.match-found-alert {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+:is(.no-location-permissions-alert, .no-matches-alert, .match-found-alert) > .material-symbols-rounded {
+	font-size: 5rem;
+	font-weight: 500;
+	margin-bottom: 2rem;
+}
+
+.no-matches-alert #reload-page-btn {
+	background-color: hsl(0, 0%, 75%, 0.25);
+	color: hsl(0, 0%, 0%, 0.8);
+	border-color: transparent;
+}
+
+/* MATCH FOUND ALERT */
+.match-found-alert {
+	background: transparent;
+}
+
+.match-found-alert .close-btn {
+	position: absolute;
+	top: 2rem;
+	right: 2rem;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	outline: none;
+	padding: 0.5rem;
+	border-radius: 100rem;
+	font-size: 1.5rem;
+}
+
+.profile-pictures-container {
+	display: flex;
+	max-height: 15rem;
+	position: relative;
+}
+
+.profile-pictures-container > img {
+	height: 100%;
+	border-radius: 100rem;
+	aspect-ratio: 1/1;
+	object-fit: cover;
+	object-position: center;
+	position: relative;
+}
+
+.profile-pictures-container > img:first-child {
+	transform: translateX(1.5rem);
+	z-index: 1;
+}
+
+.match-found-alert > h1 {
+	font-size: 5rem;
+	font-weight: 800;
+	font-style: italic;
+	line-height: 1;
+	margin: 1rem 0 0.5rem 0;
+}
+
+.match-found-alert > p {
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+
+.match-found-alert > p > #matched-user-name {
+	font-weight: 600;
+}
+
+.match-found-alert .close-btn,
+.match-found-alert > .buttons-container > .btn {
+	background-color: hsla(0, 0%, 100%, 0.5);
+	color: var(--primary-font-color);
+}
+
+.match-found-alert > .buttons-container > .btn > .material-symbols-rounded {
+	font-size: 1.5rem;
+}
+
+.match-found-alert .close-btn:hover,
+.match-found-alert > .buttons-container > .btn:hover {
+	background-color: hsla(0, 0%, 100%, 0.75);
+}
+
+body:has(> main > section.match-found-alert:not(.hidden)) {
+	background: linear-gradient(45deg, hsl(22, 100%, 70%), hsl(43, 90%, 70%));
+}
