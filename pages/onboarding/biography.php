@@ -104,7 +104,7 @@ is_biography_set($conn, $user_id);
                 <span class="display-icon material-symbols-rounded">person_book</span>
                 <div class="onboarding-progress-container-text">
                     <p>step 4/8</p>
-                    <h2>Bio</h2>
+                    <h2>Biography</h2>
                 </div>
             </div>
             <h1>About Me</h1>

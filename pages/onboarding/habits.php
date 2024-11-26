@@ -18,7 +18,7 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 function is_habits_set($conn, $user_id)
 {
     try {
-        $check_query = <<< SQL
+        $check_query = <<<SQL
         SELECT
             COUNT(*) AS count 
         FROM
@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $conn->beginTransaction();
     try {
         // Insert into user_preferences
-        $query = <<< SQL
+        $query = <<<SQL
             INSERT INTO
                 user_preferences (user_id, preference_option_id)
             VALUES (:user_id, :preference_option_id);
@@ -116,8 +116,9 @@ is_habits_set($conn, $user_id);
 <body>
     <form class="container habits-container" method="post"
         action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <!-- Left Section -->
-        <div class="left-section">
+        <!-- Left Panel -->
+        <div class="left-panel">
+
             <div class="onboarding-progress-container">
                 <span class="display-icon material-symbols-rounded">nightlife</span>
                 <div class="onboarding-progress-container-text">
@@ -128,110 +129,94 @@ is_habits_set($conn, $user_id);
             <h2>Let’s dive into lifestyle choices, <?php echo $name; ?>.</h2>
             <p>Do their habits align with yours?</p>
             <button type="submit" class="next-btn btn-primary">Next</button>
+
         </div>
 
         <!-- Right Section -->
-        <div class="right-section">
+        <div class="habit-right-section">
 
             <div class="question">
                 <p>How often do you drink?</p>
-                <div class="options">
-                    <label>
-                        <input type="radio" name="drink" value="5" required>
-                        <span>Newly teetotal</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="drink" value="6" required>
-                        <span class="danger">Not for me</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="drink" value="7" required>
-                        <span>On special occasions</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="drink" value="8" required>
-                        <span>At the weekends</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="drink" value="9" required>
-                        <span>Most nights</span>
-                    </label>
+                <div class="habit-options">
+
+                    <input type="radio" id="newly_teetotal" name="drink" value="5" required>
+                    <Label for="newly_teetotal">Newly teetotal</Label>
+
+                    <input type="radio" id="not_for_me" name="drink" value="6" required>
+                    <Label for="not_for_me" class="danger">Not for me</Label>
+
+                    <input type="radio" id="on_special_occasions" name="drink" value="7" required>
+                    <Label for="on_special_occasions">On special occasions</Label>
+
+                    <input type="radio" id="weekends" name="drink" value="8" required>
+                    <Label for="weekends">At the weekends</Label>
+
+                    <input type="radio" id="most_nights" name="drink" value="9" required>
+                    <Label for="most_nights">Most nights</Label>
+
                 </div>
             </div>
 
             <div class="question">
                 <p>How often do you smoke?</p>
-                <div class="options">
-                    <label>
-                        <input type="radio" name="smoke" value="10" required>
-                        <span>Newly teetotal</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="smoke" value="11" required>
-                        <span class="danger">Not for me</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="smoke" value="12" required>
-                        <span>On special occasions</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="smoke" value="13" required>
-                        <span>At the weekends</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="smoke" value="14" required>
-                        <span>Most nights</span>
-                    </label>
+                <div class="habit-options">
+                    <input type="radio" id="smoke_newly_teetotal" name="smoke" value="10" required>
+                    <label for="smoke_newly_teetotal">Newly teetotal</label>
+
+                    <input type="radio" id="smoke_not_for_me" name="smoke" value="11" required>
+                    <label for="smoke_not_for_me" class="danger">Not for me</label>
+
+                    <input type="radio" id="smoke_special_occasions" name="smoke" value="12" required>
+                    <label for="smoke_special_occasions">On special occasions</label>
+
+                    <input type="radio" id="smoke_weekends" name="smoke" value="13" required>
+                    <label for="smoke_weekends">At the weekends</label>
+
+                    <input type="radio" id="smoke_most_nights" name="smoke" value="14" required>
+                    <label for="smoke_most_nights">Most nights</label>
                 </div>
             </div>
 
             <div class="question">
                 <p>Do you exercise?</p>
-                <div class="options">
-                    <label>
-                        <input type="radio" name="exercise" value="15">
-                        <span>Every day</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="exercise" value="16">
-                        <span class="danger">Often</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="exercise" value="17">
-                        <span>Sometimes</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="exercise" value="18">
-                        <span>Never</span>
-                    </label>
+                <div class="habit-options">
+                    <input type="radio" id="exercise_every_day" name="exercise" value="15">
+                    <label for="exercise_every_day">Every day</label>
+
+                    <input type="radio" id="exercise_often" name="exercise" value="16">
+                    <label for="exercise_often" class="danger">Often</label>
+
+                    <input type="radio" id="exercise_sometimes" name="exercise" value="17">
+                    <label for="exercise_sometimes">Sometimes</label>
+
+                    <input type="radio" id="exercise_never" name="exercise" value="18">
+                    <label for="exercise_never">Never</label>
                 </div>
             </div>
 
             <div class="question">
                 <p>Do you have any pets?</p>
-                <div class="options">
-                    <label>
-                        <input type="radio" name="pets" value="19">
-                        <span>Dog</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="pets" value="20">
-                        <span class="danger">Cat</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="pets" value="21">
-                        <span>Fish</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="pets" value="22">
-                        <span>Bird</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="pets" value="23">
-                        <span>Amphibian</span>
-                    </label>
+                <div class="habit-options">
+                    <input type="radio" id="no" name="pets" value="45">
+                    <label for="no">No</label>
+
+                    <input type="radio" id="pet_dog" name="pets" value="19">
+                    <label for="pet_dog">Dog</label>
+
+                    <input type="radio" id="pet_cat" name="pets" value="20">
+                    <label for="pet_cat" class="danger">Cat</label>
+
+                    <input type="radio" id="pet_fish" name="pets" value="21">
+                    <label for="pet_fish">Fish</label>
+
+                    <input type="radio" id="pet_bird" name="pets" value="22">
+                    <label for="pet_bird">Bird</label>
+
+                    <input type="radio" id="pet_amphibian" name="pets" value="23">
+                    <label for="pet_amphibian">Amphibian</label>
                 </div>
             </div>
+
     </form>
 </body>
 
