@@ -41,7 +41,7 @@ section > .title-container > h1 {
 .settings-navbar > .settings-cards > .settings-card {
 	background-color: var(--sidebar-nav-button-background-color);
 	border-radius: 10px;
-	padding: 10px;
+	padding: 1rem;
 	margin-bottom: 20px;
 }
 
@@ -60,11 +60,17 @@ section > .title-container > h1 {
 }
 
 .settings-card h2 {
-	font-size: 1.4rem;
+	font-size: 1.5rem;
 	margin: 0 0 10px;
 	color: #333;
 	display: flex;
 	align-items: center;
+	font-weight: 600;
+}
+
+.settings-card h2 span.material-symbols-rounded {
+	margin-right: 0.5rem;
+	font-size: 1.75rem;
 }
 
 .settings-card p {
@@ -281,7 +287,7 @@ input:checked + .slider:before {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding-bottom: 0.625rem;
+	padding-bottom: 1rem;
 }
 .type {
 	width: 15.9375rem;
@@ -299,6 +305,14 @@ input[type='number']#preferred_age {
 	width: 143px;
 }
 
-select {
-	width: 18rem;
+select,
+input[type='number'] {
+	min-width: 10rem;
+	font-size: 20px;
+	font-weight: 500;
+	border-radius: 3rem;
+	padding: 1rem 1.25rem;
+	border: 3px solid var(--secondary-background-color);
+	backdrop-filter: blur(1px);
+	transition: border-color 0.2s ease-in-out;
 }

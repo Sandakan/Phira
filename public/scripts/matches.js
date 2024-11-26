@@ -146,9 +146,9 @@ function generateMatchElement(user_id, match, BASE_URL) {
 	return { match_id: match_user_id, element: matchElement };
 }
 
-function reload() {
+window.reload = function reload() {
 	window.location.reload();
-}
+};
 
 function roundTo(value, decimalPlaces = 1) {
 	if (decimalPlaces === 0) return value;
@@ -179,7 +179,7 @@ async function setMatchInteractionStatus(user_id, match_user_id, status, BASE_UR
 	return await res.json();
 }
 
-function likeMatch(user_id, match_id, BASE_URL) {
+window.likeMatch = function likeMatch(user_id, match_id, BASE_URL) {
 	setMatchInteractionStatus(user_id, match_id, 'LIKED', BASE_URL)
 		.then((res) => {
 			if (!res.success) return alert('Failed to like match.' + res.error);
@@ -199,16 +199,16 @@ function likeMatch(user_id, match_id, BASE_URL) {
 				matchFoundAlert.querySelector('#matched-user-name').textContent = match_user_data.first_name;
 				matchFoundAlert
 					.querySelector('#matched-user-profile-picture')
-					.setAttribute('src', BASE_URL + match_user_data.profile_picture_url);
+					.setAttribute('src', `${BASE_URL}/private/media/user_photos/${match_user_data.profile_picture_url}`);
 			} else showNextAvailableMatch();
 		})
 		.catch((err) => {
 			alert('Failed to like match.');
 			console.warn(err);
 		});
-}
+};
 
-function dislikeMatch(user_id, match_id, BASE_URL) {
+window.dislikeMatch = function dislikeMatch(user_id, match_id, BASE_URL) {
 	setMatchInteractionStatus(user_id, match_id, 'REJECTED', BASE_URL)
 		.then((res) => {
 			if (!res.success) return alert('Failed to dislike match.');
@@ -221,7 +221,7 @@ function dislikeMatch(user_id, match_id, BASE_URL) {
 			alert('Failed to dislike match.');
 			console.warn(err);
 		});
-}
+};
 
 function hideMatchFoundAlert() {
 	matchFoundAlert.classList.add('hidden');

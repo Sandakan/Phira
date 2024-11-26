@@ -235,7 +235,7 @@ section#chat-container {
 }
 
 .send-message-button {
-	padding: 1rem;
+	padding: 0.5rem;
 	border-radius: 1000rem;
 	margin: 0;
 }
@@ -275,7 +275,7 @@ section#chat-container {
 }
 .message > .message-timestamp {
 	font-size: 0.75rem;
-	color: hsla(0,0%,0%,0.5);
+	color: hsla(0, 0%, 0%, 0.5);
 }
 
 .sender-message {
@@ -304,6 +304,8 @@ section#chat-container {
 	width: 22.5rem;
 	height: 22.5rem;
 	border-radius: 100%;
+	object-fit: cover;
+	object-position: center;
 }
 .match-info-container {
 	padding-bottom: 5px;
@@ -311,6 +313,8 @@ section#chat-container {
 	display: flex;
 	flex-direction: column;
 	border-bottom: solid 0.0625rem var(--secondary-background-color);
+	gap: 0.5rem;
+	padding-bottom: 1rem;
 }
 .match-info-container h1 {
 	font-size: 1.875rem;
@@ -323,15 +327,16 @@ section#chat-container {
 .user-location span {
 	font-size: 1.4375rem;
 	font-weight: 600;
+	margin-right: 0.5rem;
 }
 .user-location p {
 	font-size: 0.875rem;
 	font-weight: 400;
 }
 .user-bio {
-	border-bottom: solid 0.0625rem var(--secondary-background-color);
+	/* border-bottom: solid 0.0625rem var(--secondary-background-color); */
 	padding-top: 0.625rem;
-	padding-bottom: 2.5rem;
+	padding-bottom: 2rem;
 }
 .user-bio p {
 	font-size: 1.0625rem;
@@ -370,6 +375,25 @@ section#chat-container {
 	font-size: 0.75rem;
 	font-weight: 400;
 }
+
+.user-photos {
+	display: flex;
+	width: 100%;
+	min-height: 15rem;
+	height: 15rem;
+	overflow-x: auto;
+	gap: 0.5rem;
+	border-bottom: solid 0.0625rem var(--secondary-background-color);
+	padding: 1rem 0;
+	flex: 1;
+}
+
+.user-photos img {
+	height: 100%;
+	border-radius: 0.5rem;
+	object-fit: cover;
+	object-position: center;
+}
 #dislike-btn {
 	font-size: 1rem;
 	color: var(--primary-button-hover-background-color);
@@ -407,6 +431,6 @@ section#chat-container {
 	/* Full width */
 	height: 100%;
 	/* Full height */
-	overflow: auto;
+	overflow-y: scroll;
 	/* Enable scroll if needed */
 }
