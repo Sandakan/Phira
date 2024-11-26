@@ -112,19 +112,19 @@ is_preferences_set($conn, $user_id);
                 <div class="preferences-question">
                     <p class="preferences-question-title">What's your communication style?</p>
                     <div class="preferences-options">
-                        <input type="radio" id="big-texter" name="communication" value="24" />
+                        <input type="radio" id="big-texter" name="communication" value="24" required />
                         <label for="big-texter">Big time texter</label>
 
-                        <input type="radio" id="phone-caller" name="communication" value="25" />
+                        <input type="radio" id="phone-caller" name="communication" value="25" required />
                         <label for="phone-caller">Phone caller</label>
 
-                        <input type="radio" id="video-chatter" name="communication" value="26" />
+                        <input type="radio" id="video-chatter" name="communication" value="26" required />
                         <label for="video-chatter">Video chatter</label>
 
-                        <input type="radio" id="bad-texter" name="communication" value="27" />
+                        <input type="radio" id="bad-texter" name="communication" value="27" required />
                         <label for="bad-texter">Bad texter</label>
 
-                        <input type="radio" id="in-person" name="communication" value="28" />
+                        <input type="radio" id="in-person" name="communication" value="28" required />
                         <label for="in-person">Better in person</label>
                     </div>
                 </div>
@@ -133,19 +133,19 @@ is_preferences_set($conn, $user_id);
                 <div class="preferences-question">
                     <p class="preferences-question-title">How do you receive love?</p>
                     <div class="preferences-options">
-                        <input type="radio" id="gestures" name="love-language" value="29" />
+                        <input type="radio" id="gestures" name="love-language" value="29" required/>
                         <label for="gestures">Thoughtful gestures</label>
 
-                        <input type="radio" id="presents" name="love-language" value="30" />
+                        <input type="radio" id="presents" name="love-language" value="30" required/>
                         <label for="presents">Presents</label>
 
-                        <input type="radio" id="touch" name="love-language" value="31" />
+                        <input type="radio" id="touch" name="love-language" value="31" required/>
                         <label for="touch">Touch</label>
 
-                        <input type="radio" id="compliments" name="love-language" value="32" />
+                        <input type="radio" id="compliments" name="love-language" value="32" required/>
                         <label for="compliments">Compliments</label>
 
-                        <input type="radio" id="time" name="love-language" value="33" />
+                        <input type="radio" id="time" name="love-language" value="33" required/>
                         <label for="time">Time together</label>
                     </div>
                 </div>
@@ -154,19 +154,19 @@ is_preferences_set($conn, $user_id);
                 <div class="preferences-question">
                     <p class="preferences-question-title">What is your education level?</p>
                     <div class="preferences-options">
-                        <input type="radio" id="bachelor-degree" name="education" value="34" />
+                        <input type="radio" id="bachelor-degree" name="education" value="34" required/>
                         <label for="bachelor-degree">Bachelor degree</label>
 
-                        <input type="radio" id="a-levels" name="education" value="35" />
+                        <input type="radio" id="a-levels" name="education" value="35" required/>
                         <label for="a-levels">A/L</label>
 
-                        <input type="radio" id="high-school" name="education" value="36" />
+                        <input type="radio" id="high-school" name="education" value="36" required/>
                         <label for="high-school">High school</label>
 
                         <input type="radio" id="phd" name="education" value="37" />
                         <label for="phd">PhD</label>
 
-                        <input type="radio" id="graduate-program" name="education" value="38" />
+                        <input type="radio" id="graduate-program" name="education" value="38" required/>
                         <label for="graduate-program">On a graduate programme</label>
                     </div>
                 </div>
@@ -175,13 +175,13 @@ is_preferences_set($conn, $user_id);
                 <div class="preferences-question">
                     <p class="preferences-question-title">What's your sleeping habits?</p>
                     <div class="preferences-options">
-                        <input type="radio" id="early-bird" name="sleeping" value="39" />
+                        <input type="radio" id="early-bird" name="sleeping" value="39" required/>
                         <label for="early-bird">Early bird</label>
 
-                        <input type="radio" id="night-owl" name="sleeping" value="40" />
+                        <input type="radio" id="night-owl" name="sleeping" value="40" required/>
                         <label for="night-owl">Night owl</label>
 
-                        <input type="radio" id="unique" name="sleeping" value="41" />
+                        <input type="radio" id="unique" name="sleeping" value="41" required/>
                         <label for="unique">It varies</label>
                     </div>
                 </div>
