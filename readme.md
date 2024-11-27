@@ -1,3 +1,5 @@
+<img src="https://github.com/Sandakan/Phira/blob/master/public/images/logo.webp?raw=true" alt="Phira Logo" width="100">
+
 # Phira Dating App
 
 Phira is a modern dating application designed to facilitate meaningful connections between users. It features real-time
