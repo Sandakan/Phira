@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 activity
                                 status private.</p>
                         </div>
-                        <select name="last_seen_visibility" class="toggle"
+                        <select name="last_seen_visibility" class=""
                             style="font-size: 20px; font-weight: 500; padding: 10px 10px;">
                             <option value="1" <?php echo ($current_settings['last_seen'] == 1) ? 'selected' : ''; ?>>On
                             </option>
@@ -121,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 make
                                 your profile visible only to those you’ve matched with.</p>
                         </div>
-                        <select name="share_profile" class="toggle"
+                        <select name="share_profile" class=""
                             style="font-size: 20px; font-weight: 500; padding: 10px 10px;">
                             <option value="1" <?php echo ($current_settings['share_profile'] == 1) ? 'selected' : ''; ?>>
                                 On</option>

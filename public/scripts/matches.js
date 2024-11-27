@@ -63,7 +63,18 @@ function getMatches(BASE_URL, user_id, latitude, longitude) {
 }
 
 function generateMatchElement(user_id, match, BASE_URL) {
-	const { user_id: match_user_id, first_name, last_name, gender, age, distance_km, preferences, biography } = match;
+	const {
+		user_id: match_user_id,
+		first_name,
+		last_name,
+		gender,
+		age,
+		distance_km,
+		preferences,
+		biography,
+		show_age,
+		show_birthday,
+	} = match;
 
 	const profile_picture_url = match.profile_picture_url
 		? `${BASE_URL}/private/media/user_photos/${match.profile_picture_url}`
@@ -115,12 +126,17 @@ function generateMatchElement(user_id, match, BASE_URL) {
                             </span>
                             <span class="match-preference-text"><b>${roundTo(distance_km)}</b> km away</span>
                         </div>
-						<div class="match-preference birthday-preference">
-							<span class="match-preference-icon-container">
-								<span class="material-symbols-rounded">cake</span>
-							</span>
-							<span class="match-preference-text"><b>${age}</b> years old</span>
-						</div>
+						${
+							show_age
+								? `
+							<div class="match-preference birthday-preference">
+								<span class="match-preference-icon-container">
+									<span class="material-symbols-rounded">cake</span>
+								</span>
+								<span class="match-preference-text"><b>${age}</b> years old</span>
+							</div>`
+								: ''
+						}
 						<div class="match-preference gender-preference">
 							<span class="match-preference-icon-container">
 								<span class="material-symbols-rounded">${gender.toLowerCase()}</span>
