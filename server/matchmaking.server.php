@@ -58,7 +58,14 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
     // Find potential matches
     $query = <<<SQL
     SELECT 
-        *  
+        filtered_matches.match_user_id,
+        filtered_matches.match_gender,
+        filtered_matches.date_of_birth,
+        filtered_matches.biography,
+        filtered_matches.match_latitude,
+        filtered_matches.match_longitude,
+        filtered_matches.distance_km,
+        filtered_matches.match_preferences
     FROM (
         SELECT  
             p.user_id AS match_user_id,
@@ -67,20 +74,35 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
             p.biography,
             ST_X(p.location) AS match_latitude,
             ST_Y(p.location) AS match_longitude,
-            (
-                6371 * ACOS(
-                    COS(RADIANS(:user_latitude)) * COS(RADIANS(ST_X(p.location))) *
-                    COS(RADIANS(ST_Y(p.location)) - RADIANS(:user_longitude)) +
-                    SIN(RADIANS(:user_latitude)) * SIN(RADIANS(ST_X(p.location)))
-                )
-            ) AS distance_km,
+            ST_Distance_Sphere(
+                POINT(:user_latitude, :user_longitude),
+                p.location
+            ) / 1000 AS distance_km, -- Distance in kilometers
             GROUP_CONCAT(up.preference_option_id) AS match_preferences
         FROM profiles p
-        INNER JOIN user_preferences up ON p.user_id = up.user_id
+        LEFT JOIN user_preferences up ON p.user_id = up.user_id
+        LEFT JOIN preference_options po ON up.preference_option_id = po.preference_option_id
+        LEFT JOIN preferences pr ON po.preference_id = pr.preference_id
         WHERE 
             p.user_id != :user_id
-            AND p.gender != :user_gender
-            AND YEAR(CURDATE()) - YEAR(p.date_of_birth) BETWEEN :preferred_age_min AND :preferred_age_max
+            AND (
+                p.gender IN (
+                    SELECT COALESCE(
+                        MAX(CASE WHEN pr.preference_id = 10 THEN po.option_text END),
+                        CASE 
+                            WHEN :user_gender = 'Male' THEN 'Female'
+                            WHEN :user_gender = 'Female' THEN 'Male'
+                            ELSE NULL -- Other cases handled below
+                        END
+                    )
+                    FROM user_preferences up
+                    LEFT JOIN preference_options po ON up.preference_option_id = po.preference_option_id
+                    LEFT JOIN preferences pr ON po.preference_id = pr.preference_id
+                    WHERE up.user_id = :user_id
+                )
+                OR (:user_gender = 'Other') -- Match all genders for "Other"
+            )
+            AND TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) BETWEEN :preferred_age_min AND :preferred_age_max
             AND NOT EXISTS (
                 SELECT 1
                 FROM interactions i
@@ -93,7 +115,7 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
             p.biography, 
             p.location
     ) AS filtered_matches
-    WHERE distance_km <= :distance_range;
+    WHERE filtered_matches.distance_km <= :distance_range;
     SQL;
 
     $statement = $conn->prepare($query);

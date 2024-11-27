@@ -70,9 +70,9 @@ VALUES (9, 'Early Bird'),
     (9, 'Night Owl'),
     (9, 'It varies');
 INSERT INTO preference_options (preference_id, option_text)
-VALUES (10, 'Man'),
-    (10, 'Woman'),
-(10, 'Other');
+VALUES (10, 'Male'),
+    (10, 'Female'),
+    (10, 'Other');
 -- ----------------------------------------------------------------------------
 -- Insert sample data for a user
 INSERT INTO users (email, password, first_name, last_name, role)
@@ -1588,8 +1588,7 @@ VALUES (1, '1.jpg', 'Profile Picture'),
     (59, '18.jpg', 'Traveling Abroad'),
     (60, '19.jpg', 'Profile Picture'),
     (60, '20.jpg', 'Outdoor Adventure');
-
 INSERT INTO preferences (preference_name)
 VALUES ('Preferred Gender');
-
-INSERT INTO preference_options (preference_id, option_text) VALUES (5, 'No');
+INSERT INTO preference_options (preference_id, option_text)
+VALUES (5, 'No');
