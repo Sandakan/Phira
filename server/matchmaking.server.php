@@ -146,6 +146,10 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
             p.gender,
             p.date_of_birth,
             p.biography,
+            p.show_birthday,
+            p.show_age,
+            p.last_seen,
+            p.share_profile,
             ST_X ( p.location ) AS latitude,
             ST_Y ( p.location ) AS longitude,
             (
@@ -206,6 +210,10 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
                 'age' => $age,
                 'distance_km' => round($row['distance_km'], 2),
                 'biography' => $row['biography'],
+                'show_birthday' => $row['show_birthday'] == 1,
+                'show_age' => $row['show_age'] == 1,
+                'last_seen' => $row['last_seen'] == 1,
+                'share_profile' => $row['share_profile'] == 1,
                 'location' => [
                     'latitude' => $row['latitude'],
                     'longitude' => $row['longitude']

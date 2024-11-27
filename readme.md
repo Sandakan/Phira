@@ -57,11 +57,24 @@ To run the Phira Dating App, ensure the following requirements are met:
    ```
 4. Configure the environment variables in [config.php](config.php) file:
 
-   ```
-   DB_HOST=your_db_host
-   DB_NAME=phiradb
-   DB_USER=your_db_user
-   DB_PASS=your_db_password
+   ```php
+   <?php
+   define('BASE_URL', 'http://localhost:80/Phira'); // Base url of the application
+   define('ROOT_DIR', dirname(__FILE__)); // Root directory of the application
+   $BASE_URL = BASE_URL;
+
+   // Database credentials
+   define('DATABASE_HOST_NAME', 'localhost');
+   define('DATABASE_USERNAME', 'root');
+   define('DATABASE_PASSWORD', '');
+   define('DATABASE_NAME', 'PhiraDB');
+
+   // Mail credentials
+   define('MAIL_HOST', '__YOUR_MAIL_HOST__'); // e.g., 'smtp.gmail.com'
+   define('MAIL_PORT', 587);
+   define('MAIL_USERNAME', '__YOUR_MAIL_USERNAME__'); // e.g., 'info@phira'
+   define('MAIL_PASSWORD', '__YOUR_MAIL_PASSWORD__'); // e.g., 'password'
+   define('MAIL_ENCRYPTION', 'tls');
    ```
 
 5. Initialize the database by installing the provided SQL scripts.
