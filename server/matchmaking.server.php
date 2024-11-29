@@ -3,7 +3,8 @@ require '../config.php';
 require '../utils/database.php';
 
 $conn = initialize_database();
-function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
+
+function getCurrentUser($user_id, PDO $conn, $latitude = null, $longitude = null)
 {
     // save current user's location
     $query = <<<SQL
@@ -55,68 +56,89 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
     $preferred_age_min = $currentUser['preferred_age_min'];
     $preferred_age_max = $currentUser['preferred_age_max'];
 
+    return array(
+        'user_id' => $user_id,
+        'user_gender' => $user_gender,
+        'user_latitude' => $user_latitude,
+        'user_longitude' => $user_longitude,
+        'distance_range' => $distance_range,
+        'user_preferences' => $user_preferences,
+        'preferred_age_min' => $preferred_age_min,
+        'preferred_age_max' => $preferred_age_max
+    );
+}
+
+function findMatches($currentUser, PDO $conn)
+{
+
+
     // Find potential matches
     $query = <<<SQL
     SELECT 
-        filtered_matches.match_user_id,
-        filtered_matches.match_gender,
-        filtered_matches.date_of_birth,
-        filtered_matches.biography,
-        filtered_matches.match_latitude,
-        filtered_matches.match_longitude,
-        filtered_matches.distance_km,
-        filtered_matches.match_preferences
-    FROM (
-        SELECT  
-            p.user_id AS match_user_id,
-            p.gender AS match_gender,
-            p.date_of_birth,
-            p.biography,
-            ST_X(p.location) AS match_latitude,
-            ST_Y(p.location) AS match_longitude,
-            ST_Distance_Sphere(
-                POINT(:user_latitude, :user_longitude),
-                p.location
-            ) / 1000 AS distance_km, -- Distance in kilometers
-            GROUP_CONCAT(up.preference_option_id) AS match_preferences
-        FROM profiles p
-        LEFT JOIN user_preferences up ON p.user_id = up.user_id
-        LEFT JOIN preference_options po ON up.preference_option_id = po.preference_option_id
-        LEFT JOIN preferences pr ON po.preference_id = pr.preference_id
-        WHERE 
-            p.user_id != :user_id
-            AND (
-                p.gender IN (
-                    SELECT COALESCE(
+        p.user_id AS match_user_id,
+        p.gender AS match_gender,
+        p.date_of_birth,
+        p.biography,
+        ST_X(p.location) AS match_latitude,
+        ST_Y(p.location) AS match_longitude,
+        (
+            6371 * ACOS(
+                COS(RADIANS(:user_longitude)) * COS(RADIANS(ST_X(p.location))) *
+                COS(RADIANS(ST_Y(p.location)) - RADIANS(:user_latitude)) +
+                SIN(RADIANS(:user_longitude)) * SIN(RADIANS(ST_X(p.location)))
+            )
+        ) AS distance_km,
+        COUNT(po.preference_option_id) AS matched_preferences_count, -- Count of matched preferences
+        GROUP_CONCAT(po.preference_option_id) AS match_preferences,
+        GROUP_CONCAT(po.option_text) AS matched_preferences_text -- Debugging: Show matched options
+    FROM profiles p
+    INNER JOIN user_preferences up_match ON p.user_id = up_match.user_id
+    INNER JOIN preference_options po ON up_match.preference_option_id = po.preference_option_id
+    INNER JOIN preferences pr ON po.preference_id = pr.preference_id
+    WHERE 
+        p.user_id != :user_id
+        AND (
+            p.gender IN (
+                SELECT 
+                    COALESCE(
                         MAX(CASE WHEN pr.preference_id = 10 THEN po.option_text END),
                         CASE 
                             WHEN :user_gender = 'Male' THEN 'Female'
                             WHEN :user_gender = 'Female' THEN 'Male'
-                            ELSE NULL -- Other cases handled below
+                            ELSE NULL -- Default for 'OTHER'
                         END
                     )
-                    FROM user_preferences up
-                    LEFT JOIN preference_options po ON up.preference_option_id = po.preference_option_id
-                    LEFT JOIN preferences pr ON po.preference_id = pr.preference_id
-                    WHERE up.user_id = :user_id
-                )
-                OR (:user_gender = 'Other') -- Match all genders for "Other"
+                FROM user_preferences up
+                LEFT JOIN preference_options po ON up.preference_option_id = po.preference_option_id
+                LEFT JOIN preferences pr ON po.preference_id = pr.preference_id
+                WHERE up.user_id = :user_id
             )
-            AND TIMESTAMPDIFF(YEAR, p.date_of_birth, CURDATE()) BETWEEN :preferred_age_min AND :preferred_age_max
-            AND NOT EXISTS (
-                SELECT 1
-                FROM interactions i
-                WHERE i.user_id = :user_id AND i.interacted_user_id = p.user_id
-            )
-        GROUP BY 
-            p.user_id, 
-            p.gender, 
-            p.date_of_birth, 
-            p.biography, 
-            p.location
-    ) AS filtered_matches
-    WHERE filtered_matches.distance_km <= :distance_range;
+            OR (:user_gender = 'Other')
+        )
+        AND YEAR(CURDATE()) - YEAR(p.date_of_birth) BETWEEN :preferred_age_min AND :preferred_age_max
+        AND NOT EXISTS (
+            SELECT 1
+            FROM interactions i
+            WHERE i.user_id = :user_id AND i.interacted_user_id = p.user_id
+        )
+    GROUP BY 
+        p.user_id, 
+        p.gender, 
+        p.date_of_birth, 
+        p.biography, 
+        p.location
+    HAVING distance_km <= :distance_range
+    ORDER BY matched_preferences_count DESC, distance_km ASC;
     SQL;
+
+    $user_id = $currentUser['user_id'];
+    $user_latitude = $currentUser['user_latitude'];
+    $user_longitude =  $currentUser['user_longitude'];
+    $user_gender = $currentUser['user_gender'];
+    $distance_range = $currentUser['distance_range'];
+    $user_preferences =  $currentUser['user_preferences'];
+    $preferred_age_min = $currentUser['preferred_age_min'];
+    $preferred_age_max = $currentUser['preferred_age_max'];
 
     $statement = $conn->prepare($query);
     $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
@@ -143,9 +165,11 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
                 'biography' => $match['biography'],
                 'distance_km' => $match['distance_km'],
                 'common_preferences' => $commonPreferences,
+                'matched_preferences_count' => count($commonPreferences),
             ];
         }
     }
+
     return $matches;
 }
 
@@ -187,6 +211,7 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
                         ST_X ( p.location ))) 
                 ) 
             ) AS distance_km,
+            po.preference_option_id,
             pr.preference_name,
             po.option_text,
             p.profile_picture_url,
@@ -205,11 +230,11 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
             pr.preference_name 
         ORDER BY
             p.user_id,
-            pr.preference_name;
+            po.preference_option_id;
         SQL;
 
     $stmt = $conn->prepare($sql);
-    $params = array_merge([$latitude, $longitude, $latitude], $matchUserIds);
+    $params = array_merge([$longitude, $latitude, $longitude], $matchUserIds);
     $stmt->execute($params);
     $data = $stmt->fetchAll();
 
@@ -244,17 +269,28 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
                 'all_photos' => $row['all_photos'] ? explode(',', $row['all_photos']) : [],
                 'preferences' => []
             ];
+
+            $selectedMatch = array_values(array_filter($matches, function ($x) use ($userId) {
+                return $x['match_user_id'] == $userId;
+            }))[0] ?? array();
+
+            $userDetails[$userId]['matched_preferences_count'] = $selectedMatch['matched_preferences_count'] ?? 0;
+            $userDetails[$userId]['common_preferences'] = $selectedMatch['common_preferences'] ?? [];
         }
 
         // Add selected preference details
         if (!empty($row['preference_name']) && !empty($row['option_text'])) {
             $userDetails[$userId]['preferences'][] = [
+                'preference_option_id' => $row['preference_option_id'],
                 'preference_name' => $row['preference_name'],
                 'option_text' => $row['option_text']
             ];
         }
     }
 
+    usort($userDetails, function ($a, $b) {
+        return $b['matched_preferences_count'] - $a['matched_preferences_count'];
+    });
     return array_values($userDetails); // Reset array keys
 }
 
@@ -408,9 +444,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         );
 
         try {
-            $matches = findMatches($user_id, $conn, $latitude, $longitude);
+            $currentUser = getCurrentUser($user_id, $conn, $latitude, $longitude);
+            $matches = findMatches($currentUser, $conn);
             $match_user_details = getMatchUserDetails($matches, $latitude, $longitude, $conn);
 
+            $response["current_user"] = $currentUser;
             $response["matches"] = $match_user_details;
 
             echo json_encode($response);
