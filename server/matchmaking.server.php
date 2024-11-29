@@ -74,10 +74,13 @@ function findMatches($user_id, PDO $conn, $latitude = null, $longitude = null)
             p.biography,
             ST_X(p.location) AS match_latitude,
             ST_Y(p.location) AS match_longitude,
-            ST_Distance_Sphere(
-                POINT(:user_latitude, :user_longitude),
-                p.location
-            ) / 1000 AS distance_km, -- Distance in kilometers
+            (
+                6371 * ACOS(
+                    COS(RADIANS(:user_longitude)) * COS(RADIANS(ST_X(p.location))) *
+                    COS(RADIANS(ST_Y(p.location)) - RADIANS(:user_latitude)) +
+                    SIN(RADIANS(:user_longitude)) * SIN(RADIANS(ST_X(p.location)))
+                )
+            ) AS distance_km,
             GROUP_CONCAT(up.preference_option_id) AS match_preferences
         FROM profiles p
         LEFT JOIN user_preferences up ON p.user_id = up.user_id
@@ -209,7 +212,7 @@ function getMatchUserDetails($matches, $latitude, $longitude, $conn,)
         SQL;
 
     $stmt = $conn->prepare($sql);
-    $params = array_merge([$latitude, $longitude, $latitude], $matchUserIds);
+    $params = array_merge([$longitude, $latitude, $longitude], $matchUserIds);
     $stmt->execute($params);
     $data = $stmt->fetchAll();
 

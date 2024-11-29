@@ -14,35 +14,43 @@ if (isset($_SESSION["user_id"]) && isset($_SESSION["onboarding_completed"]) && $
 
 $user_id = $_SESSION["user_id"];
 
+$birth_day_error = "";
 
-function is_birthday_set($conn, $user_id)
-{
-    try {
-        // Check if a record already exists for this user_id in the profiles table
-        $check_query = <<<SQL
+
+try {
+    // Check if a record already exists for this user_id in the profiles table
+    $check_query = <<<SQL
             SELECT
-                COUNT(*) AS count
+                COUNT(*) AS count,
+                date_of_birth
             FROM
                 profiles
             WHERE
                 user_id = :user_id AND date_of_birth IS NOT NULL;
         SQL;
-        $statement = $conn->prepare($check_query);
-        $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
-        $result = $statement->execute();
-        $data = $statement->fetch();
+    $statement = $conn->prepare($check_query);
+    $statement->bindParam("user_id", $user_id, PDO::PARAM_INT);
+    $result = $statement->execute();
+    $data = $statement->fetch();
 
-        // If a record exists, prevent further insertion
-        if ($result && $data['count'] > 0) {
+    // If a record exists, prevent further insertion
+    if ($result && $data['count'] > 0) {
+        $birth_date = new DateTime($data['date_of_birth']);
+        $current_date = new DateTime();
+        $age = $current_date->diff($birth_date)->y;
+
+        if ($age >= 18) {
             header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
             exit();
+        } else {
+            $birth_day_error = "You must be at least 18 years old to use Phira";
         }
-    } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
     }
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
 }
 
-$birth_day_error = "";
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_of_birth = $_POST["birth_day"];
@@ -73,8 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: " . BASE_URL . "/pages/onboarding/gender.php");
                     exit();
                 } else {
-                    header("Location: " . BASE_URL . "/pages/onboarding/unauthorized.php");
-                    exit();
+                    $birth_day_error = "You must be at least 18 years old to use Phira";
                 }
             } else {
                 echo "Failed to insert data of birth";
@@ -86,8 +93,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $birth_day_error = "Birthday can not be empty";
     }
 }
-
-is_birthday_set($conn, $user_id);
 
 ?>
 
@@ -124,14 +129,20 @@ is_birthday_set($conn, $user_id);
                 <h1 class="dateOfBirth-h1">Your b-day?</h1>
                 <p class="dateOfBirth-p">Enter your date of birth to find better matches.</p>
 
-                <div class="input-container">
-                    <input type="date" name="birth_day" id="birth_day" placeholder="2000-01-01" required />
-                    <span class="error-message"><?php echo $birth_day_error; ?></span>
-                </div>
+                <?php if ($birth_day_error != "You must be at least 18 years old to use Phira"): ?>
+                    <div class="input-container">
+                        <input type="date" name="birth_day" id="birth_day" placeholder="2000-01-01" required />
+                        <span class="error-message"><?php echo $birth_day_error; ?></span>
+                        <div>
+                            <button class="btn btn-primary" type="submit">Next</button>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="input-container">
+                        <span class="error-message"><?php echo $birth_day_error; ?></span>
+                    </div>
+                <?php endif; ?>
 
-                <div>
-                    <button class="btn btn-primary" type="submit">Next</button>
-                </div>
             </form>
 
         </div>
