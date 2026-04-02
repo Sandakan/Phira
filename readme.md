@@ -87,16 +87,19 @@ To run the Phira Dating App, ensure the following requirements are met:
 
 6. Create the following folders in the Phira project root to save the private data.
 
-   ```
-   Phira
-   |----- private
-   |       |---- media
-   |             |---- user_photos
-   |             |---- chats
+   ```text
+   Phira/
+   └── private/
+       └── media/
+           ├── user_photos/
+           └── chats/
    ```
 
-7. Start the WebSocket server by opening the [websocket.server.php](server/websocket.server.php) file in a new browser
-   tab:
+7. Start the WebSocket server by running the [websocket.server.php](server/websocket.server.php) file from the command line:
+
+   ```bash
+   php server/websocket.server.php
+   ```
 
 8. Navigate to the default WAMP server URL in your browser to access the Phira Dating App.
    ```
